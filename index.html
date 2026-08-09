@@ -432,6 +432,15 @@ button{cursor:pointer}
   }
 
   document.addEventListener("click",function(e){
+        const favoriteButton=e.target.closest("#favorite");
+    if(favoriteButton){
+      favoriteButton.classList.toggle("primary");
+      favoriteButton.textContent=
+        favoriteButton.classList.contains("primary")
+          ?"❤️ Favorit"
+          :"♡ Als Favorit markieren";
+      return;
+    }
     const navEl=e.target.closest("[data-nav]");
     if(navEl){
       const n=navEl.getAttribute("data-nav");
