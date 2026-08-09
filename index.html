@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#15131a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BookVault">
+<link rel="manifest" href="manifest.json">
+<meta name="bookvault-version" content="1.0.1"><title>BookVault</title>
+<style>
+:root{--bg:#111015;--panel:#1a1820;--panel2:#211f28;--text:#f4f1f7;--muted:#aaa4b2;--accent:#c6a7e8;--accent2:#8f6db4;--danger:#e77c8b;--ok:#8dc9a2;--line:#302d38;--shadow:0 12px 32px #0005}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}body{min-height:100vh;padding-bottom:88px}button,input,select,textarea{font:inherit}button{border:0;color:inherit;background:none;cursor:pointer}.app{max-width:720px;margin:auto;padding:env(safe-area-inset-top) 16px 0}.top{padding:18px 0 10px;display:flex;align-items:center;justify-content:space-between}.eyebrow{color:var(--muted);font-size:13px}.title{font-size:28px;font-weight:750;margin-top:2px}.iconbtn{width:42px;height:42px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:var(--shadow)}.stat b{display:block;font-size:25px;margin-top:4px}.stat span{font-size:12px;color:var(--muted)}.section{margin:22px 0}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.sectionhead h2{font-size:18px;margin:0}.link{color:var(--accent);font-size:13px}.bookrow{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px}.bookrow::-webkit-scrollbar{display:none}.cover{width:94px;height:136px;object-fit:cover;border-radius:10px;background:#302c36;box-shadow:0 8px 20px #0006}.cover.sm{width:64px;height:92px}.cover.lg{width:150px;height:218px}.placeholder{display:flex;align-items:center;justify-content:center;padding:8px;text-align:center;color:#d6cce2;font-weight:650}.bookmini{min-width:94px}.bookmini .name{font-size:12px;font-weight:650;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bookmini .sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hero{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg,#211d29,#17151c);border:1px solid var(--line);border-radius:22px;padding:16px}.hero .info{min-width:0}.hero h3{margin:0 0 5px;font-size:20px}.muted{color:var(--muted)}.pillrow{display:flex;gap:7px;flex-wrap:wrap}.pill{background:#2a2631;border:1px solid #393441;color:#ddd5e7;padding:7px 10px;border-radius:999px;font-size:12px}.pill.accent{background:#32283d;border-color:#5b4672;color:#eadcf7}.progress{height:7px;background:#312e37;border-radius:99px;overflow:hidden;margin:12px 0}.progress>i{display:block;height:100%;background:var(--accent);border-radius:99px}.bottom{position:fixed;z-index:10;bottom:0;left:0;right:0;padding:9px max(12px,env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom));background:#15131add;backdrop-filter:blur(20px);border-top:1px solid var(--line)}.nav{max-width:720px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav button{font-size:10px;color:var(--muted);padding:6px 2px;border-radius:12px}.nav button.active{color:var(--text);background:#2a2631}.nav strong{display:block;font-size:19px;line-height:22px}.search{display:flex;gap:8px;margin:10px 0}.input,.select,.textarea{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:13px;outline:none}.input:focus,.select:focus,.textarea:focus{border-color:var(--accent2)}.textarea{min-height:110px;resize:vertical}.filters{display:flex;gap:7px;overflow:auto;padding:2px 0 8px}.filters button{white-space:nowrap}.toolbar{display:flex;gap:8px;align-items:center}.toolbar>*{flex:1}.btn{padding:12px 14px;border-radius:13px;background:var(--panel2);border:1px solid var(--line);text-align:center}.btn.primary{background:var(--accent);color:#17131c;font-weight:750}.btn.danger{background:#3a2027;color:#ffc8cf;border-color:#63313b}.list{display:flex;flex-direction:column;gap:10px}.bookitem{display:flex;gap:12px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:17px}.bookitem .details{flex:1;min-width:0}.bookitem h3{margin:0 0 4px;font-size:16px}.bookitem p{margin:3px 0;font-size:12px;color:var(--muted)}.rating{letter-spacing:1px}.empty{text-align:center;padding:35px 15px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}.form{display:flex;flex-direction:column;gap:14px}.field label{display:block;color:#d9d3df;font-size:12px;margin-bottom:7px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:12px}.chip.selected{background:#3b3047;border-color:#765b92;color:#f1e4fb}.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:var(--panel);padding:5px;border-radius:14px}.seg button{padding:9px 4px;border-radius:10px;font-size:11px;color:var(--muted)}.seg button.selected{background:#332c3c;color:var(--text)}.stars button{font-size:29px;color:#59525f}.stars button.on{color:#f2c76c}.detail{text-align:center}.detail .meta{text-align:left;margin-top:20px}.detail h1{font-size:25px;margin:14px 0 4px}.detail .author{color:var(--muted)}.quote{padding:12px;border-left:3px solid var(--accent);background:var(--panel);border-radius:0 12px 12px 0;margin:8px 0;text-align:left}.modal{position:fixed;z-index:20;inset:0;background:#0009;display:flex;align-items:flex-end}.sheet{background:#1a1820;border-radius:24px 24px 0 0;border:1px solid var(--line);padding:18px;max-height:88vh;overflow:auto;width:100%;max-width:720px;margin:auto}.sheet h2{margin-top:0}.close{float:right;font-size:22px}.hidden{display:none!important}.statbig{font-size:35px;font-weight:800}.barrow{margin:12px 0}.barlabel{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.bar{height:8px;background:#302d36;border-radius:99px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--accent)}.toast{position:fixed;z-index:50;left:50%;bottom:100px;transform:translateX(-50%);background:#f4f1f7;color:#17131c;padding:11px 15px;border-radius:13px;font-size:13px;font-weight:700;box-shadow:var(--shadow)}@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="bottom"><nav class="nav" id="nav"></nav></div>
+<div id="modal" class="modal hidden"></div>
+<div id="toast" class="toast hidden"></div>
+<script>
+const KEY="bookvault_v1";
+const defaultData={books:[],series:[],genres:["Dark Romance","Romance","Romantasy","Fantasy","Thriller","Krimi","Mystery","Science Fiction","Horror","Historisch","New Adult","Young Adult","Contemporary","Sonstiges"],tropes:["Enemies to Lovers","Friends to Lovers","Forced Proximity","Morally Grey","Slow Burn","Found Family","Fake Dating","Second Chance","Forbidden Love","Mafia","Possessive MMC","Grumpy × Sunshine"],settings:{view:"grid",sort:"added"}};
+let data;
+try {
+  const raw = localStorage.getItem(KEY);
+  data = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(defaultData));
+  if (!data || !Array.isArray(data.books)) throw new Error("Ungültige lokale Daten");
+  data.genres = Array.isArray(data.genres) ? data.genres : JSON.parse(JSON.stringify(defaultData.genres));
+  data.tropes = Array.isArray(data.tropes) ? data.tropes : JSON.parse(JSON.stringify(defaultData.tropes));
+  data.settings = data.settings || {view:"grid",sort:"added"};
+} catch (e) {
+  data = JSON.parse(JSON.stringify(defaultData));
+}
+let state={screen:"home",filter:"all",query:"",editing:null,selectedBook:null,returnTo:"home"};
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function id(){try{return crypto.randomUUID()}catch(e){return Date.now().toString(36)+Math.random().toString(36).slice(2)}}
+function stars(n=0){return "★★★★★".split("").map((x,i)=>i<n?"★":"☆").join("")}
+function cover(b,cl=""){return b.cover?`<img class="cover ${cl}" src="${esc(b.cover)}" alt="">`:`<div class="cover placeholder ${cl}">${esc(b.title||"Buch")}</div>`}
+function statusLabel(s){return ({unread:"Ungelesen",reading:"Reading",read:"Gelesen",dnf:"DNF"}[s]||"Ungelesen")}
+function ownershipLabel(o){return ({owned:"🏠 In meinem Besitz",borrowed:"🤝 Ausgeliehen",kindleUnlimited:"📱 Kindle Unlimited"}[o]||"🏠 In meinem Besitz")}
+function purchaseLabel(p){return p==="wanted"?"🛒 Möchte ich kaufen":p==="purchased"?"✓ Gekauft":""}
+function ownedCount(){return data.books.filter(b=>b.ownership==="owned").length}
+function filteredBooks(){
+ let a=[...data.books];
+ if(state.filter==="owned")a=a.filter(b=>b.ownership==="owned");
+ if(state.filter==="borrowed")a=a.filter(b=>b.ownership==="borrowed");
+ if(state.filter==="ku")a=a.filter(b=>b.ownership==="kindleUnlimited");
+ if(["unread","reading","read","dnf"].includes(state.filter))a=a.filter(b=>b.status===state.filter);
+ if(state.filter==="favorites")a=a.filter(b=>b.favorite);
+ if(state.filter==="wanted")a=a.filter(b=>b.purchaseStatus==="wanted");
+ if(state.query){let q=state.query.toLowerCase();a=a.filter(b=>[b.title,b.author,b.seriesName,b.review,b.notes,...(b.genres||[]),...(b.tags||[]),...(b.tropes||[])].join(" ").toLowerCase().includes(q))}
+ const sort=data.settings.sort;
+ a.sort((x,y)=>sort==="title"?x.title.localeCompare(y.title):sort==="author"?x.author.localeCompare(y.author):sort==="rating"?(y.rating||0)-(x.rating||0):sort==="pages"?(y.pageCount||0)-(x.pageCount||0):new Date(y.createdAt)-new Date(x.createdAt));
+ return a;
+}
+function nav(){return `<button onclick="go('home')" class="${state.screen==='home'?'active':''}"><strong>⌂</strong>Home</button><button onclick="go('library')" class="${state.screen==='library'?'active':''}"><strong>▦</strong>Bibliothek</button><button onclick="openForm()" class="primary"><strong>＋</strong>Hinzufügen</button><button onclick="go('series')" class="${state.screen==='series'?'active':''}"><strong>▤</strong>Reihen</button><button onclick="go('more')" class="${state.screen==='more'?'active':''}"><strong>⋯</strong>Mehr</button>`}
+function render(){
+  document.getElementById("nav").innerHTML=nav();
+  let app=document.getElementById("app");app.innerHTML=state.screen==="home"?home():state.screen==="library"?library():state.screen==="series"?series():state.screen==="more"?more():state.screen==="stats"?stats():state.screen==="favorites"?favorites():state.screen==="tags"?tags():state.screen==="settings"?settings():state.screen==="detail"?detail():state.screen==="seriesDetail"?seriesDetail():state.screen==="form"?form():""}
+function top(title,sub=""){return `<div class="top"><div><div class="eyebrow">${sub}</div><div class="title">${title}</div></div>${title!=="Home"?`<button class="iconbtn" onclick="go('home')">⌂</button>`:""}</div>`}
+function home(){
+ const recent=[...data.books].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,8), fav=data.books.filter(b=>b.favorite).sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,8), current=data.books.find(b=>b.status==="reading");
+ return `<main class="app">${top("BookVault","Deine persönliche Bibliothek")}
+ <div class="grid">
+ <div class="card stat"><span>In deinem Besitz</span><b>${ownedCount()}</b></div>
+ <div class="card stat"><span>Gesamt katalogisiert</span><b>${data.books.length}</b></div>
+ <div class="card stat"><span>Gelesen</span><b>${data.books.filter(b=>b.status==="read").length}</b></div>
+ <div class="card stat"><span>Ungelesen</span><b>${data.books.filter(b=>b.status==="unread").length}</b></div>
+ </div>
+ ${current?`<section class="section"><div class="sectionhead"><h2>Aktuell gelesen</h2><button class="link" onclick="openBook('${current.id}')">Öffnen →</button></div><div class="hero">${cover(current,"sm")}<div class="info"><h3>${esc(current.title)}</h3><div class="muted">${esc(current.author||"")}</div><div class="progress"><i style="width:${current.progress||0}%"></i></div><small class="muted">${current.progress||0}% gelesen</small></div></div></section>`:""}
+ <section class="section"><div class="sectionhead"><h2>Zuletzt hinzugefügt</h2><button class="link" onclick="go('library')">Alle →</button></div>${recent.length?`<div class="bookrow">${recent.map(mini).join("")}</div>`:`<div class="empty">Noch keine Bücher. Füge dein erstes Buch hinzu.</div>`}</section>
+ <section class="section"><div class="sectionhead"><h2>Deine Favoriten</h2><button class="link" onclick="go('favorites')">Alle →</button></div>${fav.length?`<div class="bookrow">${fav.map(mini).join("")}</div>`:`<div class="empty">Markiere Bücher als Favorit, damit sie hier erscheinen.</div>`}</section>
+ <section class="section"><div class="card"><b>📚 ${data.books.filter(b=>b.ownership!=="owned").length} Bücher nicht im Besitz</b><p class="muted">Ausgeliehene und Kindle-Unlimited-Bücher werden katalogisiert, aber nicht zu deinem Besitz gezählt.</p></div></section>
+ </main>`
+}
+function mini(b){return `<button class="bookmini" onclick="openBook('${b.id}')">${cover(b)}<div class="name">${esc(b.title)}</div><div class="sub">${esc(b.author||"")}</div></button>`}
+function library(){
+ const books=filteredBooks();
+ return `<main class="app">${top("Bibliothek",`${data.books.length} katalogisierte Bücher · ${ownedCount()} im Besitz`)}
+ <div class="search"><input class="input" placeholder="Titel, Autor, Reihe, Trope oder Tag suchen…" value="${esc(state.query)}" oninput="state.query=this.value;render()"><button class="iconbtn" onclick="openFilters()">☷</button></div>
+ <div class="filters">${["all","owned","borrowed","ku","read","unread","reading","dnf"].map(f=>`<button class="pill ${state.filter===f?'accent':''}" onclick="state.filter='${f}';render()">${({all:"Alle",owned:"Besitz",borrowed:"Ausgeliehen",ku:"KU",read:"Gelesen",unread:"Ungelesen",reading:"Reading",dnf:"DNF"})[f]}</button>`).join("")}</div>
+ <div class="toolbar"><button class="btn" onclick="toggleView()">${data.settings.view==="grid"?"☷ Listenansicht":"▦ Coveransicht"}</button><button class="btn" onclick="openSort()">↕ Sortieren</button></div>
+ <section class="section">${books.length?(data.settings.view==="grid"?`<div class="bookrow" style="display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;gap:14px">${books.map(b=>`<button onclick="openBook('${b.id}')" style="text-align:left">${cover(b)}<div class="name" style="font-size:12px;font-weight:650;margin-top:6px">${esc(b.title)}</div><div class="sub">${esc(b.author||"")}</div></button>`).join("")}</div>`:`<div class="list">${books.map(item).join("")}</div>`):`<div class="empty">Keine Bücher gefunden.</div>`}</section></main>`
+}
+function item(b){return `<button class="bookitem" onclick="openBook('${b.id}')">${cover(b,"sm")}<div class="details"><h3>${esc(b.title)}</h3><p>${esc(b.author||"")}</p><p>${stars(b.rating||0)} · ${statusLabel(b.status)}</p><p>${ownershipLabel(b.ownership)} ${purchaseLabel(b.purchaseStatus)}</p></div></button>`}
+function openBook(x){state.selectedBook=x;state.screen="detail";render()}
+function detail(){
+ const b=data.books.find(x=>x.id===state.selectedBook);if(!b){go("library");return""}
+ return `<main class="app">${top("Buch","Bibliothek")}
+ <div class="detail">${cover(b,"lg")}<h1>${esc(b.title)}</h1><div class="author">${esc(b.author||"")}</div><div class="rating" style="font-size:21px;margin:8px">${stars(b.rating||0)}</div>
+ <div class="pillrow" style="justify-content:center">${[ownershipLabel(b.ownership),statusLabel(b.status),purchaseLabel(b.purchaseStatus)].filter(Boolean).map(x=>`<span class="pill accent">${esc(x)}</span>`).join("")}</div>
+ ${b.seriesName?`<p class="muted">${esc(b.seriesName)}${b.volume?" · Band "+esc(b.volume):""}</p>`:""}
+ ${b.favorite?`<div style="margin:8px">❤️ Lieblingsbuch</div>`:""}
+ <div class="toolbar" style="margin-top:14px"><button class="btn primary" onclick="openForm('${b.id}')">Bearbeiten</button><button class="btn" onclick="quickPurchase('${b.id}')">${b.purchaseStatus==="wanted"?"✓ Als gekauft":"🛒 Kaufen"}</button></div></div>
+ <div class="meta">
+ <section class="section"><h2>Informationen</h2><div class="card"><p>${esc(b.pageCount||"—")} Seiten · ${esc(b.language||"Deutsch")} · ${esc(b.format||"E-Book")}</p><p class="muted">${esc(b.publisher||"")}${b.publicationYear?" · "+esc(b.publicationYear):""}</p></div></section>
+ <section class="section"><h2>Genres & Tropes</h2><div class="pillrow">${[...(b.genres||[]),...(b.tropes||[])].map(x=>`<span class="pill">${esc(x)}</span>`).join("")||"<span class='muted'>Keine angegeben</span>"}</div></section>
+ <section class="section"><h2>Meine Rezension</h2><div class="card">${b.review?esc(b.review).replace(/\n/g,"<br>"):"<span class='muted'>Noch keine Rezension.</span>"}</div></section>
+ <section class="section"><h2>Meine Notizen</h2><div class="card">${b.notes?esc(b.notes).replace(/\n/g,"<br>"):"<span class='muted'>Keine Notizen.</span>"}</div></section>
+ <section class="section"><h2>Lieblingszitate</h2>${(b.quotes||[]).length?(b.quotes||[]).map(q=>`<div class="quote">„${esc(q.text)}“${q.page?`<div class="muted">Seite ${esc(q.page)}</div>`:""}</div>`).join(""):"<div class='muted'>Noch keine Zitate.</div>"}</section>
+ <button class="btn danger" style="width:100%;margin:10px 0 30px" onclick="deleteBook('${b.id}')">Buch löschen</button>
+ </div></main>`
+}
+function form(){
+ const b=state.editing?data.books.find(x=>x.id===state.editing):{ownership:"owned",status:"unread",rating:0,favorite:false,purchaseStatus:"none",language:"Deutsch",format:"E-Book",genres:[],tropes:[],tags:[],quotes:[]};
+ return `<main class="app">${top(state.editing?"Buch bearbeiten":"Buch hinzufügen","Bibliothek")}
+ <form class="form" onsubmit="event.preventDefault();saveBook()">
+ <div class="field"><label>Cover</label>
+<div class="twocol">
+<label class="btn" style="text-align:center">📷 Foto auswählen<input id="coverFile" type="file" accept="image/*" hidden onchange="pickCover(event)"></label>
+<button type="button" class="btn" onclick="document.getElementById('cover').focus()">🔗 Bild-URL</button>
+</div>
+<input id="cover" class="input" type="url" value="${esc(b.cover||"")}" placeholder="Bild-URL (optional)" style="margin-top:8px">
+<div id="coverPreview" style="margin-top:10px">${b.cover?`<img src="${esc(b.cover)}" style="width:90px;height:130px;object-fit:cover;border-radius:10px">`:""}</div>
+<small class="muted">Auf dem iPhone kannst du direkt ein Cover aus deinen Fotos auswählen.</small></div>
+ <div class="field"><label>Titel *</label><input id="title" class="input" required value="${esc(b.title||"")}"></div>
+ <div class="field"><label>Autor *</label><input id="author" class="input" required value="${esc(b.author||"")}"></div>
+ <div class="twocol"><div class="field"><label>Untertitel</label><input id="subtitle" class="input" value="${esc(b.subtitle||"")}"></div><div class="field"><label>ISBN</label><input id="isbn" class="input" value="${esc(b.isbn||"")}"></div></div>
+ <div class="twocol"><div class="field"><label>Verlag</label><input id="publisher" class="input" value="${esc(b.publisher||"")}"></div><div class="field"><label>Erscheinungsjahr</label><input id="year" class="input" type="number" value="${esc(b.publicationYear||"")}"></div></div>
+ <div class="twocol"><div class="field"><label>Seitenzahl</label><input id="pages" class="input" type="number" value="${esc(b.pageCount||"")}"></div><div class="field"><label>Sprache</label><select id="language" class="select">${["Deutsch","Englisch","Französisch","Spanisch","Andere"].map(x=>`<option ${b.language===x?"selected":""}>${x}</option>`).join("")}</select></div></div>
+ <div class="field"><label>Format</label><select id="format" class="select">${["E-Book","Taschenbuch","Hardcover","Hörbuch","Sonstiges"].map(x=>`<option ${b.format===x?"selected":""}>${x}</option>`).join("")}</select></div>
+ <div class="field"><label>Besitzstatus</label><div class="seg">${[["owned","🏠 Besitz"],["borrowed","🤝 Ausgeliehen"],["kindleUnlimited","📱 KU"],["",""]].map(([v,l])=>l?`<button type="button" class="${b.ownership===v?"selected":""}" onclick="pick('ownership','${v}',this)">${l}</button>`:"").join("")}</div><input type="hidden" id="ownership" value="${b.ownership||"owned"}"></div>
+ <div id="borrowFields" class="${b.ownership==="borrowed"?"":"hidden"}"><div class="twocol"><div class="field"><label>Ausgeliehen von</label><input id="borrowedFrom" class="input" value="${esc(b.borrowedFrom||"")}"></div><div class="field"><label>Rückgabe am</label><input id="returnDue" class="input" type="date" value="${esc(b.returnDueAt||"")}"></div></div></div>
+ <div class="field"><label>Reihe</label><input id="seriesName" class="input" value="${esc(b.seriesName||"")}" placeholder="z. B. Legacy of Gods"></div>
+ <div class="field"><label>Band</label><input id="volume" class="input" type="number" value="${esc(b.volume||"")}"></div>
+ <div class="field"><label>Genres</label><div class="chips">${data.genres.map(x=>`<button type="button" class="chip ${(b.genres||[]).includes(x)?"selected":""}" data-group="genres" data-val="${esc(x)}" onclick="this.classList.toggle('selected')">${esc(x)}</button>`).join("")}</div></div>
+ <div class="field"><label>Tropes</label><div class="chips">${data.tropes.map(x=>`<button type="button" class="chip ${(b.tropes||[]).includes(x)?"selected":""}" data-group="tropes" data-val="${esc(x)}" onclick="this.classList.toggle('selected')">${esc(x)}</button>`).join("")}</div><input id="customTrope" class="input" placeholder="Eigenen Trope hinzufügen"></div>
+ <div class="field"><label>Lesestatus</label><div class="seg">${[["unread","Ungelesen"],["reading","Reading"],["read","Gelesen"],["dnf","DNF"]].map(([v,l])=>`<button type="button" class="${b.status===v?"selected":""}" onclick="pick('status','${v}',this)">${l}</button>`).join("")}</div><input type="hidden" id="status" value="${b.status||"unread"}"></div>
+ <div class="field"><label>Bewertung</label><div class="stars" id="starBox">${[1,2,3,4,5].map(i=>`<button type="button" class="${(b.rating||0)>=i?"on":""}" onclick="setRating(${i})">${(b.rating||0)>=i?"★":"☆"}</button>`).join("")}</div><input type="hidden" id="rating" value="${b.rating||0}"></div>
+ <div class="field"><label>Favorit</label><button type="button" class="btn ${b.favorite?"primary":""}" id="favBtn" onclick="this.classList.toggle('primary')">${b.favorite?"❤️ Lieblingsbuch":"♡ Zu Favoriten hinzufügen"}</button></div>
+ <div class="field"><label>Kaufstatus</label><div class="seg" style="grid-template-columns:repeat(3,1fr)">${[["none","— Kein Wunsch"],["wanted","🛒 Kaufen"],["purchased","✓ Gekauft"]].map(([v,l])=>`<button type="button" class="${b.purchaseStatus===v?"selected":""}" onclick="pick('purchaseStatus','${v}',this)">${l}</button>`).join("")}</div><input type="hidden" id="purchaseStatus" value="${b.purchaseStatus||"none"}"></div>
+ <div class="twocol"><div class="field"><label>Begonnen am</label><input id="started" class="input" type="date" value="${esc(b.startedAt||"")}"></div><div class="field"><label>Beendet am</label><input id="finished" class="input" type="date" value="${esc(b.finishedAt||"")}"></div></div>
+ <div class="field"><label>Aktuelle Seite</label><input id="currentPage" class="input" type="number" min="0" value="${esc(b.currentPage||"")}"></div>
+ <div class="field"><label>Lesefortschritt (%)</label><input id="progress" class="input" type="number" min="0" max="100" value="${esc(b.progress||"")}"></div>
+ <div class="field"><label>Meine Rezension</label><textarea id="review" class="textarea" placeholder="Was mochtest du? Was nicht? Wie waren Figuren, Dialoge, Chemie, Schreibstil?">${esc(b.review||"")}</textarea></div>
+ <div class="field"><label>Meine Notizen</label><textarea id="notes" class="textarea">${esc(b.notes||"")}</textarea></div>
+ <div class="toolbar"><button type="button" class="btn" onclick="go(state.editing?'detail':'library')">Abbrechen</button><button class="btn primary" type="submit">${state.editing?"Änderungen speichern":"Buch speichern"}</button></div>
+ </form></main>`
+}
+function pick(id,v,el){document.getElementById(id).value=v;el.parentElement.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");if(id==="ownership")document.getElementById("borrowFields").classList.toggle("hidden",v!=="borrowed")}
+function setRating(n){document.getElementById("rating").value=n;document.querySelectorAll("#starBox button").forEach((x,i)=>{x.classList.toggle("on",i<n);x.textContent=i<n?"★":"☆"})}
+function selectedChips(group){return [...document.querySelectorAll(`.chip[data-group="${group}"].selected`)].map(x=>x.dataset.val)}
+function pickCover(event){
+ const f=event.target.files?.[0]; if(!f)return;
+ if(!f.type.startsWith("image/")){alert("Bitte ein Bild auswählen.");return}
+ const reader=new FileReader();
+ reader.onload=()=>{document.getElementById("cover").value=reader.result;document.getElementById("coverPreview").innerHTML=`<img src="${reader.result}" style="width:90px;height:130px;object-fit:cover;border-radius:10px">`;toast("Cover übernommen")};
+ reader.readAsDataURL(f);
+}
+function saveBook(){
+ const old=state.editing?data.books.find(x=>x.id===state.editing):null;
+ const b={...(old||{}),id:old?.id||id(),createdAt:old?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString(),
+ title:document.getElementById("title").value.trim(),author:document.getElementById("author").value.trim(),cover:document.getElementById("cover").value.trim(),subtitle:document.getElementById("subtitle").value.trim(),isbn:document.getElementById("isbn").value.trim(),publisher:document.getElementById("publisher").value.trim(),publicationYear:document.getElementById("year").value,pageCount:+document.getElementById("pages").value||0,language:document.getElementById("language").value,format:document.getElementById("format").value,ownership:document.getElementById("ownership").value,borrowedFrom:document.getElementById("borrowedFrom")?.value.trim()||"",returnDueAt:document.getElementById("returnDue")?.value||"",seriesName:document.getElementById("seriesName").value.trim(),volume:+document.getElementById("volume").value||"",genres:selectedChips("genres"),tropes:selectedChips("tropes"),status:document.getElementById("status").value,rating:+document.getElementById("rating").value,favorite:document.getElementById("favBtn").classList.contains("primary"),purchaseStatus:document.getElementById("purchaseStatus").value,startedAt:document.getElementById("started").value,finishedAt:document.getElementById("finished").value,currentPage:+document.getElementById("currentPage").value||0,progress:Math.max(0,Math.min(100,+document.getElementById("progress").value||0)),review:document.getElementById("review").value,notes:document.getElementById("notes").value,quotes:old?.quotes||[]};
+ const custom=document.getElementById("customTrope").value.trim();if(custom){b.tropes.push(custom);if(!data.tropes.includes(custom))data.tropes.push(custom)}
+ if(b.ownership==="kindleUnlimited" && b.purchaseStatus==="purchased")b.ownership="owned";
+ const idx=data.books.findIndex(x=>x.id===b.id);if(idx>=0)data.books[idx]=b;else data.books.unshift(b);save();state.selectedBook=b.id;state.screen="detail";toast("Buch gespeichert");render();
+}
+function openForm(bookId=null){state.editing=bookId;state.screen="form";render()}
+function deleteBook(bookId){if(confirm("Dieses Buch wirklich löschen?")){data.books=data.books.filter(b=>b.id!==bookId);save();state.screen="library";toast("Buch gelöscht");render()}}
+function quickPurchase(bookId){let b=data.books.find(x=>x.id===bookId);if(!b)return;if(b.purchaseStatus==="wanted"){b.purchaseStatus="purchased";b.ownership="owned";toast("Als gekauft markiert")}else{b.purchaseStatus="wanted";toast("Zur Kaufliste hinzugefügt")}save();render()}
+function series(){
+ const map={};data.books.forEach(b=>{if(b.seriesName){map[b.seriesName]??={name:b.seriesName,books:[]};map[b.seriesName].books.push(b)}});const arr=Object.values(map);
+ return `<main class="app">${top("Reihen","Deine Reihen")}<div class="search"><input class="input" placeholder="Reihe suchen…" oninput="this.dataset.q=this.value;document.querySelectorAll('.seriescard').forEach(x=>x.style.display=x.dataset.name.toLowerCase().includes(this.value.toLowerCase())?'':'none')"></div>
+ <section class="section">${arr.length?`<div class="list">${arr.map(s=>`<button class="bookitem seriescard" data-name="${esc(s.name)}" onclick="state.selectedSeries='${esc(s.name)}';state.screen='seriesDetail';render()"><div style="width:64px;height:92px;border-radius:10px;background:#2b2632;display:flex;align-items:center;justify-content:center;font-size:24px">📚</div><div class="details"><h3>${esc(s.name)}</h3><p>${s.books.length} Bände</p><p>${s.books.filter(b=>b.status==="read").length} gelesen</p><div class="progress"><i style="width:${Math.round(s.books.filter(b=>b.status==="read").length/s.books.length*100)}%"></i></div></div></button>`).join("")}</div>`:`<div class="empty">Noch keine Reihen. Füge beim Buch eine Reihe hinzu.</div>`}</section></main>`
+}
+function seriesDetail(){
+ const s=state.selectedSeries, books=data.books.filter(b=>b.seriesName===s).sort((a,b)=>(a.volume||999)-(b.volume||999));
+ return `<main class="app">${top(s,"Reihe")}<div class="card"><b>${books.filter(b=>b.status==="read").length} von ${books.length} gelesen</b><div class="progress"><i style="width:${books.length?books.filter(b=>b.status==="read").length/books.length*100:0}%"></i></div></div><section class="section"><div class="list">${books.map(item).join("")}</div></section><button class="btn primary" style="width:100%" onclick="openForm()">+ Band hinzufügen</button></main>`
+}
+function more(){return `<main class="app">${top("Mehr","Verwaltung")}<section class="section list">${[["stats","📊","Statistiken"],["favorites","❤️","Favoriten"],["tags","🏷️","Tags & Tropes"],["settings","⚙️","Einstellungen"]].map(x=>`<button class="card" style="text-align:left;display:flex;gap:12px;align-items:center" onclick="go('${x[0]}')"><span style="font-size:24px">${x[1]}</span><b>${x[2]}</b><span style="margin-left:auto">›</span></button>`).join("")}</section><div class="card"><b>🛒 Kaufliste</b><p class="muted">${data.books.filter(b=>b.purchaseStatus==="wanted").length} Bücher, die du kaufen möchtest.</p><button class="btn" style="width:100%" onclick="state.filter='wanted';state.screen='library';render()">Kaufliste öffnen</button></div></main>`}
+function favorites(){const a=data.books.filter(b=>b.favorite);return `<main class="app">${top("Favoriten","Deine Lieblingsbücher")}<div class="list">${a.length?a.map(item).join(""):`<div class="empty">Noch keine Favoriten.</div>`}</div></main>`}
+function tags(){const counts={};data.books.forEach(b=>[...(b.tags||[]),...(b.tropes||[])].forEach(t=>counts[t]=(counts[t]||0)+1));return `<main class="app">${top("Tags & Tropes","Deine Kategorisierung")}<div class="pillrow">${Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<button class="pill" onclick="state.query=${JSON.stringify(k)};state.filter='all';state.screen='library';render()">${esc(k)} · ${v}</button>`).join("")||"<span class='muted'>Noch keine Tags oder Tropes verwendet.</span>"}</div></main>`}
+function stats(){
+ const read=data.books.filter(b=>b.status==="read"), pages=read.reduce((n,b)=>n+(b.pageCount||0),0), avg=read.length?(read.reduce((n,b)=>n+(b.rating||0),0)/read.length).toFixed(1):"0.0";
+ const genres={};read.forEach(b=>(b.genres||[]).forEach(g=>genres[g]=(genres[g]||0)+1));const max=Math.max(1,...Object.values(genres));
+ return `<main class="app">${top("Statistiken","Deine Lesehistorie")}<div class="grid"><div class="card"><span>Gelesen</span><div class="statbig">${read.length}</div></div><div class="card"><span>Seiten</span><div class="statbig">${pages.toLocaleString("de-DE")}</div></div><div class="card"><span>Ø Bewertung</span><div class="statbig">${avg} ⭐</div></div><div class="card"><span>DNF</span><div class="statbig">${data.books.filter(b=>b.status==="dnf").length}</div></div></div>
+ <section class="section"><div class="card"><h2>Besitz vs. nicht im Besitz</h2><div class="barrow"><div class="barlabel"><span>In meinem Besitz</span><b>${ownedCount()}</b></div><div class="bar"><i style="width:${data.books.length?ownedCount()/data.books.length*100:0}%"></i></div></div><div class="barrow"><div class="barlabel"><span>Ausgeliehen / KU</span><b>${data.books.length-ownedCount()}</b></div><div class="bar"><i style="width:${data.books.length?(data.books.length-ownedCount())/data.books.length*100:0}%"></i></div></div></div></section>
+ <section class="section"><div class="card"><h2>Genres</h2>${Object.entries(genres).sort((a,b)=>b[1]-a[1]).map(([g,n])=>`<div class="barrow"><div class="barlabel"><span>${esc(g)}</span><b>${n}</b></div><div class="bar"><i style="width:${n/max*100}%"></i></div></div>`).join("")||"<span class='muted'>Noch keine gelesenen Bücher.</span>"}</div></section></main>`
+}
+function settings(){return `<main class="app">${top("Einstellungen","BookVault")}<section class="section list"><div class="card"><h3>Darstellung</h3><div class="seg"><button class="${data.settings.view==='grid'?'selected':''}" onclick="data.settings.view='grid';save();render()">Cover</button><button class="${data.settings.view==='list'?'selected':''}" onclick="data.settings.view='list';save();render()">Liste</button></div></div><div class="card"><h3>Daten</h3><button class="btn" style="width:100%;margin:5px 0" onclick="exportData()">Daten exportieren</button><label class="btn" style="display:block;margin:5px 0;text-align:center">Daten importieren<input type="file" accept=".json" hidden onchange="importData(event)"></label><button class="btn danger" style="width:100%;margin:5px 0" onclick="resetData()">Alle Daten löschen</button></div><div class="card"><h3>V1.0.1</h3><p class="muted">Lokale iPhone-Web-App. Deine Daten bleiben auf diesem Gerät, solange du keinen Export löschst.</p></div></section></main>`}
+function go(s){state.screen=s;render()}
+function toggleView(){data.settings.view=data.settings.view==="grid"?"list":"grid";save();render()}
+function openSort(){document.getElementById("modal").classList.remove("hidden");document.getElementById("modal").innerHTML=`<div class="sheet"><button class="close" onclick="closeModal()">×</button><h2>Sortieren</h2>${[["added","Zuletzt hinzugefügt"],["title","Titel A–Z"],["author","Autor A–Z"],["rating","Bewertung"],["pages","Seitenzahl"]].map(([v,l])=>`<button class="card" style="width:100%;text-align:left;margin:5px 0" onclick="data.settings.sort='${v}';save();closeModal();render()">${data.settings.sort===v?"✓ ":""}${l}</button>`).join("")}</div>`}
+function openFilters(){document.getElementById("modal").classList.remove("hidden");document.getElementById("modal").innerHTML=`<div class="sheet"><button class="close" onclick="closeModal()">×</button><h2>Filter</h2><div class="chips">${["owned","borrowed","ku","favorites","wanted"].map(f=>`<button class="chip" onclick="state.filter='${f}';closeModal();render()">${({owned:"🏠 Besitz",borrowed:"🤝 Ausgeliehen",ku:"📱 KU",favorites:"❤️ Favoriten",wanted:"🛒 Kaufliste"})[f]}</button>`).join("")}</div></div>`}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="bookvault-backup.json";a.click();URL.revokeObjectURL(a.href)}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save();toast("Backup importiert");render()}catch{alert("Ungültige Datei")}};r.readAsText(f)}
+function resetData(){if(confirm("Wirklich alle BookVault-Daten löschen?")){localStorage.removeItem(KEY);data=JSON.parse(JSON.stringify(defaultData));render();toast("Daten gelöscht")}}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.remove("hidden");setTimeout(()=>x.classList.add("hidden"),1800)}
+window.addEventListener("error",e=>{const a=document.getElementById("app");if(a && !a.innerHTML.trim()) a.innerHTML=`<main class="app"><div class="card"><h2>BookVault konnte nicht starten</h2><p class="muted">${esc(e.message||"Unbekannter Fehler")}</p></div></main>`});
+try{render()}catch(e){document.getElementById("app").innerHTML=`<main class="app"><div class="card"><h2>BookVault konnte nicht starten</h2><p class="muted">Technischer Fehler: ${String(e.message||e)}</p><button class="btn primary" style="width:100%;margin-top:10px" onclick="localStorage.clear();location.reload()">Lokale Daten zurücksetzen</button></div></main>`}
+function boot(){
+  try { render(); }
+  catch(error){
+    console.error(error);
+    document.getElementById("app").innerHTML =
+      '<main class="app"><div class="top"><div><div class="eyebrow">BookVault</div><div class="title">Startfehler</div></div></div><div class="card"><h2>Die App konnte nicht gestartet werden.</h2><p class="muted">Bitte sende mir einen Screenshot dieser Meldung.</p><pre style="white-space:pre-wrap;font-size:11px">'+esc(String(error.stack||error.message||error))+'</pre></div></main>';
+  }
+}
+boot();
+</script>
+</body></html>
