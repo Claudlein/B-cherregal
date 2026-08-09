@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#111015">
+<title>BookVault V1.0.4</title>
+<style>
+:root{--bg:#111015;--panel:#1b1921;--panel2:#24212b;--text:#f5f2f7;--muted:#aaa4b2;--accent:#c8a9ea;--line:#332f3a;--danger:#e67d8c;--gold:#f2c76c}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;padding-bottom:100px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 8px) 16px 24px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:12px 0 16px}
+.eyebrow{font-size:12px;color:var(--muted)}
+.title{font-size:28px;font-weight:800;margin-top:2px}
+.icon,.btn,.pill,.chip,.nav button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px}
+.icon{width:44px;height:44px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px}
+.stat span{font-size:12px;color:var(--muted)}
+.stat b{display:block;font-size:27px;margin-top:5px}
+.section{margin:22px 0}
+.section h2{font-size:18px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center}
+.link{color:var(--accent);background:none;border:0}
+.bookrow{display:flex;gap:12px;overflow:auto;padding-bottom:3px}
+.cover{width:94px;height:136px;border-radius:10px;object-fit:cover;background:#302c36;display:block}
+.cover.sm{width:64px;height:92px}
+.cover.lg{width:160px;height:232px;margin:auto}
+.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-weight:700;color:#dcd2e7}
+.mini{min-width:94px;text-align:left;background:none;border:0;color:var(--text);padding:0}
+.mini b{display:block;font-size:12px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini small{color:var(--muted)}
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#282230,#17151c);border:1px solid var(--line);border-radius:20px;padding:15px}
+.hero h3{margin:0 0 4px}
+.muted{color:var(--muted)}
+.progress{height:7px;background:#302d37;border-radius:99px;overflow:hidden;margin:10px 0}
+.progress i{display:block;height:100%;background:var(--accent)}
+.pillrow,.chips{display:flex;gap:7px;flex-wrap:wrap}
+.pill,.chip{padding:8px 11px;font-size:12px}
+.pill.active,.chip.selected,.btn.primary{background:var(--accent);color:#17131b;border-color:var(--accent);font-weight:750}
+.search{display:flex;gap:8px}
+.input,.select,.textarea{width:100%;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:0}
+.textarea{min-height:110px;resize:vertical}
+.filters{display:flex;gap:7px;overflow:auto;margin:10px 0;padding-bottom:2px}
+.toolbar{display:flex;gap:8px;margin:10px 0}
+.toolbar>*{flex:1}
+.btn{padding:12px 14px;text-align:center}
+.list{display:flex;flex-direction:column;gap:9px}
+.item{width:100%;display:flex;gap:12px;text-align:left;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:17px;color:var(--text)}
+.item .details{min-width:0;flex:1}
+.item h3{margin:0 0 4px;font-size:16px}
+.item p{margin:3px 0;font-size:12px;color:var(--muted)}
+.stars{font-size:29px;letter-spacing:1px}
+.stars button{font-size:29px;border:0;background:none;color:#5c5662;padding:0}
+.stars button.on{color:var(--gold)}
+.form{display:flex;flex-direction:column;gap:14px}
+.field label{display:block;font-size:12px;color:#ddd7e3;margin-bottom:7px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:var(--panel);padding:5px;border-radius:14px}
+.seg.three{grid-template-columns:repeat(3,1fr)}
+.seg button{padding:9px 3px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:11px}
+.seg button.sel{background:#362d40;color:var(--text)}
+.detail{text-align:center}
+.detail h1{margin:13px 0 3px}
+.danger{background:#3b2027;color:#ffc8cf;border-color:#61303a}
+.bottom{position:fixed;z-index:10;left:0;right:0;bottom:0;background:#16141cdd;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+.nav{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.nav button{border:0;background:transparent;padding:6px 2px;font-size:10px;color:var(--muted)}
+.nav button.active{background:#2b2731;color:var(--text)}
+.nav strong{display:block;font-size:19px}
+.empty{text-align:center;padding:35px 15px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}
+.toast{position:fixed;z-index:50;left:50%;bottom:105px;transform:translateX(-50%);background:#f5f2f7;color:#17131b;padding:11px 15px;border-radius:13px;font-weight:700;font-size:13px}
+.hidden{display:none!important}
+.note{font-size:12px;line-height:1.5}
+@media(min-width:620px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="bottom"><div class="nav" id="nav"></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+"use strict";
+
+(function(){
+  const STORAGE_KEY="bookvault_v104";
+  const DEFAULT={
+    books:[],
+    genres:["Dark Romance","Romance","Romantasy","Fantasy","Thriller","Krimi","Mystery","Science Fiction","Horror","Historisch","New Adult","Young Adult","Contemporary","Sonstiges"],
+    tropes:["Enemies to Lovers","Friends to Lovers","Forced Proximity","Morally Grey","Slow Burn","Found Family","Fake Dating","Second Chance","Forbidden Love","Mafia","Possessive MMC","Grumpy × Sunshine"],
+    settings:{view:"grid",sort:"added"}
+  };
+
+  let data=loadData();
+  let state={screen:"home",filter:"all",query:"",bookId:null,editingId:null,seriesName:null};
+
+  function clone(x){return JSON.parse(JSON.stringify(x));}
+  function loadData(){
+    try{
+      const raw=localStorage.getItem(STORAGE_KEY);
+      if(!raw)return clone(DEFAULT);
+      const x=JSON.parse(raw);
+      if(!x || !Array.isArray(x.books))return clone(DEFAULT);
+      x.genres=Array.isArray(x.genres)?x.genres:clone(DEFAULT.genres);
+      x.tropes=Array.isArray(x.tropes)?x.tropes:clone(DEFAULT.tropes);
+      x.settings=x.settings||clone(DEFAULT.settings);
+      return x;
+    }catch(e){return clone(DEFAULT);}
+  }
+  function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));return true}catch(e){toast("Speichern nicht möglich");return false;}}
+  function esc(v){
+    return String(v==null?"":v).replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c];
+    });
+  }
+  function uid(){return Date.now().toString(36)+"_"+Math.random().toString(36).slice(2);}
+  function own(v){return {owned:"🏠 In meinem Besitz",borrowed:"🤝 Ausgeliehen",kindleUnlimited:"📱 Kindle Unlimited"}[v]||"🏠 In meinem Besitz";}
+  function status(v){return {unread:"Ungelesen",reading:"Reading",read:"Gelesen",dnf:"DNF"}[v]||"Ungelesen";}
+  function purchase(v){return {wanted:"🛒 Möchte ich kaufen",purchased:"✓ Gekauft"}[v]||"";}
+  function stars(n){
+    n=Number(n)||0;
+    let s="";
+    for(let i=1;i<=5;i++)s+=i<=n?"★":"☆";
+    return s;
+  }
+  function ownedCount(){return data.books.filter(function(b){return b.ownership==="owned";}).length;}
+  function toast(msg){
+    const el=document.getElementById("toast");
+    el.textContent=msg;el.classList.remove("hidden");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer=setTimeout(function(){el.classList.add("hidden");},1800);
+  }
+  function go(screen){state.screen=screen;render();}
+  function openBook(id){state.bookId=id;state.screen="detail";render();}
+  function cover(b,cl){
+    cl=cl||"";
+    if(b.cover)return '<img class="cover '+cl+'" src="'+esc(b.cover)+'" alt="">';
+    return '<div class="cover placeholder '+cl+'">'+esc(b.title||"Buch")+'</div>';
+  }
+
+  function top(title,sub){
+    return '<div class="top"><div><div class="eyebrow">'+esc(sub||"")+'</div><div class="title">'+esc(title)+'</div></div>'+
+      (title==="Home"?"":'<button class="icon" data-action="home">⌂</button>')+'</div>';
+  }
+
+  function nav(){
+    const s=state.screen;
+    return [
+      ["home","⌂","Home"],
+      ["library","▦","Bibliothek"],
+      ["add","＋","Hinzufügen"],
+      ["series","▤","Reihen"],
+      ["more","⋯","Mehr"]
+    ].map(function(x){
+      return '<button class="'+((s===x[0]||(x[0]==="add"&&s==="form"))?"active":"")+'" data-nav="'+x[0]+'"><strong>'+x[1]+'</strong>'+x[2]+'</button>';
+    }).join("");
+  }
+
+  function render(){
+    document.getElementById("nav").innerHTML=nav();
+    const app=document.getElementById("app");
+    let html="";
+    try{
+      if(state.screen==="home")html=home();
+      else if(state.screen==="library")html=library();
+      else if(state.screen==="detail")html=detail();
+      else if(state.screen==="form")html=form(state.editingId);
+      else if(state.screen==="series")html=series();
+      else if(state.screen==="seriesDetail")html=seriesDetail();
+      else if(state.screen==="more")html=more();
+      else if(state.screen==="stats")html=stats();
+      else if(state.screen==="favorites")html=favorites();
+      else if(state.screen==="settings")html=settings();
+      else html=home();
+    }catch(e){
+      console.error(e);
+      html='<main class="app">'+top("BookVault","Fehler")+ '<div class="card"><h2>Die Ansicht konnte nicht geladen werden.</h2><p class="muted">Die App wurde nicht beschädigt. Bitte gehe zurück zu Home.</p><button class="btn primary" data-action="home">Home öffnen</button></div></main>';
+    }
+    app.innerHTML=html;
+  }
+
+  function home(){
+    const recent=data.books.slice().sort(function(a,b){return new Date(b.createdAt||0)-new Date(a.createdAt||0);}).slice(0,8);
+    const fav=data.books.filter(function(b){return b.favorite;}).slice(0,8);
+    const reading=data.books.find(function(b){return b.status==="reading";});
+    const notOwned=data.books.length-ownedCount();
+    return '<main class="app">'+top("Home","BookVault V1.0.4")+
+      '<div class="grid">'+
+      stat("In meinem Besitz",ownedCount())+
+      stat("Katalogisiert",data.books.length)+
+      stat("Gelesen",data.books.filter(function(b){return b.status==="read";}).length)+
+      stat("Ungelesen",data.books.filter(function(b){return b.status==="unread";}).length)+
+      '</div>'+
+      (reading?'<section class="section"><div class="sectionhead"><h2>Aktuell gelesen</h2><button class="link" data-open="'+esc(reading.id)+'">Öffnen →</button></div><div class="hero">'+cover(reading,"sm")+'<div><h3>'+esc(reading.title)+'</h3><div class="muted">'+esc(reading.author)+'</div><div class="progress"><i style="width:'+Math.max(0,Math.min(100,Number(reading.progress)||0))+'%"></i></div><small class="muted">'+(Number(reading.progress)||0)+'%</small></div></div></section>':"")+
+      '<section class="section"><div class="sectionhead"><h2>Zuletzt hinzugefügt</h2><button class="link" data-nav="library">Alle →</button></div>'+
+      (recent.length?'<div class="bookrow">'+recent.map(mini).join("")+'</div>':'<div class="empty">Noch keine Bücher.<br>Tippe unten auf Hinzufügen.</div>')+'</section>'+
+      '<section class="section"><div class="sectionhead"><h2>Favoriten</h2><button class="link" data-nav="favorites">Alle →</button></div>'+
+      (fav.length?'<div class="bookrow">'+fav.map(mini).join("")+'</div>':'<div class="empty">Noch keine Favoriten.</div>')+'</section>'+
+      '<div class="card"><b>📚 '+notOwned+' Bücher nicht im Besitz</b><p class="muted">Ausgeliehene und Kindle-Unlimited-Bücher sind sichtbar, zählen aber nicht zu deinem Besitz.</p></div>'+
+      '</main>';
+  }
+  function stat(label,n){return '<div class="card stat"><span>'+esc(label)+'</span><b>'+n+'</b></div>';}
+  function mini(b){return '<button class="mini" data-open="'+esc(b.id)+'">'+cover(b)+'<b>'+esc(b.title)+'</b><small>'+esc(b.author)+'</small></button>';}
+
+  function getBooks(){
+    let a=data.books.slice(),q=state.query.trim().toLowerCase();
+    if(state.filter==="owned")a=a.filter(function(b){return b.ownership==="owned";});
+    if(state.filter==="borrowed")a=a.filter(function(b){return b.ownership==="borrowed";});
+    if(state.filter==="ku")a=a.filter(function(b){return b.ownership==="kindleUnlimited";});
+    if(state.filter==="wanted")a=a.filter(function(b){return b.purchaseStatus==="wanted";});
+    if(state.filter==="favorites")a=a.filter(function(b){return b.favorite;});
+    if(["read","unread","reading","dnf"].indexOf(state.filter)>=0)a=a.filter(function(b){return b.status===state.filter;});
+    if(q)a=a.filter(function(b){
+      return [b.title,b.author,b.seriesName,b.review,b.notes].concat(b.genres||[],b.tropes||[]).join(" ").toLowerCase().indexOf(q)>=0;
+    });
+    const sort=data.settings.sort;
+    a.sort(function(x,y){
+      if(sort==="title")return String(x.title||"").localeCompare(String(y.title||""),"de");
+      if(sort==="author")return String(x.author||"").localeCompare(String(y.author||""),"de");
+      if(sort==="rating")return (Number(y.rating)||0)-(Number(x.rating)||0);
+      return new Date(y.createdAt||0)-new Date(x.createdAt||0);
+    });
+    return a;
+  }
+
+  function library(){
+    const bs=getBooks();
+    const filters=[
+      ["all","Alle"],["owned","Besitz"],["borrowed","Ausgeliehen"],["ku","KU"],
+      ["wanted","🛒 Kaufliste"],["favorites","❤️ Favoriten"],["read","Gelesen"],
+      ["unread","Ungelesen"],["reading","Reading"],["dnf","DNF"]
+    ];
+    let body="";
+    if(bs.length){
+      if(data.settings.view==="grid"){
+        body='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">'+bs.map(function(b){
+          return '<button style="text-align:left;background:none;border:0;color:var(--text);padding:0" data-open="'+esc(b.id)+'">'+cover(b)+'<b style="display:block;font-size:12px;margin-top:5px">'+esc(b.title)+'</b><small class="muted">'+esc(b.author)+'</small></button>';
+        }).join("")+'</div>';
+      }else body='<div class="list">'+bs.map(item).join("")+'</div>';
+    }else body='<div class="empty">Keine Bücher gefunden.</div>';
+    return '<main class="app">'+top("Bibliothek",data.books.length+" katalogisiert · "+ownedCount()+" im Besitz")+
+      '<div class="search"><input id="searchInput" class="input" value="'+esc(state.query)+'" placeholder="Titel, Autor, Reihe, Trope…"></div>'+
+      '<div class="filters">'+filters.map(function(f){return '<button class="pill '+(state.filter===f[0]?"active":"")+'" data-filter="'+f[0]+'">'+f[1]+'</button>';}).join("")+'</div>'+
+      '<div class="toolbar"><button class="btn" data-action="toggleView">'+(data.settings.view==="grid"?"☷ Liste":"▦ Cover")+'</button><button class="btn" data-action="sort">↕ Sortieren</button></div>'+body+'</main>';
+  }
+  function item(b){
+    return '<button class="item" data-open="'+esc(b.id)+'">'+cover(b,"sm")+'<div class="details"><h3>'+esc(b.title)+'</h3><p>'+esc(b.author)+'</p><p>'+stars(b.rating||0)+' · '+status(b.status)+'</p><p>'+own(b.ownership)+(purchase(b.purchaseStatus)?" · "+purchase(b.purchaseStatus):"")+'</p></div></button>';
+  }
+
+  function detail(){
+    const b=data.books.find(function(x){return x.id===state.bookId;});
+    if(!b){state.screen="library";return library();}
+    return '<main class="app">'+top("Buch","Bibliothek")+
+      '<div class="detail">'+cover(b,"lg")+'<h1>'+esc(b.title)+'</h1><div class="muted">'+esc(b.author)+'</div>'+
+      '<div class="stars">'+stars(b.rating||0)+'</div>'+
+      '<div class="pillrow" style="justify-content:center;margin:10px 0">'+[own(b.ownership),status(b.status),purchase(b.purchaseStatus)].filter(Boolean).map(function(x){return '<span class="pill active">'+esc(x)+'</span>';}).join("")+'</div>'+
+      (b.seriesName?'<p class="muted">'+esc(b.seriesName)+(b.volume?" · Band "+esc(b.volume):"")+'</p>':"")+
+      '<div class="toolbar"><button class="btn primary" data-action="edit">Bearbeiten</button><button class="btn" data-action="buy">'+(b.purchaseStatus==="wanted"?"✓ Als gekauft":"🛒 Möchte ich kaufen")+'</button></div></div>'+
+      '<section class="section"><h2>Informationen</h2><div class="card">'+(b.pageCount||"—")+' Seiten · '+esc(b.language||"Deutsch")+' · '+esc(b.format||"E-Book")+(b.publisher||b.publicationYear?'<p class="muted">'+esc(b.publisher||"")+(b.publicationYear?" · "+esc(b.publicationYear):"")+'</p>':"")+'</div></section>'+
+      '<section class="section"><h2>Genres & Tropes</h2><div class="pillrow">'+[...(b.genres||[]),...(b.tropes||[])].map(function(x){return '<span class="pill">'+esc(x)+'</span>';}).join("")||'<span class="muted">Keine</span>'+'</div></section>'+
+      '<section class="section"><h2>Meine Rezension</h2><div class="card">'+(b.review?esc(b.review).replace(/\n/g,"<br>"):'<span class="muted">Keine Rezension.</span>')+'</div></section>'+
+      '<section class="section"><h2>Notizen</h2><div class="card">'+(b.notes?esc(b.notes).replace(/\n/g,"<br>"):'<span class="muted">Keine Notizen.</span>')+'</div></section>'+
+      '<button class="btn danger" style="width:100%" data-action="delete">Buch löschen</button></main>';
+  }
+
+  function form(id){
+    const b=id?data.books.find(function(x){return x.id===id;}):{
+      ownership:"owned",status:"unread",rating:0,favorite:false,purchaseStatus:"none",
+      language:"Deutsch",format:"E-Book",genres:[],tropes:[],progress:0,currentPage:0
+    };
+    if(!b)return library();
+    return '<main class="app">'+top(id?"Bearbeiten":"Buch hinzufügen","Bibliothek")+
+      '<form class="form" id="bookForm">'+
+      '<div class="field"><label>Cover</label><label class="btn" style="display:block;text-align:center">📷 Cover aus Fotos auswählen<input id="coverFile" type="file" accept="image/*" hidden></label><input id="cover" class="input" type="text" value="'+esc(b.cover||"")+'" placeholder="oder Bild-URL einfügen" style="margin-top:8px"><div id="preview" style="margin-top:8px">'+(b.cover?'<img src="'+esc(b.cover)+'" style="width:75px;height:110px;object-fit:cover;border-radius:9px">':"")+'</div></div>'+
+      field("title","Titel",b.title,true)+field("author","Autor",b.author,true)+field("subtitle","Untertitel",b.subtitle)+field("isbn","ISBN",b.isbn)+
+      '<div class="two">'+field("publisher","Verlag",b.publisher)+field("publicationYear","Erscheinungsjahr",b.publicationYear,"number")+'</div>'+
+      '<div class="two">'+field("pageCount","Seitenzahl",b.pageCount,"number")+'<div class="field"><label>Sprache</label><select id="language" class="select">'+["Deutsch","Englisch","Französisch","Spanisch","Andere"].map(function(x){return '<option '+(b.language===x?"selected":"")+'>'+x+'</option>';}).join("")+'</select></div></div>'+
+      '<div class="field"><label>Format</label><select id="format" class="select">'+["E-Book","Taschenbuch","Hardcover","Hörbuch","Sonstiges"].map(function(x){return '<option '+(b.format===x?"selected":"")+'>'+x+'</option>';}).join("")+'</select></div>'+
+      seg("Besitzstatus","ownership",b.ownership,[["owned","🏠 Besitz"],["borrowed","🤝 Ausgeliehen"],["kindleUnlimited","📱 KU"]])+
+      '<div class="two">'+field("borrowedFrom","Ausgeliehen von",b.borrowedFrom)+field("returnDue","Rückgabe",b.returnDue,"date")+'</div>'+
+      field("seriesName","Reihe",b.seriesName)+field("volume","Band",b.volume,"number")+
+      chipsField("Genres","genres",data.genres,b.genres||[])+
+      '<div class="field"><label>Tropes</label><div class="chips">'+data.tropes.map(function(x){return chip(x,"tropes",(b.tropes||[]).indexOf(x)>=0);}).join("")+'</div><input id="customTrope" class="input" placeholder="Eigenen Trope hinzufügen" style="margin-top:8px"></div>'+
+      seg("Lesestatus","status",b.status,[["unread","Ungelesen"],["reading","Reading"],["read","Gelesen"],["dnf","DNF"]])+
+      '<div class="field"><label>Bewertung</label><div class="stars" id="ratingStars">'+[1,2,3,4,5].map(function(i){return '<button type="button" class="'+((Number(b.rating)||0)>=i?"on":"")+'" data-rating="'+i+'">'+((Number(b.rating)||0)>=i?"★":"☆")+'</button>';}).join("")+'</div><input id="rating" type="hidden" value="'+(Number(b.rating)||0)+'"></div>'+
+      '<button type="button" id="favorite" class="btn '+(b.favorite?"primary":"")+'">'+(b.favorite?"❤️ Favorit":"♡ Als Favorit markieren")+'</button>'+
+      seg("Kaufstatus","purchaseStatus",b.purchaseStatus||"none",[["none","Kein Wunsch"],["wanted","🛒 Kaufen"],["purchased","✓ Gekauft"]])+
+      '<div class="two">'+field("startedAt","Begonnen",b.startedAt,"date")+field("finishedAt","Beendet",b.finishedAt,"date")+'</div>'+
+      '<div class="two">'+field("currentPage","Aktuelle Seite",b.currentPage,"number")+field("progress","Fortschritt %",b.progress,"number")+'</div>'+
+      '<div class="field"><label>Meine Rezension</label><textarea id="review" class="textarea">'+esc(b.review||"")+'</textarea></div>'+
+      '<div class="field"><label>Meine Notizen</label><textarea id="notes" class="textarea">'+esc(b.notes||"")+'</textarea></div>'+
+      '<div class="toolbar"><button type="button" class="btn" data-action="cancelForm">Abbrechen</button><button class="btn primary" type="submit">Speichern</button></div>'+
+      '</form></main>';
+  }
+  function field(id,label,value,type,req){
+    if(type===true){req=true;type="text";}
+    return '<div class="field"><label>'+esc(label)+(req?" *":"")+'</label><input id="'+id+'" class="input" type="'+(type||"text")+'" '+(req?"required":"")+' value="'+esc(value||"")+'"></div>';
+  }
+  function chip(x,g,on){return '<button type="button" class="chip '+(on?"selected":"")+'" data-chip-group="'+g+'" data-chip-value="'+esc(x)+'">'+esc(x)+'</button>';}
+  function chipsField(label,g,items,selected){
+    return '<div class="field"><label>'+label+'</label><div class="chips">'+items.map(function(x){return chip(x,g,selected.indexOf(x)>=0);}).join("")+'</div></div>';
+  }
+  function seg(label,id,val,opts){
+    return '<div class="field"><label>'+label+'</label><div class="seg '+(opts.length===3?"three":"")+'">'+opts.map(function(o){
+      return '<button type="button" class="'+(val===o[0]?"sel":"")+'" data-seg-id="'+id+'" data-seg-value="'+esc(o[0])+'">'+o[1]+'</button>';
+    }).join("")+'</div><input id="'+id+'" type="hidden" value="'+esc(val||"")+'"></div>';
+  }
+
+  function series(){
+    const m={};
+    data.books.forEach(function(b){if(b.seriesName){if(!m[b.seriesName])m[b.seriesName]=[];m[b.seriesName].push(b);}});
+    const names=Object.keys(m).sort(function(a,b){return a.localeCompare(b,"de");});
+    return '<main class="app">'+top("Reihen","Deine Reihen")+
+      (names.length?'<div class="list">'+names.map(function(n){
+        const bs=m[n];
+        return '<button class="item" data-series="'+esc(n)+'"><div class="cover sm placeholder">📚</div><div class="details"><h3>'+esc(n)+'</h3><p>'+bs.length+' Bände · '+bs.filter(function(b){return b.status==="read";}).length+' gelesen</p></div></button>';
+      }).join("")+'</div>':'<div class="empty">Noch keine Reihen.<br>Füge bei einem Buch eine Reihe hinzu.</div>')+'</main>';
+  }
+  function seriesDetail(){
+    const bs=data.books.filter(function(b){return b.seriesName===state.seriesName;}).sort(function(a,b){return (Number(a.volume)||999)-(Number(b.volume)||999);});
+    return '<main class="app">'+top(state.seriesName||"Reihe","Reihe")+'<div class="list">'+bs.map(item).join("")+'</div></main>';
+  }
+  function more(){
+    const wanted=data.books.filter(function(b){return b.purchaseStatus==="wanted";}).length;
+    return '<main class="app">'+top("Mehr","Verwaltung")+
+      '<div class="list">'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="stats">📊 &nbsp;<b>Statistiken</b>　›</button>'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="favorites">❤️ &nbsp;<b>Favoriten</b>　›</button>'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="settings">⚙️ &nbsp;<b>Einstellungen</b>　›</button>'+
+      '</div><div class="card" style="margin-top:12px"><b>🛒 Kaufliste</b><p class="muted">'+wanted+' Bücher</p><button class="btn" style="width:100%" data-action="openWanted">Kaufliste öffnen</button></div></main>';
+  }
+  function favorites(){
+    const bs=data.books.filter(function(b){return b.favorite;});
+    return '<main class="app">'+top("Favoriten","Lieblingsbücher")+(bs.length?'<div class="list">'+bs.map(item).join("")+'</div>':'<div class="empty">Noch keine Favoriten.</div>')+'</main>';
+  }
+  function stats(){
+    const r=data.books.filter(function(b){return b.status==="read";});
+    const pages=r.reduce(function(n,b){return n+(Number(b.pageCount)||0);},0);
+    const avg=r.length?(r.reduce(function(n,b){return n+(Number(b.rating)||0);},0)/r.length).toFixed(1):"0.0";
+    const owned=ownedCount();
+    return '<main class="app">'+top("Statistiken","Lesehistorie")+
+      '<div class="grid">'+stat("Gelesen",r.length)+stat("Seiten",pages)+stat("Ø Bewertung",avg)+stat("DNF",data.books.filter(function(b){return b.status==="dnf";}).length)+'</div>'+
+      '<section class="section"><div class="card"><b>Besitz</b><p class="muted">'+owned+' Bücher in deinem Besitz · '+(data.books.length-owned)+' ausgeliehen/KU</p></div></section></main>';
+  }
+  function settings(){
+    return '<main class="app">'+top("Einstellungen","BookVault")+
+      '<div class="list">'+
+      '<div class="card"><h3>Darstellung</h3><button class="btn" style="width:100%" data-action="toggleView">Ansicht: '+(data.settings.view==="grid"?"Cover":"Liste")+'</button></div>'+
+      '<div class="card"><h3>Daten</h3><button class="btn" style="width:100%;margin:4px 0" data-action="export">Daten exportieren</button><label class="btn" style="display:block;text-align:center;margin:4px 0">Daten importieren<input id="importFile" type="file" accept=".json" hidden></label><button class="btn danger" style="width:100%;margin-top:4px" data-action="reset">Alle Daten löschen</button></div>'+
+      '<div class="card note"><b>BookVault V1.0.4</b><br>Eine einzige index.html. Keine externen Bibliotheken, keine externen Schriften, keine externen Dateien und kein Service Worker.</div>'+
+      '</div></main>';
+  }
+
+  function collectBook(){
+    const old=state.editingId?data.books.find(function(x){return x.id===state.editingId;}):null;
+    const b=Object.assign({},old||{});
+    b.id=old?old.id:uid();
+    b.createdAt=old&&old.createdAt?old.createdAt:new Date().toISOString();
+    b.updatedAt=new Date().toISOString();
+    ["title","author","subtitle","isbn","publisher","publicationYear","pageCount","language","format","ownership","borrowedFrom","returnDue","seriesName","volume","status","rating","purchaseStatus","startedAt","finishedAt","currentPage","progress","review","notes","cover"].forEach(function(id){
+      const el=document.getElementById(id);if(el)b[id]=el.value;
+    });
+    b.pageCount=Number(b.pageCount)||0;
+    b.publicationYear=Number(b.publicationYear)||"";
+    b.volume=Number(b.volume)||"";
+    b.currentPage=Number(b.currentPage)||0;
+    b.progress=Math.max(0,Math.min(100,Number(b.progress)||0));
+    b.rating=Math.max(0,Math.min(5,Number(b.rating)||0));
+    b.favorite=document.getElementById("favorite").classList.contains("primary");
+    b.genres=[].slice.call(document.querySelectorAll('[data-chip-group="genres"].selected')).map(function(el){return el.getAttribute("data-chip-value");});
+    b.tropes=[].slice.call(document.querySelectorAll('[data-chip-group="tropes"].selected')).map(function(el){return el.getAttribute("data-chip-value");});
+    const custom=document.getElementById("customTrope");
+    if(custom&&custom.value.trim()&&b.tropes.indexOf(custom.value.trim())<0)b.tropes.push(custom.value.trim());
+    if(b.purchaseStatus==="purchased")b.ownership="owned";
+    return b;
+  }
+
+  function saveBook(){
+    const formEl=document.getElementById("bookForm");
+    if(!formEl.checkValidity()){formEl.reportValidity();return;}
+    const b=collectBook();
+    const i=data.books.findIndex(function(x){return x.id===b.id;});
+    if(i<0)data.books.unshift(b);else data.books[i]=b;
+    save();state.bookId=b.id;state.editingId=null;state.screen="detail";toast("Buch gespeichert");render();
+  }
+
+  function deleteBook(){
+    const b=data.books.find(function(x){return x.id===state.bookId;});
+    if(!b)return;
+    if(confirm('„'+b.title+'“ wirklich löschen?')){
+      data.books=data.books.filter(function(x){return x.id!==b.id;});
+      save();state.bookId=null;state.screen="library";render();
+    }
+  }
+  function togglePurchase(){
+    const b=data.books.find(function(x){return x.id===state.bookId;});
+    if(!b)return;
+    if(b.purchaseStatus==="wanted"){b.purchaseStatus="purchased";b.ownership="owned";toast("Als gekauft markiert");}
+    else if(b.purchaseStatus==="purchased"){b.purchaseStatus="wanted";toast("Wieder auf Kaufliste");}
+    else{b.purchaseStatus="wanted";toast("Zur Kaufliste hinzugefügt");}
+    save();render();
+  }
+  function exportData(){
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");a.href=url;a.download="bookvault-backup.json";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }
+  function importData(file){
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(){
+      try{
+        const x=JSON.parse(reader.result);
+        if(!x||!Array.isArray(x.books))throw new Error("invalid");
+        data=x;data.genres=Array.isArray(data.genres)?data.genres:clone(DEFAULT.genres);data.tropes=Array.isArray(data.tropes)?data.tropes:clone(DEFAULT.tropes);data.settings=data.settings||clone(DEFAULT.settings);
+        save();toast("Backup importiert");render();
+      }catch(e){alert("Ungültiges Backup.");}
+    };
+    reader.readAsText(file);
+  }
+  function sortMenu(){
+    const x=prompt("Sortierung eingeben: added, title, author oder rating",data.settings.sort);
+    if(["added","title","author","rating"].indexOf(x)>=0){data.settings.sort=x;save();render();}
+  }
+
+  document.addEventListener("click",function(e){
+    const navEl=e.target.closest("[data-nav]");
+    if(navEl){
+      const n=navEl.getAttribute("data-nav");
+      if(n==="add"){state.editingId=null;state.screen="form";}
+      else if(n==="favorites")state.screen="favorites";
+      else state.screen=n;
+      render();return;
+    }
+    const open=e.target.closest("[data-open]");
+    if(open){openBook(open.getAttribute("data-open"));return;}
+    const filter=e.target.closest("[data-filter]");
+    if(filter){state.filter=filter.getAttribute("data-filter");state.screen="library";render();return;}
+    const seriesEl=e.target.closest("[data-series]");
+    if(seriesEl){state.seriesName=seriesEl.getAttribute("data-series");state.screen="seriesDetail";render();return;}
+    const segEl=e.target.closest("[data-seg-id]");
+    if(segEl){
+      const id=segEl.getAttribute("data-seg-id"),val=segEl.getAttribute("data-seg-value"),input=document.getElementById(id);
+      if(input)input.value=val;
+      segEl.parentElement.querySelectorAll("button").forEach(function(x){x.classList.remove("sel");});
+      segEl.classList.add("sel");return;
+    }
+    const chipEl=e.target.closest("[data-chip-group]");
+    if(chipEl){chipEl.classList.toggle("selected");return;}
+    const rate=e.target.closest("[data-rating]");
+    if(rate){
+      const n=Number(rate.getAttribute("data-rating")),input=document.getElementById("rating");
+      if(input)input.value=n;
+      document.querySelectorAll("#ratingStars [data-rating]").forEach(function(x,i){const on=i<n;x.classList.toggle("on",on);x.textContent=on?"★":"☆";});
+      return;
+    }
+    const action=e.target.closest("[data-action]");
+    if(action){
+      const a=action.getAttribute("data-action");
+      if(a==="home")go("home");
+      else if(a==="edit"){state.editingId=state.bookId;state.screen="form";render();}
+      else if(a==="delete")deleteBook();
+      else if(a==="buy")togglePurchase();
+      else if(a==="toggleView"){data.settings.view=data.settings.view==="grid"?"list":"grid";save();render();}
+      else if(a==="sort")sortMenu();
+      else if(a==="cancelForm"){state.editingId=null;state.screen=state.bookId?"detail":"library";render();}
+      else if(a==="export")exportData();
+      else if(a==="reset"){if(confirm("Alle Bücher und Einstellungen löschen?")){localStorage.removeItem(STORAGE_KEY);data=clone(DEFAULT);state={screen:"home",filter:"all",query:"",bookId:null,editingId:null,seriesName:null};render();}}
+      else if(a==="openWanted"){state.filter="wanted";state.screen="library";render();}
+    }
+  });
+
+  document.addEventListener("input",function(e){
+    if(e.target.id==="searchInput"){state.query=e.target.value;render();}
+  });
+
+  document.addEventListener("change",function(e){
+    if(e.target.id==="coverFile"){
+      const file=e.target.files&&e.target.files[0];if(!file)return;
+      const reader=new FileReader();
+      reader.onload=function(){
+        const cover=document.getElementById("cover"),preview=document.getElementById("preview");
+        if(cover)cover.value=reader.result;
+        if(preview)preview.innerHTML='<img src="'+reader.result+'" style="width:75px;height:110px;object-fit:cover;border-radius:9px">';
+      };
+      reader.readAsDataURL(file);
+    }
+    if(e.target.id==="importFile")importData(e.target.files&&e.target.files[0]);
+  });
+
+  document.addEventListener("submit",function(e){
+    if(e.target.id==="bookForm"){e.preventDefault();saveBook();}
+  });
+
+  window.addEventListener("error",function(e){
+    console.error("BookVault error:",e.error||e.message);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
