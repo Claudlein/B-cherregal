@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4faf7">
+<meta name="bookvault-version" content="1.1.11">
+<title>BookVault 1.1.11</title>
+<style>
+:root{
+  --bg:#f4faf7;--card:#fff;--soft:#e7f5ef;--accent:#72cbb4;--accent2:#4f9f8a;
+  --dark:#20312c;--muted:#71807b;--line:#dce9e4;--danger:#b9515c;--shadow:0 2px 12px rgba(31,55,48,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--dark);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{padding-bottom:92px}
+button,input,select,textarea{font:inherit}
+button{border:0;cursor:pointer}
+.app{max-width:900px;margin:auto;padding:34px 28px 120px}
+.eyebrow{font-size:15px;color:var(--muted);margin-bottom:4px}
+h1{font-size:44px;line-height:1;margin:0 0 28px;font-weight:800;letter-spacing:-1.5px}
+h2{font-size:26px;margin:30px 0 16px}
+h3{margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.stat{min-height:130px}.stat span{display:block;color:var(--muted);font-size:17px}.stat strong{display:block;font-size:42px;margin-top:12px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px}
+.link{background:none;color:var(--accent2);font-weight:600;padding:4px}
+.book-row{display:flex;gap:18px;align-items:center}.cover{width:78px;height:112px;border-radius:13px;object-fit:cover;background:var(--soft);flex:none}.cover.placeholder{display:grid;place-items:center;font-size:28px;color:var(--accent2)}
+.progress{height:8px;background:#dcebe6;border-radius:10px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;background:var(--accent2)}
+.recent{display:flex;gap:18px;overflow:auto;padding-bottom:4px}.recent .book{width:130px;flex:none}.recent .cover{width:130px;height:190px}.recent small{display:block;color:var(--muted);margin-top:8px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}.field label{color:#5d6c67;font-size:16px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:18px;padding:16px;outline:none;color:var(--dark)}.field textarea{min-height:110px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(79,159,138,.12)}
+.isbn-card{background:var(--soft);border:1px solid #d2e9e0;border-radius:28px;padding:24px;margin-bottom:22px}.isbn-title{display:flex;gap:10px;align-items:center;font-size:24px;font-weight:800}.bolt{color:#ffb400}.isbn-sub{color:#70807a;margin:10px 0 18px;line-height:1.45}.isbn-line{display:grid;grid-template-columns:1fr auto;gap:14px}.isbn-line input{border:1px solid #d6e7e1;border-radius:22px;padding:17px 18px;background:#fff;font-size:21px;min-width:0}.primary{background:var(--accent);color:#14372e;font-weight:800;border-radius:22px;padding:0 25px;min-height:58px}.primary:disabled{opacity:.55}.status{margin-top:14px;color:var(--danger);line-height:1.45}.status.ok{color:var(--accent2)}.status.info{color:#687872}
+.source-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}.source{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.6);font-size:14px}.source b{font-weight:700}.okmark{color:var(--accent2)}.badmark{color:var(--danger)}.pending{color:#8b9692}
+.photo-btn,.secondary{width:100%;border:1px solid var(--line);background:#fff;color:#5e6d68;border-radius:18px;padding:16px;text-align:center}.url-input{margin-top:12px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.actions button{padding:14px 20px;border-radius:16px;font-weight:700}.save{background:var(--accent2);color:#fff}.danger{background:#fdebed;color:#9e3f49}.ghost{background:#fff;border:1px solid var(--line);color:var(--dark)}
+.library-list{display:flex;flex-direction:column;gap:12px}.library-item{display:flex;gap:16px;align-items:center;padding:14px;background:#fff;border:1px solid var(--line);border-radius:20px}.library-item .cover{width:58px;height:82px}.library-item .meta{min-width:0;flex:1}.library-item .meta strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.library-item .meta span{color:var(--muted);display:block;margin-top:4px}
+.series-card{padding:20px;border:1px solid var(--line);border-radius:22px;background:#fff}.series-covers{display:flex;overflow:hidden;margin-bottom:14px}.series-covers img{width:64px;height:92px;object-fit:cover;border-radius:8px;margin-right:-8px;border:2px solid #fff}
+.empty{color:var(--muted);padding:30px 10px;text-align:center}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);z-index:20}.nav{max-width:900px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);padding:10px 18px 12px}.nav button{background:none;color:#74827d;padding:8px 2px;border-radius:10px}.nav button.active{background:#e5f5ef;color:var(--accent2)}.nav .icon{font-size:23px;display:block;line-height:1.1}.nav small{font-size:13px}
+.top-action{float:right;width:58px;height:58px;border:1px solid var(--line);background:#fff;border-radius:20px;font-size:25px;color:var(--dark)}
+.hidden{display:none!important}
+@media(max-width:650px){.app{padding:34px 18px 120px}h1{font-size:40px}.grid2,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.isbn-line{grid-template-columns:1fr}.primary{width:100%}.stat strong{font-size:38px}.card{padding:20px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="bottom"><nav class="nav">
+<button data-page="home"><span class="icon">⌂</span><small>Home</small></button>
+<button data-page="library"><span class="icon">▦</span><small>Bibliothek</small></button>
+<button data-page="add"><span class="icon">＋</span><small>Hinzufügen</small></button>
+<button data-page="series"><span class="icon">▤</span><small>Reihen</small></button>
+<button data-page="more"><span class="icon">•••</span><small>Mehr</small></button>
+</nav></div>
+
+<script>
+const KEY="bookvault_v11_books";
+
+
+let books=JSON.parse(localStorage.getItem(KEY)||"[]");
+let page="home", editingId=null;
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function saveBooks(){localStorage.setItem(KEY,JSON.stringify(books))}
+function norm(v){return String(v||"").toUpperCase().replace(/[^0-9X]/g,"")}
+function isbn13From10(isbn){
+  let x=norm(isbn); if(x.length!==10)return "";
+  let core="978"+x.slice(0,9), sum=0;
+  for(let i=0;i<12;i++)sum+=Number(core[i])*(i%2?3:1);
+  return core+(10-(sum%10))%10;
+}
+function isbn10From13(isbn){
+  let x=norm(isbn); if(x.length!==13||!x.startsWith("978")&& !x.startsWith("979"))return "";
+  if(!x.startsWith("978"))return "";
+  let core=x.slice(3,12),sum=0;
+  for(let i=0;i<9;i++)sum+=(10-i)*Number(core[i]);
+  let c=(11-(sum%11))%11; return core+(c===10?"X":c);
+}
+function valid10(x){
+  x=norm(x);if(x.length!==10)return false;let s=0;
+  for(let i=0;i<9;i++)s+=(10-i)*Number(x[i]);
+  let last=x[9]==="X"?10:Number(x[9]);return (s+last)%11===0;
+}
+function valid13(x){
+  x=norm(x);if(x.length!==13||!/^\d+$/.test(x))return false;let s=0;
+  for(let i=0;i<12;i++)s+=Number(x[i])*(i%2?3:1);
+  return (10-(s%10))%10===Number(x[12]);
+}
+function validISBN(x){return valid10(x)||valid13(x)}
+function coverHtml(url,title=""){return url?`<img class="cover" src="${esc(url)}" alt="${esc(title)}" onerror="this.outerHTML='<div class=&quot;cover placeholder&quot;>📖</div>'">`:`<div class="cover placeholder">📖</div>`}
+function setPage(p){page=p;editingId=null;render()}
+function nav(){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page))}
+function render(){
+  const app=document.getElementById("app");
+  if(page==="home")app.innerHTML=home();
+  else if(page==="library")app.innerHTML=library();
+  else if(page==="add")app.innerHTML=add();
+  else if(page==="series")app.innerHTML=series();
+  else app.innerHTML=more();
+  nav(); bind();
+}
+function home(){
+  const owned=books.filter(b=>b.owned!==false).length,read=books.filter(b=>b.read).length;
+  const current=books.find(b=>b.current);
+  return `<main class="app">
+    <div class="eyebrow">BookVault V1.1</div><h1>Home</h1>
+    <div class="grid2">
+      <div class="card stat"><span>In meinem Besitz</span><strong>${owned}</strong></div>
+      <div class="card stat"><span>Katalogisiert</span><strong>${books.length}</strong></div>
+      <div class="card stat"><span>Gelesen</span><strong>${read}</strong></div>
+      <div class="card stat"><span>Ungelesen</span><strong>${books.filter(b=>!b.read).length}</strong></div>
+    </div>
+    <div class="section-head"><h2>Aktuell gelesen</h2><button class="link" data-page="library">Öffnen →</button></div>
+    <div class="card">${current?`<div class="book-row">${coverHtml(current.cover,current.title)}<div><h3>${esc(current.title)}</h3><div style="color:var(--muted)">${esc(current.author)}</div><div class="progress"><i style="width:${Math.max(0,Math.min(100,current.progress||0))}%"></i></div></div></div>`:`<div class="empty">Kein aktuelles Buch hinterlegt.</div>`}</div>
+    <div class="section-head"><h2>Zuletzt hinzugefügt</h2><button class="link" data-page="library">Alle →</button></div>
+    <div class="recent">${books.slice(-8).reverse().map(b=>`<div class="book">${coverHtml(b.cover,b.title)}<strong>${esc(b.title)}</strong><small>${esc(b.author)}</small></div>`).join("")||'<div class="empty">Noch keine Bücher.</div>'}</div>
+  </main>`
+}
+function library(){
+ return `<main class="app"><div class="eyebrow">Bibliothek</div><h1>Meine Bücher</h1>
+ <div class="card"><input id="libSearch" placeholder="Titel, Autor, ISBN oder Reihe suchen…" style="width:100%;padding:16px;border:1px solid var(--line);border-radius:18px"></div>
+ <div id="libraryList" class="library-list" style="margin-top:16px">${libraryItems(books)}</div></main>`
+}
+function libraryItems(arr){
+ if(!arr.length)return '<div class="card empty">Keine Bücher gefunden.</div>';
+ return arr.slice().reverse().map(b=>`<div class="library-item">
+ ${coverHtml(b.cover,b.title)}<div class="meta"><strong>${esc(b.title)}</strong><span>${esc(b.author||"")}</span><span>${esc(b.series||"")}${b.volume?` · Band ${esc(b.volume)}`:""}</span></div>
+ <button class="ghost edit" data-id="${b.id}" style="padding:10px 13px;border-radius:12px">Bearbeiten</button></div>`).join("")
+}
+function add(){
+ const b=editingId?books.find(x=>x.id===editingId):{};
+ return `<main class="app"><div class="eyebrow">Bibliothek</div><button class="top-action" data-page="home">⌂</button><h1>Buch hinzufügen</h1>
+ <section class="isbn-card">
+   <div class="isbn-title"><span class="bolt">ϟ</span> ISBN-Autovervollständigung</div>
+   <div class="isbn-sub">ISBN-10 oder ISBN-13 eingeben → prüfen → Buchdaten automatisch abrufen.</div>
+   <div class="isbn-line"><input id="isbnLookup" value="${esc(b.isbn13||b.isbn10||"")}" inputmode="numeric" autocomplete="off" placeholder="ISBN-10 oder ISBN-13"><button id="isbnBtn" class="primary">Abrufen</button></div>
+   <div id="isbnStatus" class="status info">Bereit. Die ISBN wird zuerst lokal geprüft, danach über mehrere Bibliotheksquellen gesucht.</div>
+   <div id="sourceList" class="source-list"></div>
+ </section>
+ <div class="field full" style="margin-bottom:18px"><label>Cover</label><button id="photoBtn" class="photo-btn">📷 Cover aus Fotos auswählen</button><input id="coverFile" type="file" accept="image/*" class="hidden"><input id="coverUrl" class="url-input field" placeholder="oder Bild-URL" value="${esc(b.cover||"")}"></div>
+ <div class="form-grid">
+ ${field("Titel","title",b.title)}${field("Autor","author",b.author)}${field("Untertitel","subtitle",b.subtitle)}
+ ${field("ISBN","isbn13",b.isbn13||b.isbn10)}${field("ISBN-10","isbn10",b.isbn10)}${field("ISBN-13","isbn13Display",b.isbn13)}
+ ${field("Reihe","series",b.series)}${field("Band","volume",b.volume)}${field("Verlag","publisher",b.publisher)}${field("Erscheinungsjahr","year",b.year)}
+ ${field("Seiten","pages",b.pages)}${field("Sprache","language",b.language||"Deutsch")}
+ ${field("Genre","genre",b.genre)}${field("Format","format",b.format)}
+ ${field("Originaltitel","originalTitle",b.originalTitle)}${field("Notiz","note",b.note)}
+ </div>
+ <div class="actions"><button class="save" id="saveBook">${editingId?"Änderungen speichern":"Buch speichern"}</button>${editingId?'<button class="danger" id="deleteBook">Buch löschen</button>':""}<button class="ghost" data-page="library">Abbrechen</button></div>
+ </main>`
+}
+function field(label,key,val){return `<div class="field"><label>${esc(label)}</label><input id="f_${esc(key)}" value="${esc(val||"")}"></div>`}
+function series(){
+ const map={};books.forEach(b=>{if(b.series)(map[b.series]??=[]).push(b)});
+ const rows=Object.entries(map);
+ return `<main class="app"><div class="eyebrow">Bibliothek</div><h1>Reihen</h1>${rows.length?rows.map(([name,arr])=>`<div class="series-card"><div class="series-covers">${arr.sort((a,b)=>(a.volume||999)-(b.volume||999)).map(b=>b.cover?`<img src="${esc(b.cover)}" onerror="this.style.display='none'">`:"").join("")}</div><h3>${esc(name)}</h3><div style="color:var(--muted)">${arr.length} ${arr.length===1?"Band":"Bände"}</div></div>`).join('<div style="height:12px"></div>'):'<div class="card empty">Noch keine Reihen angelegt.</div>'}</main>`
+}
+function more(){
+ return `<main class="app"><div class="eyebrow">BookVault</div><h1>Mehr</h1><div class="card">
+ <h3>V1.1 ISBN-Suche</h3><p style="color:var(--muted);line-height:1.5">Die Suche nutzt mehrere unabhängige Quellen. Ein Treffer einer Quelle reicht aus; ein Ausfall von Google Books darf die Suche nicht mehr blockieren.</p>
+ <button class="ghost" id="exportBtn" style="padding:14px 18px;border-radius:15px">Bibliothek exportieren</button>
+ <button class="ghost" id="clearBtn" style="padding:14px 18px;border-radius:15px;margin-left:8px">Alle lokalen Daten löschen</button>
+ </div></main>`
+}
+
+function bind(){
+ document.querySelectorAll("[data-page]").forEach(x=>x.onclick=()=>setPage(x.dataset.page));
+ const search=document.getElementById("libSearch"); if(search)search.oninput=()=>document.getElementById("libraryList").innerHTML=libraryItems(books.filter(b=>JSON.stringify(b).toLowerCase().includes(search.value.toLowerCase())));
+ const isbnBtn=document.getElementById("isbnBtn");if(isbnBtn)isbnBtn.onclick=lookupISBN;
+ const photo=document.getElementById("photoBtn"),file=document.getElementById("coverFile");if(photo){photo.onclick=()=>file.click();file.onchange=()=>{const f=file.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById("coverUrl").value=r.result};r.readAsDataURL(f)}}
+ const save=document.getElementById("saveBook");if(save)save.onclick=saveBook;
+ const del=document.getElementById("deleteBook");if(del)del.onclick=()=>{books=books.filter(b=>b.id!==editingId);saveBooks();setPage("library")};
+ document.querySelectorAll(".edit").forEach(x=>x.onclick=()=>{editingId=x.dataset.id;page="add";render()});
+ const ex=document.getElementById("exportBtn");if(ex)ex.onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(books,null,2)],{type:"application/json"}));a.download="bookvault-backup.json";a.click()};
+ const cl=document.getElementById("clearBtn");if(cl)cl.onclick=()=>{if(confirm("Wirklich alle lokal gespeicherten Bücher löschen?")){books=[];saveBooks();render()}};
+}
+function setStatus(text,cls="info"){const e=document.getElementById("isbnStatus");if(e){e.textContent=text;e.className="status "+cls}}
+function sourceRow(name,state,detail=""){return `<div class="source"><span>${esc(name)}</span><b class="${state==="ok"?"okmark":state==="bad"?"badmark":"pending"}">${state==="ok"?"✓ Treffer":state==="bad"?"✕ "+esc(detail):"… Suche"}</b></div>`}
+function showSources(rows){const e=document.getElementById("sourceList");if(e)e.innerHTML=rows.join("")}
+
+async function fetchJSON(url,timeout=8000){
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);
+ try{const r=await fetch(url,{signal:c.signal,headers:{"Accept":"application/json"}});if(!r.ok)throw new Error("HTTP "+r.status);return await r.json()}
+ finally{clearTimeout(t)}
+}
+async function fetchText(url,timeout=9000){
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);
+ try{const r=await fetch(url,{signal:c.signal});if(!r.ok)throw new Error("HTTP "+r.status);return await r.text()}
+ finally{clearTimeout(t)}
+}
+function pickGoogle(v){
+ const i=v.volumeInfo||{}, ids=v.volumeInfo?.industryIdentifiers||[];
+ const isbn13=ids.find(x=>x.type==="ISBN_13")?.identifier||"";
+ const isbn10=ids.find(x=>x.type==="ISBN_10")?.identifier||"";
+ return {title:i.title||"",subtitle:i.subtitle||"",author:(i.authors||[]).join(", "),publisher:i.publisher||"",year:(i.publishedDate||"").slice(0,4),pages:i.pageCount||"",language:i.language||"",genre:(i.categories||[]).join(", "),isbn13,isbn10,cover:i.imageLinks?.thumbnail?.replace("http:","https:")||""};
+}
+function mergeBook(target,data){Object.entries(data).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=="" )target[k]=v});return target}
+function parseDNB(xml,isbn){
+ const doc=new DOMParser().parseFromString(xml,"application/xml");
+ if(doc.querySelector("parsererror"))throw new Error("Ungültiges XML");
+ const rec=doc.querySelector("record");
+ if(!rec)throw new Error("Kein Treffer");
+ const vals=(tag,sub)=>[...rec.querySelectorAll(`datafield[tag="${tag}"] subfield[code="${sub}"]`)].map(x=>x.textContent.trim()).filter(Boolean);
+ const first=(tag,sub)=>vals(tag,sub)[0]||"";
+ let title=first("245","a");let subtitle=first("245","b");let author=first("100","a");
+ if(!author)author=first("700","a");
+ const pub=first("264","b")||first("260","b"), year=first("264","c")||first("260","c");
+ const pages=first("300","a"), lang=first("041","a");
+ const isbns=vals("020","a"), eans=vals("024","a");
+ const series=first("490","a")||first("830","a");
+ const note=vals("500","a").join(" ");
+ let cover="";
+ for(const u of vals("856","u"))if(/\\.(jpg|jpeg|png)(\\?|$)/i.test(u)){cover=u;break}
+ return {title,subtitle,author,publisher:pub,year:(year.match(/\\d{4}/)||[""])[0],pages,language:lang,series,isbn13:isbns.find(x=>norm(x).length===13)||"",isbn10:isbns.find(x=>norm(x).length===10)||"",cover,note};
+}
+async function dnbLookup(isbn){
+ const q=encodeURIComponent(`NUM/ISB=${isbn}`);
+ const url=`https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=${q}&recordSchema=MARC21-xml&maximumRecords=3`;
+ return parseDNB(await fetchText(url),isbn);
+}
+async function openLibraryLookup(isbn){
+ const q=encodeURIComponent(`isbn:${isbn}`);
+ const url=`https://openlibrary.org/search.json?q=${q}&fields=title,author_name,publisher,first_publish_year,isbn,number_of_pages_median,language,subject,cover_i&limit=5`;
+ const j=await fetchJSON(url);
+ if(!j.docs?.length)throw new Error("HTTP 404 / kein Treffer");
+ const d=j.docs.find(x=>(x.isbn||[]).some(i=>norm(i)===isbn))||j.docs[0];
+ const ids=d.isbn||[];
+ return {title:d.title||"",author:(d.author_name||[]).join(", "),publisher:(d.publisher||[])[0]||"",year:d.first_publish_year||"",pages:d.number_of_pages_median||"",language:(d.language||[])[0]||"",genre:(d.subject||[]).slice(0,4).join(", "),isbn13:ids.find(x=>norm(x).length===13)||"",isbn10:ids.find(x=>norm(x).length===10)||"",cover:d.cover_i?`https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg`:""};
+}
+async function googleLookup(isbn){
+ const url=`https://www.googleapis.com/books/v1/volumes?q=isbn:${encodeURIComponent(isbn)}&maxResults=5`;
+ const j=await fetchJSON(url);
+ if(!j.items?.length)throw new Error("kein Treffer");
+ const v=j.items.find(x=>(x.volumeInfo?.industryIdentifiers||[]).some(i=>norm(i.identifier)===isbn))||j.items[0];
+ return pickGoogle(v);
+}
+async function googleProxyLookup(isbn){
+ const target=`https://www.googleapis.com/books/v1/volumes?q=isbn:${encodeURIComponent(isbn)}&maxResults=5`;
+ const url=`https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`;
+ const j=await fetchJSON(url,12000);
+ if(!j.items?.length)throw new Error("kein Treffer");
+ const v=j.items.find(x=>(x.volumeInfo?.industryIdentifiers||[]).some(i=>norm(i.identifier)===isbn))||j.items[0];
+ return pickGoogle(v);
+}
+function fill(data){
+ const fields={title:data.title,author:data.author,subtitle:data.subtitle, isbn13Display:data.isbn13, isbn13:data.isbn13, isbn10:data.isbn10,series:data.series,volume:data.volume,publisher:data.publisher,year:data.year,pages:data.pages,language:data.language,genre:data.genre,format:data.format,originalTitle:data.originalTitle,note:data.note};
+ Object.entries(fields).forEach(([k,v])=>{const e=document.getElementById("f_"+k);if(e&&v)e.value=v});
+ const cover=document.getElementById("coverUrl");if(cover&&data.cover)cover.value=data.cover;
+}
+async function lookupISBN(){
+ const raw=document.getElementById("isbnLookup").value, x=norm(raw);
+ if(!validISBN(x)){
+   setStatus("Die ISBN-Prüfziffer ist ungültig. Bitte ISBN-10 oder ISBN-13 prüfen.","bad");
+   showSources([]);
+   return;
+ }
+
+ const isbn13=x.length===13?x:isbn13From10(x);
+ setStatus(`ISBN gültig. Suche nach ${isbn13}…`,"info");
+
+ const sourceNames=["Deutsche Nationalbibliothek","Open Library","Google Books"];
+ showSources(sourceNames.map(n=>sourceRow(n,"pending")));
+
+ // Query real sources independently. A temporary service/rate-limit error is
+ // kept distinct from "no record found".
+ const attempts = await Promise.allSettled([
+   dnbLookup(isbn13),
+   openLibraryLookup(isbn13),
+   googleLookup(isbn13)
+ ]);
+
+ const results = attempts.map((r,i)=>({
+   name:sourceNames[i],
+   result:r.status==="fulfilled"?r.value:null,
+   error:r.status==="rejected"?(r.reason?.message||"Abruf fehlgeschlagen"):null
+ }));
+
+ const hit=results.find(r=>r.result);
+ if(hit){
+   fill(hit.result);
+   setStatus(`Treffer gefunden über ${hit.name}. Die Buchdaten wurden automatisch eingetragen.`,"ok");
+   showSources(results.map(r=>sourceRow(
+     r.name,
+     r.result?"ok":(r.error?"warn":"bad"),
+     r.result?"Treffer":(r.error||"kein Treffer")
+   )));
+   return;
+ }
+
+ const hadTransportError=results.some(r=>r.error);
+ showSources(results.map(r=>sourceRow(
+   r.name,
+   r.error?"warn":"bad",
+   r.error||"kein Treffer"
+ )));
+
+ if(hadTransportError){
+   setStatus(
+     "Die ISBN ist gültig. Mindestens eine Metadatenquelle war technisch nicht erreichbar bzw. hat ein Rate-Limit gemeldet. Das bedeutet nicht, dass das Buch nicht existiert.",
+     "bad"
+   );
+ }else{
+   setStatus(
+     "Die ISBN ist gültig, aber die angeschlossenen Metadatenquellen liefern keinen Datensatz für diese Ausgabe.",
+     "bad"
+   );
+ }
+
+ const s=document.getElementById("isbnStatus");
+ if(s && !document.getElementById("isbnWebSearch")){
+   s.insertAdjacentHTML(
+     "afterend",
+     `<div id="isbnWebSearch" style="margin-top:12px">
+       <a class="link" target="_blank" rel="noopener"
+          href="https://www.google.com/search?q=${encodeURIComponent(isbn13+" ISBN Buch")}">
+          Websuche für diese ISBN öffnen →
+       </a>
+     </div>`
+   );
+ }
+}
+function val(id){return document.getElementById(id)?.value?.trim()||""}
+function saveBook(){
+ const data={id:editingId||crypto.randomUUID(),title:val("f_title"),author:val("f_author"),subtitle:val("f_subtitle"),isbn13:val("f_isbn13Display")||val("f_isbn13"),isbn10:val("f_isbn10"),series:val("f_series"),volume:val("f_volume"),publisher:val("f_publisher"),year:val("f_year"),pages:val("f_pages"),language:val("f_language"),genre:val("f_genre"),format:val("f_format"),originalTitle:val("f_originalTitle"),note:val("f_note"),cover:val("coverUrl"),owned:true,read:false,current:false};
+ if(!data.title){alert("Bitte mindestens den Titel eingeben.");return}
+ if(editingId)books=books.map(b=>b.id===editingId?{...b,...data}:b);else books.push(data);
+ saveBooks();setPage("library");
+}
+render();
+</script>
+
+
+<div id="bookvaultVersion" style="position:fixed;top:10px;right:12px;z-index:9999;font-size:12px;font-weight:700;color:#5b8f82;background:#e7f5ef;padding:6px 10px;border-radius:999px;box-shadow:0 1px 4px rgba(0,0,0,.08)">BookVault 1.1.11</div></body>
+</html>
