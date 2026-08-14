@@ -1,0 +1,2165 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#ffffff">
+<title>BookVault V1.0.5</title>
+<style>
+:root{--bg:#ffffff;--panel:#edf6f1;--panel2:#e4f0ea;--text:#ffffff;--muted:#566760;--accent:#9acdb9;--line:#c4d8cf;--danger:#79b59f;--gold:#b9d8c8}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;padding-bottom:100px}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 8px) 16px 24px}.top{display:flex;justify-content:space-between;align-items:center;padding:12px 0 16px}.eyebrow{font-size:12px;color:var(--muted)}.title{font-size:28px;font-weight:800;margin-top:2px}.icon,.btn,.pill,.chip,.nav button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px}.icon{width:44px;height:44px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px}.stat span{font-size:12px;color:var(--muted)}.stat b{display:block;font-size:27px;margin-top:5px}.section{margin:22px 0}.section h2{font-size:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center}.link{color:var(--accent);background:none;border:0}.bookrow{display:flex;gap:12px;overflow:auto;padding-bottom:3px}.cover{width:94px;height:136px;border-radius:10px;object-fit:cover;background:#cbded5;display:block}.cover.sm{width:64px;height:92px}.cover.lg{width:160px;height:232px;margin:auto}.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-weight:700;color:#3f5149}.mini{min-width:94px;text-align:left;background:none;border:0;color:var(--text);padding:0}.mini b{display:block;font-size:12px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini small{color:var(--muted)}.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#dcebe4,#f3f9f6);border:1px solid var(--line);border-radius:20px;padding:15px}.hero h3{margin:0 0 4px}.muted{color:var(--muted)}.progress{height:7px;background:#cbded5;border-radius:99px;overflow:hidden;margin:10px 0}.progress i{display:block;height:100%;background:var(--accent)}.pillrow,.chips{display:flex;gap:7px;flex-wrap:wrap}.pill,.chip{padding:8px 11px;font-size:12px}.pill.active,.chip.selected,.btn.primary{background:var(--accent);color:#f4faf7;border-color:var(--accent);font-weight:750}.search{display:flex;gap:8px}.input,.select,.textarea{width:100%;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:0}.textarea{min-height:110px;resize:vertical}.filters{display:flex;gap:7px;overflow:auto;margin:10px 0;padding-bottom:2px}.toolbar{display:flex;gap:8px;margin:10px 0}.toolbar>*{flex:1}.btn{padding:12px 14px;text-align:center}.list{display:flex;flex-direction:column;gap:9px}.item{width:100%;display:flex;gap:12px;text-align:left;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:17px;color:var(--text)}.item .details{min-width:0;flex:1}.item h3{margin:0 0 4px;font-size:16px}.item p{margin:3px 0;font-size:12px;color:var(--muted)}.stars{font-size:29px;letter-spacing:1px}.stars button{font-size:29px;border:0;background:none;color:#65766f;padding:0}.stars button.on{color:var(--gold)}.form{display:flex;flex-direction:column;gap:14px}.field label{display:block;font-size:12px;color:#33433d;margin-bottom:7px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:var(--panel);padding:5px;border-radius:14px}.seg.three{grid-template-columns:repeat(3,1fr)}.seg button{padding:9px 3px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:11px}.seg button.sel{background:#bfd5ca;color:var(--text)}.detail{text-align:center}.detail h1{margin:13px 0 3px}.danger{background:#3d7564;color:#dff2e9;border-color:#4f8b77}.bottom{position:fixed;z-index:10;left:0;right:0;bottom:0;background:#f7fbf9dd;backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}.nav{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav button{border:0;background:transparent;padding:6px 2px;font-size:10px;color:var(--muted)}.nav button.active{background:#d5e5de;color:var(--text)}.nav strong{display:block;font-size:19px}.empty{text-align:center;padding:35px 15px;color:var(--muted);border:1px dashed var(--line);border-radius:18px}.toast{position:fixed;z-index:50;left:50%;bottom:105px;transform:translateX(-50%);background:#ffffff;color:#f4faf7;padding:11px 15px;border-radius:13px;font-weight:700;font-size:13px}.hidden{display:none!important}.note{font-size:12px;line-height:1.5}@media(min-width:620px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+/* V1.1 readability: dashboard counters and ownership counts */
+.stat-value,
+.stat-number,
+.counter,
+.count,
+.summary-value,
+.summary-number,
+.kpi-value,
+.kpi-number,
+.badge-count,
+.not-owned-count,
+[data-stat],
+[data-count] {
+  color: #000000 !important;
+}
+
+
+/* BookVault 1.2.0: dashboard statistic numbers must be black */
+.card.stat b,
+.card.stat > b,
+.card.stat span + b {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* "X Bücher nicht im Besitz" */
+.card b {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+
+/* BookVault 1.1.8: readable dark-green text on mint chips */
+.chip,
+.chip *,
+.pill,
+.pill *,
+[data-chip-group="genres"],
+[data-chip-group="genres"] *,
+[data-chip-group="subgenres"],
+[data-chip-group="subgenres"] *,
+[data-chip-group="tropes"],
+[data-chip-group="tropes"] * {
+  color: #285f4d !important;
+  -webkit-text-fill-color: #285f4d !important;
+}
+
+
+/* BookVault 1.1.9: all unselected input/select/button text must be dark green */
+input,
+textarea,
+select,
+button,
+option,
+.input,
+.select,
+.select-btn,
+.choice,
+.choice-btn,
+.field input,
+.field textarea,
+.field select,
+.field button,
+.chip:not(.selected),
+.pill:not(.selected) {
+  color: #285f4d !important;
+  -webkit-text-fill-color: #285f4d !important;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #5f8174 !important;
+  -webkit-text-fill-color: #5f8174 !important;
+}
+
+/* Keep selected controls with their dark-green background and white text */
+.chip.selected,
+.chip.selected *,
+.pill.selected,
+.pill.selected *,
+button.selected,
+button.selected * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.add-trope-btn{margin-top:10px}
+/* BookVault 1.1.22: eigenes Trope – In-App-Dialog statt Browser-prompt */
+.trope-modal-backdrop{
+  position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.28);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.trope-modal{
+  width:min(520px,100%);background:#fff;border:1px solid var(--line);
+  border-radius:18px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+.trope-modal h3{margin:0 0 14px;color:#000}
+.trope-modal .field{margin-bottom:12px}
+.trope-modal-actions{display:flex;gap:8px;margin-top:14px}
+.trope-modal-actions .btn{flex:1}
+
+
+/* BookVault 1.1.24: sticky selected-tropes bar inside the trope section */
+.trope-section{
+  position:relative;
+}
+.trope-selected-bar{
+  position:sticky;
+  top:8px;
+  z-index:25;
+  background:#e8f4ee;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+  margin:8px 0 10px;
+  box-shadow:0 4px 14px rgba(35,75,55,.10);
+}
+.trope-selected-title{
+  font-size:12px;
+  font-weight:700;
+  color:#285f4d;
+  margin-bottom:7px;
+}
+.trope-selected-chips{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  white-space:nowrap;
+  scrollbar-width:thin;
+  padding-bottom:2px;
+}
+.trope-selected-chip{
+  flex:0 0 auto;
+  border:1px solid #8eb9a8;
+  background:#dff2e9;
+  color:#285f4d;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  cursor:pointer;
+}
+.trope-selected-empty{
+  font-size:12px;
+  color:#5f8174;
+}
+
+
+/* BookVault 1.1.26: Einstellungen – Standard-Schrift dunkelgrün */
+#settingsScreen,
+.settings-screen,
+[data-screen="settings"]{
+  color:#285f4d;
+}
+#settingsScreen label,
+#settingsScreen h1,#settingsScreen h2,#settingsScreen h3,
+#settingsScreen p,#settingsScreen span,
+.settings-screen label,
+.settings-screen h1,.settings-screen h2,.settings-screen h3,
+.settings-screen p,.settings-screen span,
+[data-screen="settings"] label,
+[data-screen="settings"] h1,[data-screen="settings"] h2,[data-screen="settings"] h3,
+[data-screen="settings"] p,[data-screen="settings"] span{
+  color:#285f4d;
+}
+#settingsScreen .input,#settingsScreen .select,#settingsScreen .textarea,
+.settings-screen .input,.settings-screen .select,.settings-screen .textarea,
+[data-screen="settings"] .input,[data-screen="settings"] .select,[data-screen="settings"] .textarea{
+  color:#285f4d;
+}
+
+
+/* BookVault 1.1.27: Löschbutton behält weiße Schrift */
+.settings-screen .delete-all-data-btn,
+.settings-screen .delete-all-data-btn span,
+#settingsScreen .delete-all-data-btn,
+#settingsScreen .delete-all-data-btn span,
+[data-screen="settings"] .delete-all-data-btn,
+[data-screen="settings"] .delete-all-data-btn span{
+  color:#fff !important;
+}
+
+
+/* BookVault 1.1.28: exakt der Button "Alle Daten löschen" */
+.settings-screen button.delete-all-data-btn,
+main.settings-screen button.delete-all-data-btn,
+button.delete-all-data-btn.danger{
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+}
+
+
+/* BookVault 1.1.29: visueller Cover-Streifen in der Reihenansicht */
+.series-cover-strip{
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+  padding:8px 2px 10px;
+  margin:8px 0 14px;
+  scrollbar-width:thin;
+}
+.series-cover-strip .series-cover-item{
+  flex:0 0 auto;
+  width:72px;
+  margin-left:-10px;
+  position:relative;
+  border:0;
+  background:transparent;
+  padding:0;
+}
+.series-cover-strip .series-cover-item:first-child{margin-left:0}
+.series-cover-strip .series-cover-item img,
+.series-cover-strip .series-cover-placeholder{
+  width:72px;
+  height:104px;
+  border-radius:8px;
+  object-fit:cover;
+  display:block;
+  border:1px solid var(--line);
+  background:#edf6f1;
+  box-shadow:0 3px 8px rgba(35,75,55,.10);
+}
+.series-cover-placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:6px;
+  color:#285f4d;
+  font-size:11px;
+  font-weight:700;
+}
+.series-cover-volume{
+  position:absolute;
+  left:4px;
+  bottom:4px;
+  background:rgba(255,255,255,.9);
+  color:#285f4d;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 5px;
+  font-size:10px;
+  font-weight:700;
+}
+
+
+/* BookVault 1.1.31: Reihennotizen dunkelgrün */
+.series-notes{color:#285f4d !important;}
+
+
+/* BookVault 1.1.33: Cover-Collage in der Reihenübersicht */
+.series-overview-covers{
+  flex:0 0 auto;
+  display:flex;
+  align-items:flex-end;
+  width:max-content;
+  max-width:132px;
+  min-height:80px;
+  overflow:visible;
+  padding:2px 0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+}
+.series-overview-cover{
+  width:54px;
+  height:80px;
+  object-fit:cover;
+  border-radius:6px;
+  border:1px solid var(--line);
+  box-shadow:0 2px 5px rgba(35,75,55,.12);
+  margin-left:-24px;
+  background:#fff;
+}
+.series-overview-cover:first-child{margin-left:0}
+.series-overview-placeholder{
+  width:54px;
+  height:80px;
+  border-radius:6px;
+  border:1px solid var(--line);
+  background:#dff2e9;
+  color:#285f4d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:4px;
+  font-size:10px;
+  font-weight:700;
+  margin-left:-24px;
+}
+.series-overview-placeholder:first-child{margin-left:0}
+
+
+/* BookVault 1.1.35: Reihenübersicht dreizeilig */
+.series-overview-card{
+  display:block;
+  width:100%;
+  text-align:left;
+}
+.series-overview-title{
+  font-size:18px;
+  font-weight:800;
+  color:#285f4d;
+  margin-bottom:4px;
+}
+.series-overview-meta{
+  font-size:13px;
+  color:#5f8174;
+  margin-bottom:10px;
+}
+.series-overview-strip{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:2px 0 4px;
+  scrollbar-width:thin;
+}
+.series-overview-strip .series-overview-book{
+  position:relative;
+  flex:0 0 auto;
+  border:0;
+  background:transparent;
+  padding:0;
+}
+.series-overview-strip img,
+.series-overview-strip .series-overview-placeholder{
+  width:64px;
+  height:94px;
+  border-radius:7px;
+  object-fit:cover;
+  display:block;
+  border:1px solid var(--line);
+  background:#edf6f1;
+}
+.series-overview-strip .series-overview-placeholder{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#285f4d;
+  font-size:10px;
+  font-weight:700;
+  padding:4px;
+}
+.series-overview-volume{
+  position:absolute;
+  left:4px;
+  bottom:4px;
+  background:rgba(255,255,255,.92);
+  color:#285f4d;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 5px;
+  font-size:9px;
+  font-weight:700;
+}
+
+.library-filter-panel{margin:10px 0 12px}.library-filter-panel details{border-top:1px solid var(--line);padding:8px 0}.library-filter-panel summary{cursor:pointer;font-weight:700;color:#285f4d}.library-filter-options{display:flex;flex-wrap:wrap;gap:7px;padding-top:9px}.library-filter-chip{border:1px solid var(--line);background:#edf6f1;color:#285f4d;border-radius:999px;padding:7px 10px;font-size:12px}.library-filter-chip.selected{background:#285f4d;color:#fff}.active-library-filters{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px}.active-library-filter{flex:0 0 auto;border:1px solid #8eb9a8;background:#dff2e9;color:#285f4d;border-radius:999px;padding:6px 9px;font-size:12px}.library-sort-select{color:#285f4d;background:#edf6f1;border:1px solid var(--line);border-radius:10px;padding:8px}
+.search-row{display:flex;gap:8px;align-items:center}
+.search-row .input{flex:1}
+.filter-subsection{padding:8px 0}
+.filter-subsection + .filter-subsection{border-top:1px dashed var(--line);margin-top:8px;padding-top:12px}
+.filter-subsection-title{font-weight:700;color:#285f4d;margin-bottom:7px}
+.filter-search{margin:8px 0}
+.author-filter-list{max-height:240px;overflow:auto;padding-right:2px}
+
+/* BookVault 1.1.39: Werk -> mehrere Ausgaben */
+.editions-grid{display:grid;gap:10px}
+.edition-card{border:1px solid var(--line);background:#edf6f1;border-radius:14px;padding:12px}
+.edition-card.primary-edition{box-shadow:inset 0 0 0 2px #8eb9a8}
+.edition-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.edition-title{font-weight:800;color:#285f4d}
+.edition-meta{font-size:13px;color:#5f8174;margin-top:4px}
+.edition-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.edition-actions .btn{font-size:12px;padding:7px 9px}
+.edition-primary-badge{display:inline-block;border-radius:999px;background:#285f4d;color:#fff;padding:3px 7px;font-size:10px;font-weight:700}
+.edition-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}
+
+/* BookVault 1.1.40: alle Dialogfenster auf kleinen Displays scrollbar */
+.trope-modal-backdrop{
+  position:fixed;
+  inset:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:20px 12px;
+  align-items:flex-start !important;
+}
+.trope-modal{
+  width:min(100%,520px);
+  max-height:none !important;
+  overflow:visible !important;
+  margin:auto;
+}
+@media (max-height:700px){
+  .trope-modal-backdrop{padding-top:10px;padding-bottom:10px}
+}
+
+
+.edition-actions .btn.danger{color:#fff !important}
+
+
+button.edition-delete-btn,
+.edition-actions button.edition-delete-btn,
+.edition-card .edition-actions button.edition-delete-btn{
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+}
+
+
+/* BookVault 1.1.46: verbesserte Buchkarten & Schnellnavigation */
+.book-card{
+  position:relative;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  width:100%;
+  text-align:left;
+}
+.book-card-main{
+  display:flex;
+  gap:12px;
+  flex:1;
+  min-width:0;
+  border:0;
+  background:transparent;
+  padding:0;
+  text-align:left;
+  color:inherit;
+}
+.book-card-info{flex:1;min-width:0}
+.book-card-title{font-weight:800;color:#285f4d;margin-bottom:2px}
+.book-card-author{font-size:13px;color:#5f8174}
+.book-card-series{font-size:12px;color:#5f8174;margin-top:3px}
+.book-card-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.book-card-actions{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  margin-left:auto;
+}
+.book-card-action{
+  width:34px;height:34px;border-radius:10px;border:1px solid var(--line);
+  background:#edf6f1;color:#285f4d;font-size:16px;
+}
+.book-card-menu{
+  position:absolute;
+  right:8px;
+  top:42px;
+  z-index:40;
+  min-width:190px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 10px 28px rgba(0,0,0,.14);
+  padding:6px;
+}
+.book-card-menu.hidden{display:none}
+.book-card-menu button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#285f4d;
+  text-align:left;
+  padding:9px 10px;
+  border-radius:8px;
+}
+.book-card-menu button:hover{background:#edf6f1}
+.book-card-menu .danger-item{color:#9a2f2f}
+.quick-anchor-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+
+.book-card-rating{
+  display:block;
+  margin:3px 0 4px;
+  color:#285f4d;
+  font-size:14px;
+  line-height:1.2;
+}
+
+.book-card-cover-column{
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.book-card-cover-column .book-card-rating{
+  margin-top:5px;
+  margin-bottom:0;
+  font-size:15px;
+  font-weight:700;
+  color:#285f4d !important;
+  white-space:nowrap;
+}
+
+.grid-book-rating,
+.book-card-cover-column .book-card-rating{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  color:#285f4d !important;
+  -webkit-text-fill-color:#285f4d !important;
+  font-size:16px !important;
+  font-weight:800 !important;
+  line-height:1.3 !important;
+  letter-spacing:1px;
+  margin:5px 0 2px !important;
+  min-height:21px;
+}
+
+
+.detail-cover-rating{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:max-content;
+  max-width:100%;
+  margin:0 auto;
+}
+.detail-rating{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  margin-top:7px;
+  color:#285f4d !important;
+  -webkit-text-fill-color:#285f4d !important;
+  font-size:18px;
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+
+/* BookVault 1.1.51: Lesbarkeit Home + Aktionsmeldungen */
+.hero h3,
+.hero h3 *{
+  color:#285f4d !important;
+  -webkit-text-fill-color:#285f4d !important;
+}
+#toast,
+#toast *{
+  color:#285f4d !important;
+  -webkit-text-fill-color:#285f4d !important;
+}
+
+
+/* BookVault 1.1.52: Wunschliste */
+.wishlist-tabs{display:flex;gap:8px;overflow-x:auto;margin:10px 0 14px}
+.wishlist-tab{border:1px solid var(--line);background:#edf6f1;color:#285f4d;border-radius:999px;padding:8px 12px;white-space:nowrap}
+.wishlist-tab.active{background:#285f4d;color:#fff}
+.wishlist-card{display:flex;gap:12px;align-items:flex-start}
+.wishlist-info{flex:1;min-width:0}
+.wishlist-title{font-weight:800;color:#285f4d}
+.wishlist-meta{font-size:13px;color:#5f8174;margin-top:3px}
+.wishlist-priority{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 7px;font-size:11px;color:#285f4d;background:#dff2e9;margin-top:6px}
+.wishlist-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.wishlist-actions .btn{font-size:12px;padding:7px 9px}
+
+/* BookVault 1.1.56: Rezensionen/Notizen dunkelgrün */
+.book-review-text,
+.book-review-text *,
+.book-notes-text,
+.book-notes-text *{
+  color:#285f4d !important;
+  -webkit-text-fill-color:#285f4d !important;
+}
+
+
+/* BookVault 1.1.59: erweiterte Statistiken */
+.stats-section-title{color:#285f4d;margin:0 0 10px}
+.stats-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stats-summary .card{text-align:center}
+.stats-big{font-size:23px;font-weight:800;color:#285f4d}
+.stats-label{font-size:11px;color:#5f8174;margin-top:3px}
+.stats-nav{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:8px 0 12px}
+.stats-nav .btn{padding:7px 10px}
+.chart-row{display:grid;grid-template-columns:82px 1fr 42px;gap:8px;align-items:center;margin:8px 0;font-size:12px}
+.chart-label{color:#285f4d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chart-track{height:11px;background:#e6efe9;border-radius:999px;overflow:hidden}
+.chart-fill{height:100%;background:#8fb9a5;border-radius:999px;min-width:2px}
+.chart-value{text-align:right;color:#285f4d;font-weight:700}
+.reading-progress-card{display:flex;gap:10px;align-items:flex-start}
+.reading-progress-info{flex:1;min-width:0}
+.reading-progress-title{font-weight:800;color:#285f4d}
+.progress-track{height:9px;background:#e6efe9;border-radius:999px;overflow:hidden;margin:7px 0}
+.progress-fill{height:100%;background:#8fb9a5;border-radius:999px}
+.stats-note{font-size:11px;color:#5f8174;margin-top:8px}
+
+/* BookVault 1.1.66: eigenständiger Backup-Dialog */
+.backup-overlay{
+  position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.62);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.backup-dialog{
+  width:min(760px,100%);max-height:88vh;overflow:auto;
+  background:#f7faf8;border-radius:18px;padding:16px;
+  box-shadow:0 18px 60px rgba(0,0,0,.35);
+}
+.backup-dialog-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;
+}
+.backup-dialog textarea{
+  width:100%;min-height:52vh;box-sizing:border-box;resize:vertical;
+  border:1px solid #b8cec3;border-radius:12px;padding:10px;
+  background:white;color:#285f4d;font-family:monospace;font-size:11px;
+}
+.backup-dialog-actions{display:grid;gap:8px;margin-top:10px}
+
+
+/* BookVault 1.1.67: Abstand zur festen unteren Navigation */
+.app{
+  padding-bottom:calc(120px + env(safe-area-inset-bottom)) !important;
+}
+@media (min-width:761px){
+  .app{
+    padding-bottom:110px !important;
+  }
+}
+
+
+/* BookVault 1.1.68: ISBN-Suche */
+.isbn-search-card{border:1px solid var(--line);background:#edf6f1;border-radius:16px;padding:12px;margin-bottom:14px}
+.isbn-search-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.isbn-search-status{margin-top:8px;font-size:12px;color:#285f4d}
+.isbn-search-status.error{color:#9a2f2f}
+.isbn-source-note{font-size:11px;color:#5f8174;margin-top:6px}
+</style>
+strong,b,.bold,[style*="font-weight:700"],[style*="font-weight:bold"]{color:#000000 !important;}
+<style>
+.trope-accordion{display:flex;flex-direction:column;gap:8px}
+.trope-category{display:block;border:1px solid rgba(35,75,55,.22);border-radius:12px;background:#f7fbf8;overflow:hidden}
+.trope-category summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:12px 14px;font-weight:700;color:#234b37;list-style:none}
+.trope-category summary::-webkit-details-marker{display:none}
+.trope-category summary:before{content:"＋";margin-right:8px}
+.trope-category[open] summary:before{content:"−"}
+.trope-chips{padding:0 12px 12px}
+.add-trope-btn{margin-top:10px}
+</style></head>
+<body>
+<div id="bookvaultVersion" style="position:fixed;top:10px;right:12px;z-index:9999;font-size:12px;font-weight:700;color:#527f72;background:#e6f4ee;padding:6px 10px;border-radius:999px">BookVault 1.1.6</div><div id="app"></div><div class="bottom"><div class="nav" id="nav"></div></div><div id="toast" class="toast hidden"></div>
+<script>
+"use strict";
+(function(){
+const STORAGE_KEY="bookvault_v104";const SCHEMA_VERSION="1.1";const APP_VERSION="1.2.0";
+const DEFAULT={
+  tropeCategories:{"Beziehungsdynamiken":["Enemies to Lovers","Rivals to Lovers","Friends to Lovers","Strangers to Lovers","Second Chance","Childhood Sweethearts","Forbidden Love","Fated Mates","Soulmates","Opposites Attract","Grumpy × Sunshine","Slow Burn","Instalove","Love at First Sight","Unrequited Love","Mutual Pining","He Falls First","She Falls First","He Falls Harder","She Falls Harder","Only Has Eyes for Her","Only Has Eyes for Him","Touch Her and Die","Touch Him and Die","Possessive Love Interest","Jealous Love Interest","Protective Love Interest","Morally Grey Love Interest","Villain Love Interest","Antihero Love Interest","Redemption Arc","Grovel","Love Triangle","Reverse Love Triangle"],"Situation & Nähe":["Forced Proximity","Only One Bed","Roommates to Lovers","Forced Cohabitation","Trapped Together","Snowed In","Stranded Together","Road Trip","Workplace Romance","Office Romance","College Romance","Neighbors to Lovers","Small Town","Vacation Romance","Holiday Romance","Pen Pals to Lovers","Online Romance","Long Distance Relationship"],"Beziehungsarrangements":["Fake Dating","Fake Relationship","Fake Engagement","Fake Marriage","Marriage of Convenience","Arranged Marriage","Forced Marriage","Marriage Pact","Accidental Marriage","Accidental Engagement","Matchmaking","Dating App"],"Status & Macht":["Royalty","Hidden Royalty","Secret Heir","Lost Heir","Billionaire","Rich × Poor","Boss × Employee","Celebrity × Normal Person","Athlete × Normal Person","Age Gap","Class Difference","Power Imbalance","Political Marriage","Political Alliance"],"Beschützer & gefährliche Figuren":["Bodyguard","Protector","Assassin × Target","Assassin × Assassin","Enemy Spy × Target","Mafia","Mafia Boss","Criminal × Innocent","Villain × Hero","Villain × Innocent","Monster Romance","Alien Romance","Vampire Romance","Shifter Romance","Fae Romance"],"Charaktereigenschaften":["Grumpy","Sunshine","Morally Grey","Antihero","Alpha Hero","Cinnamon Roll","Bad Boy","Badass Heroine","Strong Heroine","Brooding Hero","Golden Retriever","Golden Retriever × Black Cat","Black Cat × Black Cat","Ice Queen","Ice King","Secret Softie","Hidden Vulnerability","Emotionally Unavailable","Reluctant Hero","Reluctant Heroine","Villain with a Soft Spot"],"Geheimnisse & Identitäten":["Secret Identity","Hidden Identity","Mistaken Identity","Secret Heir","Lost Heir","Secret Baby","Secret Child","Secret Past","Dark Past","Hidden Powers","Power Reveal","Double Life","Undercover","Disguise","Amnesia","Forgotten Past"],"Fantasy & Abenteuer":["Chosen One","Prophecy","Quest","Found Family","Chosen Family","Magic Academy","Training Arc","Tournament Arc","Power Couple","Power Struggle","Political Intrigue","Court Politics","Curses & Bargains","Ancient Evil Awakens","Gods & Mythology","Fairy Tale Retelling","Portal to Another World","Sent to Kill","Forced to Work Together","Save the Kingdom","Saving the World","Magical Bond","Magical Contract","Forbidden Magic","Hidden Kingdom","Secret Society"],"Familie & soziale Beziehungen":["Found Family","Chosen Family","Single Parent","Widower/Widow","Pregnancy","Accidental Pregnancy","Secret Pregnancy","Secret Baby","Second Chance at Family","Estranged Family","Family Secrets","Sibling's Best Friend","Best Friend's Sibling","Best Friend's Ex","Brother's Best Friend","Sister's Best Friend"],"Emotionale Tropes":["Angst","Hurt/Comfort","Emotional Healing","Trauma Recovery","Grief","Revenge","Redemption","Betrayal","Betrayal & Reconciliation","Miscommunication","Misunderstanding","Yearning","Emotional Walls","Healing Each Other","Forced Vulnerability","Second Chance at Love"],"Humor & Dynamik":["Witty Banter","Sharp Dialogue","Bickering","Teasing","Pranks","Comedic Misunderstandings","Fish Out of Water","Chaotic Duo","Odd Couple","Found Family Humor"],"Erzähl- & Handlungsstrukturen":["Multiple POV","Dual POV","Unreliable Narrator","Unreliable Memories","Epistolary","Flashbacks","Nonlinear Narrative","Story within a Story","Retelling","Reincarnation","Time Travel","Alternate Timeline","Time Loop","Parallel Worlds"],"Romance & Sexualität":["Friends with Benefits","One Night Stand","One Night Stand to Lovers","Accidental Hookup","Sexual Tension","First Kiss Tension","Virgin Heroine","Virgin Hero","Experienced × Inexperienced","Praise","Possessiveness","Jealousy","Kink","BDSM","Spicy Romance","Open Relationship","Polyamory","Why Choose","Reverse Harem"],"Umfeld & Lebenssituation":["Workplace Romance","Office Romance","College Romance","High School Romance","Teacher × Student","Professor × Student","Boss × Employee","Celebrity Romance","Sports Romance","Military Romance","Rockstar Romance","Biker Romance","Small Town","Single Parent"],"Eigene Tropes":[]},
+books:[],genres:["Abenteuer","Biografie","Comic","Drama","Essays","Fachbuch","Fantasy","Graphic Novel","Historischer Roman","Horror","Humor","Jugendbuch","Kinderbuch","Krimi","Lyrik","Märchen","Manga","Mystery","Ratgeber","Reiseführer","Reisebuch","Romance","Sachbuch","Science-Fiction","Thriller","Western"],tropes:["Enemies to Lovers","Friends to Lovers","Forced Proximity","Morally Grey","Slow Burn","Found Family","Fake Dating","Second Chance","Forbidden Love","Mafia","Possessive MMC","Grumpy × Sunshine"],subgenres:{"Abenteuer":["Abenteuerroman","Historischer Abenteuerroman","Seeabenteuer","Survival"],"Romance":["Contemporary Romance","Dark Romance","Historical Romance","Gothic Romance","Paranormal Romance","Romantic Suspense","Sports Romance","Mafia Romance","Small Town Romance","New Adult Romance","Young Adult Romance"],"Fantasy":["High Fantasy","Low Fantasy","Epic Fantasy","Dark Fantasy","Gothic Fantasy","Urban Fantasy","Cozy Fantasy","Grimdark","Paranormal Fantasy","Portal Fantasy","Sword & Sorcery","Steampunk Fantasy","Romantasy"],"Science-Fiction":["Hard Science-Fiction","Space Opera","Cyberpunk","Military Science-Fiction","Dystopie","Postapokalypse","Biopunk","Steampunk"],"Krimi":["Cosy Crime","Detektivkrimi","Polizeikrimi","Regionalkrimi","Historischer Krimi","Wirtschaftskrimi"],"Thriller":["Psychothriller","Politthriller","Techno-Thriller","Medical Thriller","Legal Thriller","Wirtschaftsthriller","Agententhriller"],"Horror":["Gothic Horror","Psychologischer Horror","Paranormaler Horror","Cosmic Horror","Body Horror","Splatter / Gore"],"Mystery":["Paranormal Mystery","Historisches Mystery","Cosy Mystery","Mystery-Thriller"],"Historischer Roman":["Historischer Liebesroman","Historischer Abenteuerroman","Historischer Kriminalroman","Historischer Gesellschaftsroman","Historische Saga"],"Drama":["Familiendrama","Gesellschaftsdrama","Beziehungsdrama","Psychologisches Drama"],"Humor":["Satire","Parodie","Schwarzer Humor","Humoristischer Roman"],"Roman":["Familienroman","Gesellschaftsroman","Entwicklungsroman","Bildungsroman","Coming-of-Age","Literarischer Roman","Gesellschaftssatire","Magischer Realismus"],"Jugendbuch":["Young Adult","Coming-of-Age","Jugend-Fantasy","Jugend-Dystopie","Jugendthriller","Jugendkrimi"],"Kinderbuch":["Bilderbuch","Vorlesebuch","Erstleser","Kinderroman","Kinder-Fantasy","Kinderkrimi","Kindersachbuch"],"Märchen":["Volksmärchen","Kunstmärchen","Märchenadaption","Märchenhafte Fantasy"],"Sachbuch":["Geschichte","Politik","Gesellschaft","Psychologie","Philosophie","Religion & Spiritualität","Wissenschaft","Technik","Wirtschaft","Gesundheit","Natur","Kunst","Kultur"],"Fachbuch":["Medizin","Naturwissenschaften","Ingenieurwissenschaften","Informatik","Wirtschaft","Recht","Psychologie","Pädagogik","Sozialwissenschaften","Geisteswissenschaften"],"Ratgeber":["Gesundheit","Ernährung","Psychologie & Persönlichkeitsentwicklung","Finanzen","Beruf & Karriere","Beziehungen & Familie","Haushalt","Hobby & Freizeit"],"Biografie":["Autobiografie","Memoir","Künstlerbiografie","Politikerbiografie","Sportlerbiografie","Unternehmerbiografie"],"Lyrik":["Gedichte","Balladen","Sonette"],"Drama / Theater":["Tragödie","Komödie","Tragikomödie","Schauspiel","Monolog"],"Comic":["Superhelden","Humor","Abenteuer","Fantasy","Science-Fiction","Graphic Novel"],"Manga":["Shōnen","Shōjo","Seinen","Josei","Kodomo"],"Kochbuch":["Backen","Vegetarisch","Vegan","Internationale Küche","Schnell & einfach","Desserts","Getränke"],"Reisebuch":["Reisebericht","Reiseerzählung","Bildband"],"Reiseführer":["Städtereise","Länderreiseführer","Regionen","Rundreisen","Wander- & Outdoorführer"],"Western":["Klassischer Western","Western Romance","Western-Abenteuer","Historischer Western"]},settings:{view:"grid",sort:"added"}};
+let data=loadData();let state={screen:"home",filter:"all",query:"",bookId:null,editingId:null,seriesName:null,sort:"new",sortDir:"desc",showAdvancedFilters:false,advancedFilters:{genres:[],subgenres:[],tropes:[],statuses:[],ownership:[],formats:[],languages:[],authors:[],seriesType:[],ratingMin:""},filterSearch:{genres:"",tropes:""},wishlistTab:"all",statsYear:new Date().getFullYear(),statsMonth:new Date().getMonth()};
+function clone(x){return JSON.parse(JSON.stringify(x));}
+function normalizeArray(v){return Array.isArray(v)?v:[];}
+function finiteNumber(v,min,max,def){let n=Number(v);if(!Number.isFinite(n))n=def==null?0:def;if(min!=null)n=Math.max(min,n);if(max!=null)n=Math.min(max,n);return n;}
+function prepareData(input){
+  const report={repairs:0,migrated:false,fromSchema:"legacy"};
+  let x=(input&&typeof input==="object")?clone(input):clone(DEFAULT);
+  report.fromSchema=String(x.schemaVersion||"legacy");
+  if(report.fromSchema!==SCHEMA_VERSION)report.migrated=true;
+  if(!Array.isArray(x.books)){x.books=[];report.repairs++;}
+  if(!Array.isArray(x.series)){x.series=[];report.repairs++;}
+  if(!Array.isArray(x.genres)){x.genres=clone(DEFAULT.genres);report.repairs++;}
+  if(!x.subgenres||typeof x.subgenres!=="object"||Array.isArray(x.subgenres)){x.subgenres=clone(DEFAULT.subgenres);report.repairs++;}
+  if(!Array.isArray(x.tropes)){x.tropes=clone(DEFAULT.tropes);report.repairs++;}
+  if(!x.settings||typeof x.settings!=="object"){x.settings=clone(DEFAULT.settings);report.repairs++;}
+
+  const seriesIds=new Set(),seriesByName={};
+  x.series=x.series.filter(function(s){
+    if(!s||typeof s!=="object"){report.repairs++;return false;}
+    if(!s.id||seriesIds.has(s.id)){s.id=uid();report.repairs++;}
+    seriesIds.add(s.id);
+    s.name=String(s.name||"").trim();
+    if(!s.name){s.name="Unbenannte Reihe";report.repairs++;}
+    s.author=String(s.author||"");
+    if(!["completed","ongoing","unknown"].includes(s.status)){s.status="unknown";report.repairs++;}
+    if(s.plannedVolumes!=="")s.plannedVolumes=finiteNumber(s.plannedVolumes,0,null,0);
+    if(s.publishedVolumes!=="")s.publishedVolumes=finiteNumber(s.publishedVolumes,0,null,0);
+    s.notes=String(s.notes||"");
+    if(!s.createdAt)s.createdAt=new Date().toISOString();
+    if(!s.updatedAt)s.updatedAt=s.createdAt;
+    seriesByName[s.name]=s;
+    return true;
+  });
+
+  const bookIds=new Set();
+  x.books=x.books.filter(function(b){
+    if(!b||typeof b!=="object"){report.repairs++;return false;}
+    if(!b.id||bookIds.has(b.id)){b.id=uid();report.repairs++;}
+    bookIds.add(b.id);
+    b.title=String(b.title||"").trim();b.author=String(b.author||"").trim();
+    if(!Array.isArray(b.genres)){b.genres=[];report.repairs++;}
+    if(!Array.isArray(b.subgenres)){b.subgenres=[];report.repairs++;}
+    if(!Array.isArray(b.tropes)){b.tropes=[];report.repairs++;}
+    if(!["unread","reading","read","dnf"].includes(b.status)){b.status="unread";report.repairs++;}
+    b.rating=finiteNumber(b.rating,0,5,0);b.progress=finiteNumber(b.progress,0,100,0);b.currentPage=finiteNumber(b.currentPage,0,null,0);b.pageCount=finiteNumber(b.pageCount,0,null,0);b.favorite=!!b.favorite;
+
+    if(b.seriesId&&!seriesIds.has(b.seriesId)){const byName=b.seriesName&&seriesByName[b.seriesName];if(byName){b.seriesId=byName.id;report.repairs++;}else{b.seriesId="";report.repairs++;}}
+    if(!b.seriesId&&b.seriesName){
+      let s=seriesByName[b.seriesName];
+      if(!s){s={id:uid(),name:String(b.seriesName),author:b.author||"",status:"unknown",plannedVolumes:"",publishedVolumes:"",notes:"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};x.series.push(s);seriesIds.add(s.id);seriesByName[s.name]=s;report.repairs++;}
+      b.seriesId=s.id;
+    }
+    if(b.seriesId){const s=x.series.find(function(v){return v.id===b.seriesId;});if(s&&b.seriesName!==s.name){b.seriesName=s.name;report.repairs++;}}
+
+    if(!Array.isArray(b.editions)||!b.editions.length){b.editions=[makeEditionFromLegacyBook(b)];report.repairs++;report.migrated=true;}
+    const editionIds=new Set();let primaryCount=0;
+    b.editions=b.editions.filter(function(e){
+      if(!e||typeof e!=="object"){report.repairs++;return false;}
+      if(!e.id||editionIds.has(e.id)){e.id=uid();report.repairs++;}
+      editionIds.add(e.id);
+      e.name=String(e.name||"");e.format=String(e.format||"E-Book");e.language=String(e.language||"Deutsch");e.publisher=String(e.publisher||"");e.isbn10=String(e.isbn10||"");e.isbn13=String(e.isbn13||"");e.pageCount=finiteNumber(e.pageCount,0,null,0);
+      if(!["owned","notOwned","borrowed","kindleUnlimited"].includes(e.ownership)){e.ownership="notOwned";report.repairs++;}
+      if(!["none","wanted","purchased"].includes(e.purchaseStatus)){e.purchaseStatus="none";report.repairs++;}
+      if(!["book","edition"].includes(e.wishlistScope)){e.wishlistScope="edition";report.repairs++;}
+      if(!["low","medium","high"].includes(e.wishlistPriority)){e.wishlistPriority="medium";report.repairs++;}
+      e.notes=String(e.notes||"");e.wishlistNote=String(e.wishlistNote||"");
+      if(e.purchaseStatus==="wanted"&&e.ownership==="owned"){e.ownership="notOwned";report.repairs++;}
+      if(e.purchaseStatus==="purchased"&&e.ownership!=="owned"){e.ownership="owned";report.repairs++;}
+      if(e.isPrimary){primaryCount++;if(primaryCount>1){e.isPrimary=false;report.repairs++;}}
+      return true;
+    });
+    if(!b.editions.length){b.editions=[makeEditionFromLegacyBook(b)];report.repairs++;report.migrated=true;}
+    if(!b.editions.some(function(e){return e.isPrimary;})){b.editions[0].isPrimary=true;report.repairs++;}
+    syncLegacyFromPrimaryEdition(b);
+    if(!b.createdAt)b.createdAt=new Date().toISOString();if(!b.updatedAt)b.updatedAt=b.createdAt;
+    return true;
+  });
+  x.schemaVersion=SCHEMA_VERSION;x.lastValidatedAt=new Date().toISOString();
+  return {data:x,report:report};
+}
+function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw){const fresh=clone(DEFAULT);fresh.schemaVersion=SCHEMA_VERSION;return fresh;}const prepared=prepareData(JSON.parse(raw));try{localStorage.setItem(STORAGE_KEY,JSON.stringify(prepared.data));}catch(_){}return prepared.data;}catch(e){const fresh=clone(DEFAULT);fresh.schemaVersion=SCHEMA_VERSION;return fresh;}}
+function save(){try{data.schemaVersion=SCHEMA_VERSION;data.lastValidatedAt=new Date().toISOString();localStorage.setItem(STORAGE_KEY,JSON.stringify(data));return true;}catch(e){toast("Speichern nicht möglich");return false;}}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c];});}
+function uid(){return Date.now().toString(36)+"_"+Math.random().toString(36).slice(2);}
+
+function makeEditionFromLegacyBook(b){
+  const raw=String(b.isbn||"").replace(/[^0-9Xx]/g,"");
+  return {
+    id:uid(),name:"",format:b.format||"E-Book",
+    isbn10:raw.length===10?raw:"",isbn13:raw.length===13?raw:"",
+    publisher:b.publisher||"",publicationYear:b.publicationYear||"",
+    language:b.language||"Deutsch",pageCount:Number(b.pageCount)||0,audioDuration:"",
+    cover:b.cover||"",ownership:b.ownership||"owned",purchaseStatus:b.purchaseStatus||"none",
+    borrowedFrom:b.borrowedFrom||"",returnDue:b.returnDue||"",
+    purchaseDate:"",purchasePrice:"",specialEdition:"",notes:"",wishlistScope:"book",wishlistPriority:"medium",wishlistNote:"",
+    isPrimary:true,createdAt:b.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()
+  };
+}
+function primaryEdition(b){
+  if(!b)return null;
+  b.editions=Array.isArray(b.editions)?b.editions:[];
+  return b.editions.find(function(e){return e.isPrimary;})||b.editions[0]||null;
+}
+function syncLegacyFromPrimaryEdition(b){
+  const e=primaryEdition(b);if(!e)return b;
+  b.cover=e.cover||"";b.format=e.format||"E-Book";b.isbn=e.isbn13||e.isbn10||"";
+  b.publisher=e.publisher||"";b.publicationYear=e.publicationYear||"";b.language=e.language||"Deutsch";
+  b.pageCount=Number(e.pageCount)||0;b.ownership=e.ownership||"owned";b.purchaseStatus=e.purchaseStatus||"none";
+  b.borrowedFrom=e.borrowedFrom||"";b.returnDue=e.returnDue||"";
+  return b;
+}
+function migrateBookEditions(book){
+  if(!Array.isArray(book.editions)||!book.editions.length)book.editions=[makeEditionFromLegacyBook(book)];
+  if(!book.editions.some(function(e){return e.isPrimary;}))book.editions[0].isPrimary=true;
+  let seen=false;
+  book.editions.forEach(function(e){
+    if(!e.id)e.id=uid();
+    if(e.isPrimary){if(seen)e.isPrimary=false;else seen=true;}
+  });
+  syncLegacyFromPrimaryEdition(book);
+  return book;
+}
+function bookOwnedByAnyEdition(b){
+  migrateBookEditions(b);
+  return (b.editions||[]).some(function(e){return e.ownership==="owned"||e.purchaseStatus==="purchased";});
+}
+function editionLabel(e){return e.name||e.specialEdition||e.format||"Ausgabe";}
+
+function normalizeWishlistOwnership(){
+  let changed=false;
+  data.books.forEach(function(b){
+    migrateBookEditions(b);
+    (b.editions||[]).forEach(function(e){
+      if(e.purchaseStatus==="wanted" && e.ownership==="owned"){e.ownership="notOwned";changed=true;}
+      if(e.purchaseStatus==="purchased" && e.ownership!=="owned"){e.ownership="owned";changed=true;}
+    });
+    syncLegacyFromPrimaryEdition(b);
+  });
+  if(changed)save();
+}
+
+function own(v){return {owned:"🏠 In meinem Besitz",notOwned:"♡ Nicht im Besitz",borrowed:"🤝 Ausgeliehen",kindleUnlimited:"📱 Kindle Unlimited"}[v]||"♡ Nicht im Besitz";}
+function status(v){return {unread:"Ungelesen",reading:"Reading",read:"Gelesen",dnf:"DNF"}[v]||"Ungelesen";}
+function purchase(v){return {wanted:"🛒 Möchte ich kaufen",purchased:"✓ Gekauft"}[v]||"";}
+function stars(n){n=Number(n)||0;let s="";for(let i=1;i<=5;i++)s+=i<=n?"★":"☆";return s;}
+function ownedCount(){return data.books.filter(bookOwnedByAnyEdition).length;}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.remove("hidden");clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(function(){el.classList.add("hidden");},1800);}
+function go(screen){state.screen=screen;render();}function openBook(id){state.bookId=id;state.screen="detail";render();}
+function cover(b,cl){cl=cl||"";if(b.cover)return '<img class="cover '+cl+'" src="'+esc(b.cover)+'" alt="">';return '<div class="cover placeholder '+cl+'">'+esc(b.title||"Buch")+'</div>';}
+function top(title,sub){return '<div class="top"><div><div class="eyebrow">'+esc(sub||"")+'</div><div class="title">'+esc(title)+'</div></div>'+(title==="Home"?"":'<button class="icon" data-action="home">⌂</button>')+'</div>';}
+function nav(){const s=state.screen;return [["home","⌂","Home"],["library","▦","Bibliothek"],["add","＋","Hinzufügen"],["series","▤","Reihen"],["more","⋯","Mehr"]].map(function(x){return '<button class="'+((s===x[0]||(x[0]==="add"&&s==="form"))?"active":"")+'" data-nav="'+x[0]+'"><strong>'+x[1]+'</strong>'+x[2]+'</button>';}).join("");}
+function render(){document.getElementById("nav").innerHTML=nav();const app=document.getElementById("app");let html="";try{if(state.screen==="home")html=home();else if(state.screen==="library")html=library();else if(state.screen==="detail")html=detail();else if(state.screen==="form")html=form(state.editingId);else if(state.screen==="series")html=series();else if(state.screen==="seriesDetail")html=seriesDetail();else if(state.screen==="more")html=more();else if(state.screen==="stats")html=stats();else if(state.screen==="favorites")html=favorites();else if(state.screen==="wishlist")html=wishlist();else if(state.screen==="settings")html=settings();else html=home();}catch(e){console.error(e);html='<main class="app">'+top("BookVault","Fehler")+'<div class="card"><h2>Die Ansicht konnte nicht geladen werden.</h2><p class="muted">Die App wurde nicht beschädigt. Bitte gehe zurück zu Home.</p><button class="btn primary" data-action="home">Home öffnen</button></div></main>';}app.innerHTML=html;if(state.screen==="settings")setTimeout(showBackupDownloadLink,0);}
+function home(){const recent=data.books.slice().sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0)).slice(0,8),fav=data.books.filter(b=>b.favorite).slice(0,8),reading=data.books.find(b=>b.status==="reading"),notOwned=data.books.length-ownedCount();return '<main class="app">'+top("Home","BookVault V1.0.5")+'<div class="grid">'+stat("In meinem Besitz",ownedCount())+stat("Katalogisiert",data.books.length)+stat("Gelesen",data.books.filter(b=>b.status==="read").length)+stat("Ungelesen",data.books.filter(b=>b.status==="unread").length)+'</div>'+(reading?'<section class="section"><div class="sectionhead"><h2>Aktuell gelesen</h2><button class="link" data-open="'+esc(reading.id)+'">Öffnen →</button></div><div class="hero">'+cover(reading,"sm")+'<div><h3>'+esc(reading.title)+'</h3><div class="muted">'+esc(reading.author)+'</div><div class="progress"><i style="width:'+Math.max(0,Math.min(100,Number(reading.progress)||0))+'%"></i></div><small class="muted">'+(Number(reading.progress)||0)+'%</small></div></div></section>':"")+'<section class="section"><div class="sectionhead"><h2>Zuletzt hinzugefügt</h2><button class="link" data-nav="library">Alle →</button></div>'+(recent.length?'<div class="bookrow">'+recent.map(mini).join("")+'</div>':'<div class="empty">Noch keine Bücher.<br>Tippe unten auf Hinzufügen.</div>')+'</section><section class="section"><div class="sectionhead"><h2>Favoriten</h2><button class="link" data-nav="favorites">Alle →</button></div>'+(fav.length?'<div class="bookrow">'+fav.map(mini).join("")+'</div>':'<div class="empty">Noch keine Favoriten.</div>')+'</section><div class="card"><b>📚 '+notOwned+' Bücher nicht im Besitz</b><p class="muted">Ausgeliehene und Kindle-Unlimited-Bücher sind sichtbar, zählen aber nicht zu deinem Besitz.</p></div></main>';}
+function stat(label,n){return '<div class="card stat"><span>'+esc(label)+'</span><b>'+n+'</b></div>';}
+function mini(b){return '<button class="mini" data-open="'+esc(b.id)+'">'+cover(b)+'<b>'+esc(b.title)+'</b><small>'+esc(b.author)+'</small></button>';}
+function af(){return state.advancedFilters;}
+function toggleAdvancedFilter(g,v){let a=af()[g]||[];let i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);af()[g]=a;render();}
+function clearAdvancedFilters(){state.advancedFilters={genres:[],subgenres:[],tropes:[],statuses:[],ownership:[],formats:[],languages:[],authors:[],seriesType:[],ratingMin:""};render();}
+function filterOption(g,v,l){return '<button type="button" class="library-filter-chip '+((af()[g]||[]).indexOf(v)>=0?'selected':'')+'" data-adv-group="'+esc(g)+'" data-adv-value="'+esc(v)+'">'+esc(l||v)+'</button>';}
+function uniqueBookValues(k){return [...new Set(data.books.map(b=>(b[k]||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"de"));}
+function activeLibraryFilterBar(){let c=[],f=af(),lab={read:"Gelesen",unread:"Ungelesen",reading:"Aktuell gelesen",dnf:"DNF",owned:"Im Besitz",borrowed:"Ausgeliehen",kindleUnlimited:"Kindle Unlimited",standalone:"Einzelband",series:"Reihe"};["genres","subgenres","tropes","statuses","ownership","formats","languages","authors","seriesType"].forEach(g=>(f[g]||[]).forEach(v=>c.push('<button class="active-library-filter" data-adv-group="'+esc(g)+'" data-adv-value="'+esc(v)+'">'+esc(lab[v]||v)+' ×</button>')));if(f.ratingMin)c.push('<button class="active-library-filter" data-rating-clear="1">ab '+esc(f.ratingMin)+' ★ ×</button>');return c.length?'<div class="active-library-filters">'+c.join("")+'</div>':"";}
+function surnameSortKey(name){
+  const s=(name||"").trim();if(!s)return "";
+  const p=s.split(/\s+/);return (p[p.length-1]+" "+p.slice(0,-1).join(" ")).toLocaleLowerCase("de");
+}
+function libraryFilterPanel(){
+  let subs=[...new Set(Object.values(data.subgenres||{}).flat())].sort((a,b)=>a.localeCompare(b,"de"));
+  let tropes=[...new Set(Object.values(DEFAULT.tropeCategories||{}).flat())].sort((a,b)=>a.localeCompare(b,"de"));
+  const gq=(state.filterSearch.genres||"").trim().toLowerCase(), tq=(state.filterSearch.tropes||"").trim().toLowerCase();
+  const genres=(data.genres||[]).filter(x=>!gq||x.toLowerCase().includes(gq));
+  subs=subs.filter(x=>!gq||x.toLowerCase().includes(gq));
+  tropes=tropes.filter(x=>!tq||x.toLowerCase().includes(tq));
+  const authors=uniqueBookValues("author").sort((a,b)=>surnameSortKey(a).localeCompare(surnameSortKey(b),"de"));
+  return '<div class="card library-filter-panel">'+
+    '<details><summary>Genre & Subgenre</summary>'+
+      '<div class="filter-search"><input id="genreFilterSearch" class="input" value="'+esc(state.filterSearch.genres||"")+'" placeholder="Genre oder Subgenre suchen…"></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Genres</div><div class="library-filter-options">'+genres.map(x=>filterOption("genres",x)).join("")+'</div></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Subgenres</div><div class="library-filter-options">'+subs.map(x=>filterOption("subgenres",x)).join("")+'</div></div>'+
+    '</details>'+
+    '<details><summary>Tropes</summary>'+
+      '<div class="filter-search"><input id="tropeFilterSearch" class="input" value="'+esc(state.filterSearch.tropes||"")+'" placeholder="Trope suchen…"></div>'+
+      '<div class="library-filter-options">'+tropes.map(x=>filterOption("tropes",x)).join("")+'</div>'+
+    '</details>'+
+    '<details><summary>Lesestatus & Besitz</summary>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Lesestatus</div><div class="library-filter-options">'+
+        [["read","Gelesen"],["unread","Ungelesen"],["reading","Aktuell gelesen"],["dnf","DNF"]].map(x=>filterOption("statuses",x[0],x[1])).join("")+
+      '</div></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Besitz</div><div class="library-filter-options">'+
+        [["owned","Im Besitz"],["borrowed","Ausgeliehen"],["kindleUnlimited","Kindle Unlimited"]].map(x=>filterOption("ownership",x[0],x[1])).join("")+
+      '</div></div>'+
+    '</details>'+
+    '<details><summary>Format, Sprache & Autor</summary>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Format</div><div class="library-filter-options">'+uniqueBookValues("format").map(x=>filterOption("formats",x)).join("")+'</div></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Sprache</div><div class="library-filter-options">'+uniqueBookValues("language").map(x=>filterOption("languages",x)).join("")+'</div></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Autor</div><div class="library-filter-options author-filter-list">'+authors.map(x=>filterOption("authors",x)).join("")+'</div></div>'+
+    '</details>'+
+    '<details><summary>Reihe & Bewertung</summary>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Reihe</div><div class="library-filter-options">'+filterOption("seriesType","standalone","Einzelband")+filterOption("seriesType","series","Reihe")+'</div></div>'+
+      '<div class="filter-subsection"><div class="filter-subsection-title">Mindestbewertung</div><div class="library-filter-options">'+[1,2,3,4,5].map(n=>'<button class="library-filter-chip '+(String(af().ratingMin)===String(n)?'selected':'')+'" data-rating-min="'+n+'">ab '+n+' ★</button>').join("")+'</div></div>'+
+    '</details>'+
+    '<button class="btn" data-action="clearLibraryFilters">Filter zurücksetzen</button>'+
+  '</div>';
+}
+function getBooks(){let a=data.books.slice(),q=state.query.trim().toLowerCase(),f=af();if(state.filter==="owned")a=a.filter(b=>b.ownership==="owned");if(state.filter==="borrowed")a=a.filter(b=>b.ownership==="borrowed");if(state.filter==="ku")a=a.filter(b=>b.ownership==="kindleUnlimited");if(state.filter==="wanted")a=a.filter(function(b){migrateBookEditions(b);return b.editions.some(function(e){return e.purchaseStatus==="wanted";});});if(state.filter==="favorites")a=a.filter(b=>b.favorite===true);if(["read","unread","reading","dnf"].includes(state.filter))a=a.filter(b=>b.status===state.filter);if(q)a=a.filter(b=>[b.title,b.author,b.seriesName,(b.genres||[]).join(" "),(b.subgenres||[]).join(" "),(b.tropes||[]).join(" ")].join(" ").toLowerCase().includes(q));if(f.genres.length)a=a.filter(b=>f.genres.every(x=>(b.genres||[]).includes(x)));if(f.subgenres.length)a=a.filter(b=>f.subgenres.every(x=>(b.subgenres||[]).includes(x)));if(f.tropes.length)a=a.filter(b=>f.tropes.every(x=>(b.tropes||[]).includes(x)));if(f.statuses.length)a=a.filter(b=>f.statuses.includes(b.status));if(f.ownership.length)a=a.filter(b=>f.ownership.includes(b.ownership));if(f.formats.length)a=a.filter(b=>f.formats.includes(b.format));if(f.languages.length)a=a.filter(b=>f.languages.includes(b.language));if(f.authors.length)a=a.filter(b=>f.authors.includes(b.author));if(f.seriesType.length)a=a.filter(b=>(f.seriesType.includes("series")&&!!(b.seriesId||b.seriesName))||(f.seriesType.includes("standalone")&&!(b.seriesId||b.seriesName)));if(f.ratingMin)a=a.filter(b=>(Number(b.rating)||0)>=Number(f.ratingMin));a.sort(function(x,y){
+    let c=0;
+    if(state.sort==="title")c=(x.title||"").localeCompare(y.title||"","de");
+    else if(state.sort==="author")c=(x.author||"").localeCompare(y.author||"","de");
+    else if(state.sort==="rating")c=(Number(x.rating)||0)-(Number(y.rating)||0);
+    else if(state.sort==="year")c=(Number(x.publicationYear)||0)-(Number(y.publicationYear)||0);
+    else if(state.sort==="pages")c=(Number(x.pageCount)||0)-(Number(y.pageCount)||0);
+    else if(state.sort==="readDate")c=new Date(x.finishedAt||0)-new Date(y.finishedAt||0);
+    else c=new Date(x.createdAt||0)-new Date(y.createdAt||0);
+    return state.sortDir==="asc"?c:-c;
+  });return a;}
+function library(){const bs=getBooks(),filters=[["all","Alle"],["owned","Besitz"],["borrowed","Ausgeliehen"],["ku","KU"],["wanted","♡ Wunschliste"],["favorites","❤️ Favoriten"],["read","Gelesen"],["unread","Ungelesen"],["reading","Reading"],["dnf","DNF"]];let body=bs.length?(data.settings.view==="grid"?'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">'+bs.map(b=>'<div style="position:relative">'+
+  '<button style="text-align:left;background:none;border:0;color:var(--text);padding:0;width:100%" data-open="'+esc(b.id)+'">'+cover(b)+'<span class="book-card-rating grid-book-rating">'+stars(b.rating||0)+'</span><b style="display:block;font-size:12px;margin-top:4px;color:#285f4d">'+esc(b.title)+'</b><small class="muted">'+esc(b.author)+'</small>'+(b.seriesName?'<small class="muted" style="display:block">'+esc(b.seriesName)+(b.volume?' · Band '+esc(b.volume):'')+'</small>':'')+'</button>'+
+  '<div class="book-card-actions" style="margin-top:6px"><button type="button" class="book-card-action" data-card-favorite="'+esc(b.id)+'">'+(b.favorite?'❤️':'♡')+'</button><button type="button" class="book-card-action" data-card-menu="'+esc(b.id)+'">⋯</button></div>'+
+  '<div class="book-card-menu hidden" id="bookCardMenu_'+esc(b.id)+'"><button type="button" data-card-edit="'+esc(b.id)+'">Bearbeiten</button><button type="button" data-card-cycle-status="'+esc(b.id)+'">Lesestatus ändern</button><button type="button" data-card-purchase="'+esc(b.id)+'">Besitz/Kaufstatus ändern</button>'+(b.seriesName?'<button type="button" data-card-series="'+esc(b.seriesName)+'">Reihe öffnen</button>':'')+'<button type="button" data-card-editions="'+esc(b.id)+'">Ausgaben verwalten</button><button type="button" class="danger-item" data-card-delete="'+esc(b.id)+'">Löschen</button></div>'+
+'</div>').join("")+'</div>':'<div class="list">'+bs.map(item).join("")+'</div>'):'<div class="empty">Keine Bücher gefunden.</div>';return '<main class="app">'+top("Bibliothek",data.books.length+" katalogisiert · "+ownedCount()+" im Besitz")+'<div class="search search-row"><input id="searchInput" class="input" value="'+esc(state.query)+'" placeholder="Titel, Autor, Reihe, Trope…"><button type="button" class="btn" data-action="clearSearch">Leeren</button></div><div class="filters">'+filters.map(f=>'<button class="pill '+(state.filter===f[0]?"active":"")+'" data-filter="'+f[0]+'">'+f[1]+'</button>').join("")+'</div>'+activeLibraryFilterBar()+'<div class="toolbar"><button class="btn" data-action="toggleAdvancedFilters">⚙ Filter</button><select id="librarySort" class="library-sort-select"><option value="new" '+(state.sort==="new"?"selected":"")+'>Hinzugefügt</option><option value="title" '+(state.sort==="title"?"selected":"")+'>Titel</option><option value="author" '+(state.sort==="author"?"selected":"")+'>Autor</option><option value="rating" '+(state.sort==="rating"?"selected":"")+'>Bewertung</option><option value="year" '+(state.sort==="year"?"selected":"")+'>Erscheinungsjahr</option><option value="readDate" '+(state.sort==="readDate"?"selected":"")+'>Zuletzt gelesen</option><option value="pages" '+(state.sort==="pages"?"selected":"")+'>Seitenzahl</option></select><button type="button" class="btn" data-action="toggleSortDir">'+(state.sortDir==="asc"?"↑ Aufsteigend":"↓ Absteigend")+'</button><button class="btn" data-action="toggleView">'+(data.settings.view==="grid"?"☷ Liste":"▦ Cover")+'</button></div>'+(state.showAdvancedFilters?libraryFilterPanel():"")+'<div class="muted" style="margin:4px 0 10px">'+bs.length+' Treffer</div>'+body+'</main>';}
+
+function bookCardStatusPills(b){
+  const out=[];
+  out.push('<span class="pill">'+esc(status(b.status))+'</span>');
+  
+  out.push('<span class="pill">'+esc(bookOwnedByAnyEdition(b)?"Im Besitz":(b.purchaseStatus==="wanted"?"Wunschliste":"Nicht im Besitz"))+'</span>');
+  return out.join("");
+}
+function bookCard(b){
+  const seriesText=b.seriesName?esc(b.seriesName)+(b.volume?' · Band '+esc(b.volume):''):"";
+  return '<div class="item book-card" data-book-card="'+esc(b.id)+'">'+
+    '<button type="button" class="book-card-main" data-open="'+esc(b.id)+'">'+
+      '<div class="book-card-cover-column">'+cover(b,"sm")+'<div class="book-card-rating">'+stars(b.rating||0)+'</div></div>'+
+      '<div class="book-card-info">'+
+        '<div class="book-card-title">'+esc(b.title)+'</div>'+
+        '<div class="book-card-author">'+esc(b.author)+'</div>'+
+        (seriesText?'<div class="book-card-series">'+seriesText+'</div>':'')+
+        '<div class="book-card-pills">'+bookCardStatusPills(b)+'</div>'+
+      '</div>'+
+    '</button>'+
+    '<div class="book-card-actions">'+
+      '<button type="button" class="book-card-action" data-card-favorite="'+esc(b.id)+'">'+(b.favorite?'❤️':'♡')+'</button>'+
+      '<button type="button" class="book-card-action" data-card-menu="'+esc(b.id)+'">⋯</button>'+
+    '</div>'+
+    '<div class="book-card-menu hidden" id="bookCardMenu_'+esc(b.id)+'">'+
+      '<button type="button" data-card-edit="'+esc(b.id)+'">Bearbeiten</button>'+
+      '<button type="button" data-card-cycle-status="'+esc(b.id)+'">Lesestatus ändern</button>'+
+      '<button type="button" data-card-purchase="'+esc(b.id)+'">Besitz/Kaufstatus ändern</button>'+
+      (b.seriesName?'<button type="button" data-card-series="'+esc(b.seriesName)+'">Reihe öffnen</button>':'')+
+      '<button type="button" data-card-editions="'+esc(b.id)+'">Ausgaben verwalten</button>'+
+      '<button type="button" class="danger-item" data-card-delete="'+esc(b.id)+'">Löschen</button>'+
+    '</div>'+
+  '</div>';
+}
+function closeAllBookCardMenus(){
+  document.querySelectorAll(".book-card-menu").forEach(function(m){m.classList.add("hidden");});
+}
+function toggleBookCardMenu(id){
+  const el=document.getElementById("bookCardMenu_"+id);
+  if(!el)return;
+  const open=el.classList.contains("hidden");
+  closeAllBookCardMenus();
+  if(open)el.classList.remove("hidden");
+}
+function cycleBookStatusById(id){
+  const b=data.books.find(function(x){return x.id===id;});if(!b)return;
+  const vals=["unread","reading","read","dnf"];
+  const i=vals.indexOf(b.status);
+  b.status=vals[(i+1)%vals.length];
+  b.updatedAt=new Date().toISOString();
+  save();render();toast("Lesestatus: "+status(b.status));
+}
+function toggleBookFavoriteById(id){
+  const b=data.books.find(function(x){return x.id===id;});if(!b)return;
+  b.favorite=!b.favorite;b.updatedAt=new Date().toISOString();save();render();toast(b.favorite?"Als Favorit markiert":"Favorit entfernt");
+}
+function cycleBookPurchaseById(id){
+  const b=data.books.find(function(x){return x.id===id;});if(!b)return;
+  migrateBookEditions(b);const e=primaryEdition(b);if(!e)return;
+  if(e.purchaseStatus==="none"){e.purchaseStatus="wanted";}
+  else if(e.purchaseStatus==="wanted"){e.purchaseStatus="purchased";e.ownership="owned";}
+  else{e.purchaseStatus="none";}
+  syncLegacyFromPrimaryEdition(b);save();render();toast("Kaufstatus geändert");
+}
+
+function item(b){return bookCard(b);}
+
+function editionCards(b){
+  migrateBookEditions(b);
+  return '<div class="editions-grid">'+b.editions.map(function(e){
+    const isbn=[e.isbn13,e.isbn10].filter(Boolean).join(" / ");
+    return '<div class="edition-card '+(e.isPrimary?'primary-edition':'')+'">'+
+      '<div class="edition-title">'+esc(editionLabel(e))+' '+(e.isPrimary?'<span class="edition-primary-badge">Hauptausgabe</span>':'')+'</div>'+
+      '<div class="edition-meta">'+esc(e.format||"")+(e.language?' · '+esc(e.language):'')+(e.publisher?' · '+esc(e.publisher):'')+(e.publicationYear?' · '+esc(e.publicationYear):'')+'</div>'+
+      (isbn?'<div class="edition-meta">ISBN: '+esc(isbn)+'</div>':'')+
+      '<div class="edition-meta">'+own(e.ownership)+' '+(purchase(e.purchaseStatus)?'· '+purchase(e.purchaseStatus):'')+'</div>'+
+      (e.specialEdition?'<div class="edition-meta">'+esc(e.specialEdition)+'</div>':'')+
+      (e.notes?'<div class="edition-meta">'+esc(e.notes)+'</div>':'')+
+      '<div class="edition-actions">'+
+        '<button type="button" class="btn" data-edit-edition="'+esc(e.id)+'">Bearbeiten</button>'+
+        (!e.isPrimary?'<button type="button" class="btn" data-primary-edition="'+esc(e.id)+'">Als Hauptausgabe</button>':'')+
+        (b.editions.length>1?'<button type="button" class="btn danger edition-delete-btn" data-action="deleteEdition" data-edition-id="'+esc(e.id)+'" data-book-id="'+esc(b.id)+'">Löschen</button>':'')+
+      '</div></div>';
+  }).join("")+'</div>';
+}
+function openEditionModal(bookId,editionId){
+  document.getElementById("editionModal")?.remove();
+  const b=data.books.find(function(x){return x.id===bookId;});if(!b)return;
+  migrateBookEditions(b);
+  const e=editionId?b.editions.find(function(x){return x.id===editionId;}):null;
+  const v=e||{name:"",format:"E-Book",isbn10:"",isbn13:"",publisher:"",publicationYear:"",language:"Deutsch",pageCount:"",audioDuration:"",cover:"",ownership:"owned",purchaseStatus:"none",borrowedFrom:"",returnDue:"",purchaseDate:"",purchasePrice:"",specialEdition:"",notes:"",wishlistScope:"edition",wishlistPriority:"medium",wishlistNote:""};
+  const modal=document.createElement("div");modal.id="editionModal";modal.className="trope-modal-backdrop";
+  modal.innerHTML='<div class="trope-modal" role="dialog" aria-modal="true">'+
+    '<h3>'+(e?'Ausgabe bearbeiten':'Weitere Ausgabe hinzufügen')+'</h3>'+
+    '<div class="field"><label>Bezeichnung</label><input id="editionNameModal" class="input" value="'+esc(v.name||"")+'" placeholder="z. B. Collector’s Edition"></div>'+
+    '<div class="two"><div class="field"><label>Format</label><select id="editionFormatModal" class="select">'+["E-Book","Taschenbuch","Paperback","Hardcover","Hörbuch","Sonstiges"].map(function(x){return '<option '+(v.format===x?'selected':'')+'>'+x+'</option>';}).join("")+'</select></div>'+
+    '<div class="field"><label>Sprache</label><select id="editionLanguageModal" class="select">'+["Deutsch","Englisch","Französisch","Spanisch","Andere"].map(function(x){return '<option '+(v.language===x?'selected':'')+'>'+x+'</option>';}).join("")+'</select></div></div>'+
+    '<div class="two">'+field("editionIsbn10Modal","ISBN-10",v.isbn10)+field("editionIsbn13Modal","ISBN-13",v.isbn13)+'</div>'+
+    '<div class="two">'+field("editionPublisherModal","Verlag",v.publisher)+field("editionYearModal","Erscheinungsjahr",v.publicationYear,"number")+'</div>'+
+    '<div class="two">'+field("editionPagesModal","Seitenzahl",v.pageCount,"number")+field("editionAudioModal","Hörbuchdauer",v.audioDuration)+'</div>'+
+    '<div class="field"><label>Cover</label><input id="editionCoverModal" class="input" value="'+esc(v.cover||"")+'" placeholder="Bild-URL"></div>'+
+    '<div class="field"><label>Besitzstatus</label><select id="editionOwnershipModal" class="select"><option value="notOwned" '+(v.ownership==="notOwned"?'selected':'')+'>Nicht im Besitz</option><option value="owned" '+(v.ownership==="owned"?'selected':'')+'>Im Besitz</option><option value="borrowed" '+(v.ownership==="borrowed"?'selected':'')+'>Ausgeliehen</option><option value="kindleUnlimited" '+(v.ownership==="kindleUnlimited"?'selected':'')+'>Kindle Unlimited</option></select></div>'+
+    '<div class="field"><label>Kaufstatus</label><select id="editionPurchaseStatusModal" class="select"><option value="none" '+((v.purchaseStatus||"none")==="none"?'selected':'')+'>Kein Wunsch</option><option value="wanted" '+(v.purchaseStatus==="wanted"?'selected':'')+'>Wunschliste</option><option value="purchased" '+(v.purchaseStatus==="purchased"?'selected':'')+'>Gekauft</option></select></div>'+
+    '<div class="two">'+field("editionBorrowedFromModal","Ausgeliehen von",v.borrowedFrom)+field("editionReturnDueModal","Rückgabe",v.returnDue,"date")+'</div>'+
+    '<div class="two">'+field("editionPurchaseDateModal","Kaufdatum",v.purchaseDate,"date")+field("editionPurchasePriceModal","Kaufpreis",v.purchasePrice,"number")+'</div>'+
+    '<div class="field"><label>Besondere Ausgabe</label><input id="editionSpecialModal" class="input" value="'+esc(v.specialEdition||"")+'" placeholder="z. B. Farbschnitt, signiert"></div>'+
+    '<div class="field"><label>Notiz zur Ausgabe</label><textarea id="editionNotesModal" class="textarea">'+esc(v.notes||"")+'</textarea></div>'+
+    '<div class="field"><label>Wunsch bezieht sich auf</label><select id="editionWishlistScopeModal" class="select"><option value="book" '+((v.wishlistScope||"edition")==="book"?'selected':'')+'>Buch allgemein</option><option value="edition" '+((v.wishlistScope||"edition")==="edition"?'selected':'')+'>Diese Ausgabe</option></select></div>'+
+    '<div class="field"><label>Wunsch-Priorität</label><select id="editionWishlistPriorityModal" class="select"><option value="low" '+(v.wishlistPriority==="low"?'selected':'')+'>Niedrig</option><option value="medium" '+((v.wishlistPriority||"medium")==="medium"?'selected':'')+'>Mittel</option><option value="high" '+(v.wishlistPriority==="high"?'selected':'')+'>Hoch</option></select></div>'+
+    
+    '<div class="field"><label>Wunsch-Notiz</label><textarea id="editionWishlistNoteModal" class="textarea">'+esc(v.wishlistNote||"")+'</textarea></div>'+
+    '<input id="editionBookIdModal" type="hidden" value="'+esc(bookId)+'"><input id="editionIdModal" type="hidden" value="'+esc(e?e.id:"")+'">'+
+    '<div class="trope-modal-actions"><button type="button" class="btn" data-action="cancelEditionModal">Abbrechen</button><button type="button" class="btn primary" data-action="saveEditionModal">Speichern</button></div>'+
+  '</div>';
+  document.body.appendChild(modal);
+}
+function closeEditionModal(){document.getElementById("editionModal")?.remove();}
+
+function openWishlistEditionModal(bookId){
+  openEditionModal(bookId);
+  const purchase=document.getElementById("editionPurchaseStatusModal");
+  const ownership=document.getElementById("editionOwnershipModal");
+  const scope=document.getElementById("editionWishlistScopeModal");
+  const format=document.getElementById("editionFormatModal");
+  if(purchase)purchase.value="wanted";
+  if(ownership)ownership.value="notOwned";
+  if(scope)scope.value="edition";
+  if(format)format.value="Taschenbuch";
+}
+
+function val(id){const e=document.getElementById(id);return e?e.value:"";}
+function saveEditionFromModal(){
+  const b=data.books.find(function(x){return x.id===val("editionBookIdModal");});if(!b)return;
+  migrateBookEditions(b);const id=val("editionIdModal");
+  let e=id?b.editions.find(function(x){return x.id===id;}):null;
+  if(!e){e={id:uid(),isPrimary:false,createdAt:new Date().toISOString()};b.editions.push(e);}
+  e.name=val("editionNameModal").trim();e.format=val("editionFormatModal")||"E-Book";e.language=val("editionLanguageModal")||"Deutsch";
+  e.isbn10=val("editionIsbn10Modal").trim();e.isbn13=val("editionIsbn13Modal").trim();e.publisher=val("editionPublisherModal").trim();
+  e.publicationYear=val("editionYearModal");e.pageCount=Number(val("editionPagesModal"))||0;e.audioDuration=val("editionAudioModal").trim();
+  e.cover=val("editionCoverModal").trim();e.ownership=val("editionOwnershipModal")||"notOwned";e.purchaseStatus=val("editionPurchaseStatusModal")||"none";if(e.purchaseStatus==="wanted")e.ownership="notOwned";if(e.purchaseStatus==="purchased")e.ownership="owned";
+  e.borrowedFrom=val("editionBorrowedFromModal").trim();e.returnDue=val("editionReturnDueModal");e.purchaseDate=val("editionPurchaseDateModal");
+  e.purchasePrice=val("editionPurchasePriceModal");e.specialEdition=val("editionSpecialModal").trim();e.notes=val("editionNotesModal").trim();e.wishlistScope=val("editionWishlistScopeModal")||"edition";e.wishlistPriority=val("editionWishlistPriorityModal")||"medium";e.wishlistNote=val("editionWishlistNoteModal").trim();e.updatedAt=new Date().toISOString();
+  if(b.editions.length===1)e.isPrimary=true;
+  syncLegacyFromPrimaryEdition(b);b.updatedAt=new Date().toISOString();save();closeEditionModal();render();toast("Ausgabe gespeichert");
+}
+function setPrimaryEdition(bookId,editionId){
+  const b=data.books.find(function(x){return x.id===bookId;});if(!b)return;
+  migrateBookEditions(b);b.editions.forEach(function(e){e.isPrimary=e.id===editionId;});syncLegacyFromPrimaryEdition(b);save();render();toast("Hauptausgabe geändert");
+}
+function deleteEdition(bookId,editionId){
+  const b=data.books.find(function(x){return x.id===bookId;});
+  if(!b){toast("Buch nicht gefunden");return false;}
+  migrateBookEditions(b);
+  if(b.editions.length<=1){toast("Die einzige Ausgabe kann nicht gelöscht werden");return false;}
+  const before=b.editions.length;
+  const wasPrimary=b.editions.some(function(e){return e.id===editionId&&e.isPrimary;});
+  b.editions=b.editions.filter(function(e){return e.id!==editionId;});
+  if(b.editions.length===before){toast("Ausgabe nicht gefunden");return false;}
+  if(wasPrimary&&b.editions[0])b.editions[0].isPrimary=true;
+  syncLegacyFromPrimaryEdition(b);
+  b.updatedAt=new Date().toISOString();
+  save();render();toast("Ausgabe gelöscht");return true;
+}
+
+function detail(){const b=data.books.find(x=>x.id===state.bookId);if(!b){state.screen="library";return library();}return '<main class="app">'+top("Buch","Bibliothek")+'<div class="detail"><div class="detail-cover-rating">'+cover(b,"lg")+'<div class="detail-rating">'+stars(b.rating||0)+'</div></div><h1>'+esc(b.title)+'</h1><div class="muted">'+esc(b.author)+'</div><div class="pillrow" style="justify-content:center;margin:10px 0">'+[own(b.ownership),status(b.status),purchase(b.purchaseStatus),b.favorite?"❤️ Favorit":""].filter(Boolean).map(x=>'<span class="pill active">'+esc(x)+'</span>').join("")+'</div>'+(b.seriesName?'<p class="muted">'+esc(b.seriesName)+(b.volume?" · Band "+esc(b.volume):"")+'</p>':"")+'<div class="toolbar"><button class="btn primary" data-action="edit">Bearbeiten</button><button class="btn" data-action="addWishlistEdition">♡ Ausgabe wünschen</button></div><div class="quick-anchor-row">'+
+  (b.seriesName?'<button type="button" class="btn" data-action="openCurrentSeries">Reihe öffnen</button>':'')+
+  '<button type="button" class="btn" data-action="jumpEditions">Zu Ausgaben</button>'+
+'</div></div><section class="section"><h2>Informationen</h2><div class="card"><span style="color:#285f4d">'+(b.pageCount||"—")+' Seiten · '+esc(b.language||"Deutsch")+'</span>'+(b.publisher||b.publicationYear?'<p class="muted">'+esc(b.publisher||"")+(b.publicationYear?" · "+esc(b.publicationYear):"")+'</p>':"")+'</div></section><section class="section"><h2>Genres & Tropes</h2><div class="pillrow">'+([...(b.genres||[]),...(b.tropes||[])].map(x=>'<span class="pill">'+esc(x)+'</span>').join("")||'<span class="muted">Keine</span>')+'</div></section><section class="section" id="editionsSection"><div class="edition-section-title"><h2>Meine Ausgaben</h2><button type="button" class="btn" data-action="addEdition">+ Ausgabe</button></div>'+editionCards(b)+'</section><section class="section"><h2>Meine Rezension</h2><div class="card book-review-text">'+(b.review?esc(b.review).replace(/\n/g,"<br>"):'<span class="muted">Keine Rezension.</span>')+'</div></section><section class="section"><h2>Notizen</h2><div class="card book-notes-text">'+(b.notes?esc(b.notes).replace(/\n/g,"<br>"):'<span class="muted">Keine Notizen.</span>')+'</div></section><button class="btn danger" style="width:100%" data-action="delete">Buch löschen</button></main>';}
+
+function loadTropeCategories(){
+  try{
+    const saved=JSON.parse(localStorage.getItem("bookvault_trope_categories")||"null");
+    if(saved&&typeof saved==="object"){
+      Object.keys(saved).forEach(function(cat){
+        if(!DEFAULT.tropeCategories[cat])DEFAULT.tropeCategories[cat]=[];
+        (saved[cat]||[]).forEach(function(t){
+          if(DEFAULT.tropeCategories[cat].indexOf(t)<0)DEFAULT.tropeCategories[cat].push(t);
+        });
+      });
+    }
+  }catch(e){}
+}
+function renderSelectedTropeBar(selected){
+  const list=selected||[];
+  return '<div class="trope-selected-bar" id="tropeSelectedBar">'+
+    '<div class="trope-selected-title">Ausgewählt: '+list.length+'</div>'+
+    '<div class="trope-selected-chips">'+
+      (list.length
+        ? list.map(function(x){
+            return '<button type="button" class="trope-selected-chip" data-remove-selected-trope="'+esc(x)+'">'+esc(x)+'</button>';
+          }).join("")
+        : '<span class="trope-selected-empty">Noch keine Tropes ausgewählt</span>')+
+    '</div>'+
+  '</div>';
+}
+
+function tropeField(selected){
+  loadTropeCategories();
+  const cats=DEFAULT.tropeCategories||{};
+  let s='<div class="field trope-section"><label>Tropes</label>';
+  s+=renderSelectedTropeBar(selected);
+  s+='<div class="trope-accordion">';
+  Object.keys(cats).forEach(function(name){
+    const items=cats[name]||[];
+    s+='<details class="trope-category"><summary>'+esc(name)+' <span class="trope-count">'+items.length+'</span></summary>';
+    s+='<div class="chips trope-chips">';
+    items.forEach(function(x){s+=chip(x,"tropes",(selected||[]).indexOf(x)>=0);});
+    s+='</div></details>';
+  });
+  s+='</div><button type="button" class="btn add-trope-btn" id="addCustomTrope" data-action="addCustomTrope">+ Eigenes Trope hinzufügen</button></div>';
+  return s;
+}
+
+
+function currentSelectedTropes(){
+  return [].slice.call(document.querySelectorAll('[data-chip-group="tropes"].selected'))
+    .map(function(el){return el.getAttribute("data-chip-value");});
+}
+
+function refreshSelectedTropeBar(){
+  const bar=document.getElementById("tropeSelectedBar");
+  if(!bar)return;
+  const temp=document.createElement("div");
+  temp.innerHTML=renderSelectedTropeBar(currentSelectedTropes());
+  const fresh=temp.firstElementChild;
+  if(fresh)bar.replaceWith(fresh);
+}
+
+function removeSelectedTropeByName(name){
+  document.querySelectorAll('[data-chip-group="tropes"]').forEach(function(el){
+    if(el.getAttribute("data-chip-value")===name)el.classList.remove("selected");
+  });
+  refreshSelectedTropeBar();
+}
+
+function addCustomTrope(){
+  document.getElementById("customTropeModal")?.remove();
+
+  const cats=DEFAULT.tropeCategories||{};
+  const names=Object.keys(cats);
+  const options=names.map(function(name){
+    return '<option value="'+esc(name)+'">'+esc(name)+'</option>';
+  }).join("");
+
+  const modal=document.createElement("div");
+  modal.id="customTropeModal";
+  modal.className="trope-modal-backdrop";
+  modal.innerHTML=
+    '<div class="trope-modal" role="dialog" aria-modal="true" aria-labelledby="customTropeTitle">'+
+      '<h3 id="customTropeTitle">Eigenes Trope hinzufügen</h3>'+
+      '<div class="field"><label>Name des Tropes</label>'+
+        '<input id="customTropeName" class="input" type="text" placeholder="z. B. Hate Everyone but Her">'+
+      '</div>'+
+      '<div class="field"><label>Kategorie</label>'+
+        '<select id="customTropeCategory" class="select">'+options+'</select>'+
+      '</div>'+
+      '<div class="trope-modal-actions">'+
+        '<button type="button" class="btn" data-action="cancelCustomTrope">Abbrechen</button>'+
+        '<button type="button" class="btn primary" data-action="saveCustomTrope">Hinzufügen</button>'+
+      '</div>'+
+    '</div>';
+
+  document.body.appendChild(modal);
+  setTimeout(function(){document.getElementById("customTropeName")?.focus();},0);
+}
+
+function closeCustomTropeModal(){
+  document.getElementById("customTropeModal")?.remove();
+}
+
+function saveCustomTropeFromModal(){
+  const nameEl=document.getElementById("customTropeName");
+  const catEl=document.getElementById("customTropeCategory");
+  const trope=(nameEl?.value||"").trim();
+  const category=catEl?.value||"Eigene Tropes";
+
+  if(!trope){
+    if(nameEl){nameEl.focus();}
+    toast("Bitte einen Trope-Namen eingeben");
+    return;
+  }
+
+  const cats=DEFAULT.tropeCategories||{};
+  if(!cats[category])cats[category]=[];
+  if(cats[category].indexOf(trope)<0)cats[category].push(trope);
+
+  if(!cats["Eigene Tropes"])cats["Eigene Tropes"]=[];
+  if(cats["Eigene Tropes"].indexOf(trope)<0)cats["Eigene Tropes"].push(trope);
+
+  DEFAULT.tropeCategories=cats;
+
+  localStorage.setItem("bookvault_trope_categories",JSON.stringify(cats));
+
+  // Preserve all unsaved book-form inputs: refresh only the trope section.
+  const selected=[].slice.call(document.querySelectorAll('[data-chip-group="tropes"].selected'))
+    .map(function(el){return el.getAttribute("data-chip-value");});
+  if(selected.indexOf(trope)<0)selected.push(trope);
+
+  closeCustomTropeModal();
+
+  const section=document.querySelector(".trope-section");
+  if(section){
+    const temp=document.createElement("div");
+    temp.innerHTML=tropeField(selected);
+    const fresh=temp.firstElementChild;
+    if(fresh)section.replaceWith(fresh);
+  }
+
+  toast("Trope hinzugefügt");
+}
+
+
+function cleanIsbn(v){return String(v||"").replace(/[^0-9Xx]/g,"").toUpperCase();}
+function setInputValue(id,value){const el=document.getElementById(id);if(el&&value!==undefined&&value!==null&&value!=="")el.value=value;}
+function isbnStatus(msg,isError){const el=document.getElementById("isbnSearchStatus");if(!el)return;el.textContent=msg||"";el.classList.toggle("error",!!isError);}
+function normalizeOlAuthorName(a){if(!a)return "";if(typeof a==="string")return a;return a.name||a.fuller_name||"";}
+function normalizeOlPublisher(p){if(!p)return "";if(typeof p==="string")return p;return p.name||"";}
+function extractOpenLibraryRecord(payload,isbn){
+  const records=payload&&payload.records&&typeof payload.records==="object"?payload.records:null;
+  if(!records)return null;
+  const keys=Object.keys(records);if(!keys.length)return null;
+  const rec=records[keys[0]]||{},d=rec.data||{},ids=d.identifiers||{};
+  const isbns=[].concat(rec.isbns||[],ids.isbn_13||[],ids.isbn_10||[]).map(cleanIsbn).filter(Boolean);
+  const isbn13=isbns.find(x=>x.length===13)||(isbn.length===13?isbn:"");
+  const isbn10=isbns.find(x=>x.length===10)||(isbn.length===10?isbn:"");
+  const authors=(d.authors||[]).map(normalizeOlAuthorName).filter(Boolean);
+  const publishers=(d.publishers||[]).map(normalizeOlPublisher).filter(Boolean);
+  const publishDate=d.publish_date||((rec.publishDates||[])[0])||"";
+  const yearMatch=String(publishDate).match(/\b(1[5-9]\d{2}|20\d{2}|21\d{2})\b/);
+  let coverUrl="";
+  if(d.cover)coverUrl=d.cover.large||d.cover.medium||d.cover.small||"";
+  if(!coverUrl){const ci=isbn13||isbn10||isbn;if(ci)coverUrl="https://covers.openlibrary.org/b/isbn/"+encodeURIComponent(ci)+"-L.jpg?default=false";}
+  let language="";
+  if(Array.isArray(d.languages)&&d.languages.length){
+    const key=(d.languages[0].key||"").split("/").pop();
+    language={ger:"Deutsch",deu:"Deutsch",eng:"Englisch",fre:"Französisch",fra:"Französisch",spa:"Spanisch"}[key]||"";
+  }
+  return {title:d.title||"",subtitle:d.subtitle||"",author:authors.map(normalizeAuthorDisplay).join(", "),publisher:publishers.join(", "),publicationYear:yearMatch?yearMatch[1]:"",pageCount:d.number_of_pages||"",language:language,isbn10:isbn10,isbn13:isbn13,cover:coverUrl,format:"",source:"Open Library"};
+}
+
+
+
+function normalizeAuthorDisplay(name){
+  const s=String(name||"").trim();
+  if(!s)return "";
+  // DNB/MARC often returns personal names as "Nachname, Vorname".
+  // Convert only simple personal-name forms; leave corporate names / complex strings untouched.
+  const parts=s.split(",");
+  if(parts.length===2){
+    const last=parts[0].trim();
+    const first=parts[1].trim().replace(/[.;:]$/,"");
+    if(last && first && !/\b(Verlag|Universität|Institut|Gesellschaft|Stiftung|GmbH|AG)\b/i.test(s)){
+      return (first+" "+last).replace(/\s+/g," ").trim();
+    }
+  }
+  return s.replace(/[.;:]$/,"").trim();
+}
+
+function dnbSubfield(record,tag,code){
+  const fields=[].slice.call(record.querySelectorAll('datafield[tag="'+tag+'"]'));
+  for(const f of fields){
+    const sf=f.querySelector('subfield[code="'+code+'"]');
+    if(sf&&sf.textContent.trim())return sf.textContent.trim();
+  }
+  return "";
+}
+function dnbSubfields(record,tag,code){
+  return [].slice.call(record.querySelectorAll('datafield[tag="'+tag+'"] subfield[code="'+code+'"]'))
+    .map(function(x){return x.textContent.trim();}).filter(Boolean);
+}
+function cleanMarcText(v){
+  return String(v||"").replace(/\s*[\/:;,]\s*$/,"").trim();
+}
+function extractDnbRecord(xmlText,isbn){
+  const doc=new DOMParser().parseFromString(xmlText,"application/xml");
+  if(doc.querySelector("parsererror"))throw new Error("DNB XML konnte nicht gelesen werden");
+  const rec=doc.querySelector("record recordData record, recordData record")||doc.querySelector("recordData");
+  let marc=rec;
+  if(rec&&rec.querySelector)marc=rec.querySelector("record")||rec;
+  if(!marc)return null;
+
+  let title=cleanMarcText(dnbSubfield(marc,"245","a"));
+  let subtitle=cleanMarcText(dnbSubfield(marc,"245","b"));
+  const responsibility=cleanMarcText(dnbSubfield(marc,"245","c"));
+
+  let authors=dnbSubfields(marc,"100","a");
+  if(!authors.length)authors=dnbSubfields(marc,"700","a");
+  authors=authors.map(function(a){return normalizeAuthorDisplay(cleanMarcText(a));});
+
+  let publisher=cleanMarcText(dnbSubfield(marc,"264","b")||dnbSubfield(marc,"260","b"));
+  let yearText=cleanMarcText(dnbSubfield(marc,"264","c")||dnbSubfield(marc,"260","c"));
+  const ym=yearText.match(/\b(1[5-9]\d{2}|20\d{2}|21\d{2})\b/);
+
+  const extent=dnbSubfield(marc,"300","a");
+  const pm=String(extent||"").match(/(\d{1,5})\s*(?:Seiten|S\.|pages|p\.)/i);
+
+  const mediaType=(dnbSubfields(marc,"337","a").join(" ")+" "+dnbSubfields(marc,"337","b").join(" ")).toLowerCase();
+  const carrierType=(dnbSubfields(marc,"338","a").join(" ")+" "+dnbSubfields(marc,"338","b").join(" ")).toLowerCase();
+  const digitalType=(dnbSubfields(marc,"347","a").join(" ")+" "+dnbSubfields(marc,"347","b").join(" ")).toLowerCase();
+  const physicalDesc=String(extent||"").toLowerCase();
+  let format="";
+  if(/online|computer|electronic|elektron|resource|cr|remote|digital/.test(mediaType+" "+carrierType+" "+digitalType)){
+    format="E-Book";
+  }else if(/audio|spoken|hörbuch|sound|sd/.test(mediaType+" "+carrierType+" "+physicalDesc)){
+    format="Hörbuch";
+  }else if(/hardcover|gebunden|fester einband|hardback/.test(physicalDesc)){
+    format="Hardcover";
+  }else if(/taschenbuch|paperback|broschur|softcover/.test(physicalDesc)){
+    format="Taschenbuch";
+  }else if(/volume|band|seiten|s\./.test(physicalDesc) || /unmediated|ohne hilfsmittel|nc/.test(mediaType+" "+carrierType)){
+    format="Taschenbuch";
+  }
+
+  const isbnVals=dnbSubfields(marc,"020","a").map(cleanIsbn).filter(Boolean);
+  const cleaned=cleanIsbn(isbn);
+  const isbn13=isbnVals.find(function(x){return x.length===13;})||(cleaned.length===13?cleaned:"");
+  const isbn10=isbnVals.find(function(x){return x.length===10;})||(cleaned.length===10?cleaned:"");
+
+  const langCode=(marc.querySelector('controlfield[tag="008"]')?.textContent||"").slice(35,38).trim() || dnbSubfield(marc,"041","a");
+  const language={ger:"Deutsch",deu:"Deutsch",eng:"Englisch",fre:"Französisch",fra:"Französisch",spa:"Spanisch"}[String(langCode).slice(0,3)]||"";
+
+  const coverIsbn=isbn13||isbn10||cleaned;
+  const cover=coverIsbn?"https://covers.openlibrary.org/b/isbn/"+encodeURIComponent(coverIsbn)+"-L.jpg?default=false":"";
+
+  if(!title)return null;
+  return {
+    title:title,
+    subtitle:subtitle,
+    author:authors.join(", ")||responsibility,
+    publisher:publisher,
+    publicationYear:ym?ym[1]:"",
+    pageCount:pm?pm[1]:"",
+    language:language,
+    isbn10:isbn10,
+    isbn13:isbn13,
+    cover:cover,
+    format:format,
+    source:"Deutsche Nationalbibliothek"
+  };
+}
+function fetchDnbIsbn(isbn){
+  const q='num="'+cleanIsbn(isbn)+'"';
+  const url="https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query="+
+    encodeURIComponent(q)+"&recordSchema=MARC21-xml&maximumRecords=5";
+  return fetch(url,{method:"GET",headers:{"Accept":"application/xml,text/xml;q=0.9,*/*;q=0.8"}}).then(function(r){
+    if(!r.ok)throw new Error("DNB HTTP "+r.status);
+    return r.text();
+  });
+}
+
+function extractOpenLibrarySearchRecord(payload,isbn){
+  const docs=payload&&Array.isArray(payload.docs)?payload.docs:[];
+  if(!docs.length)return null;
+  const cleaned=cleanIsbn(isbn);
+  let d=docs.find(function(doc){return (doc.isbn||[]).map(cleanIsbn).includes(cleaned);})||docs[0];
+  const isbns=(d.isbn||[]).map(cleanIsbn).filter(Boolean);
+  const isbn13=isbns.find(function(x){return x.length===13;})||(cleaned.length===13?cleaned:"");
+  const isbn10=isbns.find(function(x){return x.length===10;})||(cleaned.length===10?cleaned:"");
+  let language="";
+  const lang=(d.language||[])[0]||"";
+  language={ger:"Deutsch",deu:"Deutsch",eng:"Englisch",fre:"Französisch",fra:"Französisch",spa:"Spanisch"}[lang]||"";
+  let cover="";
+  if(d.cover_i)cover="https://covers.openlibrary.org/b/id/"+encodeURIComponent(d.cover_i)+"-L.jpg";
+  else if(isbn13||isbn10)cover="https://covers.openlibrary.org/b/isbn/"+encodeURIComponent(isbn13||isbn10)+"-L.jpg?default=false";
+  let year="";
+  const pd=(d.publish_date||[])[0]||d.first_publish_year||"";
+  const ym=String(pd).match(/\b(1[5-9]\d{2}|20\d{2}|21\d{2})\b/);
+  if(ym)year=ym[1];
+  return {
+    title:d.title||"",
+    subtitle:d.subtitle||"",
+    author:Array.isArray(d.author_name)?d.author_name.map(normalizeAuthorDisplay).join(", "):"",
+    publisher:Array.isArray(d.publisher)?d.publisher[0]||"":d.publisher||"",
+    publicationYear:year,
+    pageCount:d.number_of_pages_median||"",
+    language:language,
+    isbn10:isbn10,
+    isbn13:isbn13,
+    cover:cover,
+    format:"",
+    source:"Open Library Search"
+  };
+}
+function fetchOpenLibrarySearchIsbn(isbn){
+  const url="https://openlibrary.org/search.json?isbn="+encodeURIComponent(isbn)+
+    "&fields=key,title,subtitle,author_name,publisher,publish_date,first_publish_year,number_of_pages_median,isbn,language,cover_i&limit=5";
+  return fetch(url,{method:"GET",headers:{"Accept":"application/json"}}).then(function(r){
+    if(!r.ok)throw new Error("Open Library Search HTTP "+r.status);
+    return r.json();
+  });
+}
+function jsonpOpenLibrarySearchIsbn(isbn){
+  return new Promise(function(resolve,reject){
+    const cb="bookvaultOlSearch_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+    const script=document.createElement("script");
+    const timer=setTimeout(function(){cleanup();reject(new Error("Open Library Search Zeitüberschreitung"));},10000);
+    function cleanup(){
+      clearTimeout(timer);
+      try{delete window[cb];}catch(_){window[cb]=undefined;}
+      if(script.parentNode)script.parentNode.removeChild(script);
+    }
+    window[cb]=function(data){cleanup();resolve(data);};
+    script.onerror=function(){cleanup();reject(new Error("Open Library Search nicht erreichbar"));};
+    script.src="https://openlibrary.org/search.json?isbn="+encodeURIComponent(isbn)+
+      "&fields=key,title,subtitle,author_name,publisher,publish_date,first_publish_year,number_of_pages_median,isbn,language,cover_i&limit=5&callback="+encodeURIComponent(cb);
+    document.head.appendChild(script);
+  });
+}
+
+function fetchOpenLibraryIsbn(isbn){
+  const url="https://openlibrary.org/api/volumes/brief/isbn/"+encodeURIComponent(isbn)+".json";
+  return fetch(url,{headers:{"Accept":"application/json"}}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();});
+}
+function jsonpOpenLibraryIsbn(isbn){
+  return new Promise(function(resolve,reject){
+    const cb="bookvaultOl_"+Date.now()+"_"+Math.random().toString(36).slice(2),script=document.createElement("script");
+    const timer=setTimeout(()=>{cleanup();reject(new Error("Zeitüberschreitung"));},10000);
+    function cleanup(){clearTimeout(timer);try{delete window[cb];}catch(_){window[cb]=undefined;}if(script.parentNode)script.parentNode.removeChild(script);}
+    window[cb]=data=>{cleanup();resolve(data);};
+    script.onerror=()=>{cleanup();reject(new Error("Open Library nicht erreichbar"));};
+    script.src="https://openlibrary.org/api/volumes/brief/isbn/"+encodeURIComponent(isbn)+".json?callback="+encodeURIComponent(cb);
+    document.head.appendChild(script);
+  });
+}
+async function lookupIsbn(){
+  const isbn=cleanIsbn(document.getElementById("isbnLookup")?.value||document.getElementById("isbn13")?.value||document.getElementById("isbn10")?.value);
+  if(!(isbn.length===10||isbn.length===13)){
+    isbnStatus("Bitte eine gültige ISBN-10 oder ISBN-13 eingeben.",true);
+    return;
+  }
+
+  isbnStatus("Suche läuft …",false);
+  const btn=document.getElementById("isbnSearchBtn");
+  if(btn)btn.disabled=true;
+
+  try{
+    let result=null;
+
+    // 1. Deutsche Nationalbibliothek – besonders relevant für deutsche Ausgaben.
+    try{
+      const dnbXml=await fetchDnbIsbn(isbn);
+      result=extractDnbRecord(dnbXml,isbn);
+    }catch(err){
+      console.warn("DNB ISBN-Suche fehlgeschlagen:",err);
+    }
+
+    // 2. Open Library Search API.
+    if(!result||!result.title){
+      try{
+        let op;
+        try{op=await fetchOpenLibrarySearchIsbn(isbn);}
+        catch(_){op=await jsonpOpenLibrarySearchIsbn(isbn);}
+        result=extractOpenLibrarySearchRecord(op,isbn);
+      }catch(err){
+        console.warn("Open Library Search ISBN-Suche fehlgeschlagen:",err);
+      }
+    }
+
+    // 3. Open Library Legacy API.
+    if(!result||!result.title){
+      try{
+        let lp;
+        try{lp=await fetchOpenLibraryIsbn(isbn);}
+        catch(_){lp=await jsonpOpenLibraryIsbn(isbn);}
+        result=extractOpenLibraryRecord(lp,isbn);
+      }catch(err){
+        console.warn("Open Library Legacy ISBN-Suche fehlgeschlagen:",err);
+      }
+    }
+
+    if(!result||!result.title){
+      isbnStatus("Zu dieser ISBN wurden weder bei der Deutschen Nationalbibliothek noch bei Open Library Buchdaten gefunden.",true);
+      return;
+    }
+
+    setInputValue("title",result.title);
+    setInputValue("subtitle",result.subtitle);
+    setInputValue("author",result.author);
+    setInputValue("publisher",result.publisher);
+    setInputValue("publicationYear",result.publicationYear);
+    setInputValue("pageCount",result.pageCount);
+    setInputValue("language",result.language);
+    setInputValue("isbn10",result.isbn10);
+    setInputValue("isbn13",result.isbn13);
+    setInputValue("cover",result.cover);
+    setInputValue("format",result.format);
+
+    const preview=document.getElementById("preview");
+    if(preview&&result.cover){
+      preview.innerHTML='<img src="'+esc(result.cover)+'" style="width:75px;height:110px;object-fit:cover;border-radius:9px" onerror="this.style.display=\'none\'">';
+    }
+
+    isbnStatus("Buchdaten über "+(result.source||"Buchdatenbank")+" gefunden und ins Formular übernommen. Bitte vor dem Speichern prüfen.",false);
+    toast("ISBN-Daten übernommen");
+  }catch(err){
+    console.error("ISBN lookup:",err);
+    isbnStatus("ISBN-Suche fehlgeschlagen. Internetverbindung prüfen.",true);
+  }finally{
+    if(btn)btn.disabled=false;
+  }
+}
+function isbnLookupPanel(b){
+  const pe=primaryEdition(b)||{};
+  return '<div class="isbn-search-card"><div style="font-weight:800;color:#285f4d;margin-bottom:8px">ISBN-Suche</div>'+
+    '<div class="isbn-search-row"><div class="field" style="margin:0"><label>ISBN-10 oder ISBN-13</label><input id="isbnLookup" class="input" value="'+esc(pe.isbn13||pe.isbn10||"")+'" placeholder="ISBN eingeben"></div>'+
+    '<button type="button" id="isbnSearchBtn" class="btn primary" data-action="lookupIsbn">ISBN suchen</button></div>'+
+    '<div id="isbnSearchStatus" class="isbn-search-status"></div><div class="isbn-source-note">Quellen: Deutsche Nationalbibliothek, danach Open Library Search und Open Library Legacy. Kein API-Key erforderlich.</div></div>';
+}
+
+function form(id){const b=id?data.books.find(x=>x.id===id):{ownership:"owned",status:"unread",rating:0,favorite:false,purchaseStatus:"none",language:"Deutsch",format:"",genres:[],subgenres:[],tropes:[],progress:0,currentPage:0};if(!b)return library();return '<main class="app">'+top(id?"Bearbeiten":"Buch hinzufügen","Bibliothek")+'<form class="form" id="bookForm">'+isbnLookupPanel(b)+'<div class="field"><label>Cover</label><label class="btn" style="display:block;text-align:center">📷 Cover aus Fotos auswählen<input id="coverFile" type="file" accept="image/*" hidden></label><input id="cover" class="input" type="text" value="'+esc(b.cover||"")+'" placeholder="oder Bild-URL einfügen" style="margin-top:8px"><div id="preview" style="margin-top:8px">'+(b.cover?'<img src="'+esc(b.cover)+'" style="width:75px;height:110px;object-fit:cover;border-radius:9px">':"")+'</div></div>'+field("title","Titel",b.title,true)+field("author","Autor",b.author,true)+field("subtitle","Untertitel",b.subtitle)+'<div class="two">'+field("isbn10","ISBN-10",(primaryEdition(b)||{}).isbn10)+field("isbn13","ISBN-13",(primaryEdition(b)||{}).isbn13)+'</div>'+'<div class="two">'+field("publisher","Verlag",b.publisher)+field("publicationYear","Erscheinungsjahr",b.publicationYear,"number")+'</div><div class="two">'+field("pageCount","Seitenzahl",b.pageCount,"number")+'<div class="field"><label>Sprache</label><select id="language" class="select">'+["Deutsch","Englisch","Französisch","Spanisch","Andere"].map(x=>'<option '+(b.language===x?"selected":"")+'>'+x+'</option>').join("")+'</select></div></div><div class="field"><label>Ausgabenbezeichnung</label><input id="editionName" class="input" value="'+esc((primaryEdition(b)||{}).name||"")+'" placeholder="z. B. Collector’s Edition"></div><div class="field"><label>Format</label><select id="format" class="select"><option value="" '+(!b.format?"selected":"")+'>Bitte wählen</option>'+["E-Book","Taschenbuch","Hardcover","Hörbuch","Sonstiges"].map(x=>'<option '+(b.format===x?"selected":"")+'>'+x+'</option>').join("")+'</select></div>'+seg("Besitzstatus","ownership",b.ownership,[["owned","🏠 Besitz"],["notOwned","♡ Nicht im Besitz"],["borrowed","🤝 Ausgeliehen"],["kindleUnlimited","📱 KU"]])+'<div class="two">'+field("borrowedFrom","Ausgeliehen von",b.borrowedFrom)+field("returnDue","Rückgabe",b.returnDue,"date")+'</div>'+seriesSelectorField(b)+field("volume","Band",b.volume,"number")+chipsField("Genres","genres",data.genres,b.genres||[])+dependentSubgenresField(b)+''+tropeField(b.tropes||[])+''+'<div class="two">'+field("purchaseDate","Kaufdatum",(primaryEdition(b)||{}).purchaseDate,"date")+field("purchasePrice","Kaufpreis",(primaryEdition(b)||{}).purchasePrice,"number")+'</div>'+field("specialEdition","Besondere Ausgabe",(primaryEdition(b)||{}).specialEdition)+'<div class="field"><label>Notiz zur Ausgabe</label><textarea id="editionNotes" class="textarea">'+esc((primaryEdition(b)||{}).notes||"")+'</textarea></div>'+'<div class="field"><label>Wunsch-Priorität</label><select id="wishlistPriority" class="select"><option value="low" '+((primaryEdition(b)||{}).wishlistPriority==="low"?"selected":"")+'>Niedrig</option><option value="medium" '+(((primaryEdition(b)||{}).wishlistPriority||"medium")==="medium"?"selected":"")+'>Mittel</option><option value="high" '+((primaryEdition(b)||{}).wishlistPriority==="high"?"selected":"")+'>Hoch</option></select></div>'+'<div class="field"><label>Wunsch-Notiz</label><textarea id="wishlistNote" class="textarea">'+esc((primaryEdition(b)||{}).wishlistNote||"")+'</textarea></div>'+seg("Lesestatus","status",b.status,[["unread","Ungelesen"],["reading","Reading"],["read","Gelesen"],["dnf","DNF"]])+'<div class="field"><label>Bewertung</label><div class="stars" id="ratingStars">'+[1,2,3,4,5].map(i=>'<button type="button" class="'+((Number(b.rating)||0)>=i?"on":"")+'" data-rating="'+i+'">'+((Number(b.rating)||0)>=i?"★":"☆")+'</button>').join("")+'</div><input id="rating" type="hidden" value="'+(Number(b.rating)||0)+'"></div><button type="button" id="favorite" class="btn '+(b.favorite?"primary":"")+'" data-action="favorite">'+(b.favorite?"❤️ Favorit":"♡ Als Favorit markieren")+'</button>'+seg("Kaufstatus","purchaseStatus",b.purchaseStatus||"none",[["none","Kein Wunsch"],["wanted","🛒 Kaufen"],["purchased","✓ Gekauft"]])+'<div class="two">'+field("startedAt","Begonnen",b.startedAt,"date")+field("finishedAt","Beendet",b.finishedAt,"date")+'</div><div class="two">'+field("currentPage","Aktuelle Seite",b.currentPage,"number")+field("progress","Fortschritt %",b.progress,"number")+'</div><div class="field"><label>Meine Rezension</label><textarea id="review" class="textarea">'+esc(b.review||"")+'</textarea></div><div class="field"><label>Meine Notizen</label><textarea id="notes" class="textarea">'+esc(b.notes||"")+'</textarea></div><div class="toolbar"><button type="button" class="btn" data-action="cancelForm">Abbrechen</button><button class="btn primary" type="submit">Speichern</button></div></form></main>';}
+function field(id,label,value,type,req){if(type===true){req=true;type="text";}return '<div class="field"><label>'+esc(label)+(req?" *":"")+'</label><input id="'+id+'" class="input" type="'+(type||"text")+'" '+(req?"required":"")+' value="'+esc(value||"")+'"></div>';}
+function chip(x,g,on){return '<button type="button" class="chip '+(on?"selected":"")+'" data-chip-group="'+g+'" data-chip-value="'+esc(x)+'">'+esc(x)+'</button>';}
+
+
+function dependentSubgenresField(b){
+  const allowed=[...new Set((b.genres||[]).flatMap(g=>data.subgenres[g]||[]))];
+  if(!allowed.length)return "";
+  return '<div class="field" id="subgenreField"><label>Subgenres</label><div class="chips">'+
+    allowed.map(x=>chip(x,"subgenres",(b.subgenres||[]).indexOf(x)>=0)).join("")+
+    '</div></div>';
+}
+function refreshSubgenreChoices(){
+  const field=document.getElementById("subgenreField");
+  const selectedGenres=[].slice.call(document.querySelectorAll('[data-chip-group="genres"].selected'))
+    .map(el=>el.getAttribute("data-chip-value"));
+  const allowed=[...new Set(selectedGenres.flatMap(g=>data.subgenres[g]||[]))];
+  const selectedSubgenres=[].slice.call(document.querySelectorAll('[data-chip-group="subgenres"].selected'))
+    .map(el=>el.getAttribute("data-chip-value"))
+    .filter(x=>allowed.indexOf(x)>=0);
+
+  if(!allowed.length){
+    if(field)field.remove();
+    return;
+  }
+
+  const chipsHtml=allowed.map(x=>chip(x,"subgenres",selectedSubgenres.indexOf(x)>=0)).join("");
+  if(field){
+    field.querySelector(".chips").innerHTML=chipsHtml;
+  }else{
+    const genreField=document.querySelector('[data-chip-group="genres"]')?.closest(".field");
+    if(genreField){
+      genreField.insertAdjacentHTML("afterend",
+        '<div class="field" id="subgenreField"><label>Subgenres</label><div class="chips">'+chipsHtml+'</div></div>');
+    }
+  }
+}
+function syncSubgenresToGenres(){
+  const allowed = new Set((bookDraft.genres||[]).flatMap(g=>data.subgenres[g]||[]));
+  bookDraft.subgenres = (bookDraft.subgenres||[]).filter(x=>allowed.has(x));
+}
+
+function chipsField(label,g,items,selected){return '<div class="field"><label>'+label+'</label><div class="chips">'+items.map(x=>chip(x,g,selected.indexOf(x)>=0)).join("")+'</div></div>';}
+function seg(label,id,val,opts){return '<div class="field"><label>'+label+'</label><div class="seg '+(opts.length===3?"three":"")+'">'+opts.map(o=>'<button type="button" class="'+(val===o[0]?"sel":"")+'" data-seg-id="'+id+'" data-seg-value="'+esc(o[0])+'">'+o[1]+'</button>').join("")+'</div><input id="'+id+'" type="hidden" value="'+esc(val||"")+'"></div>';}
+
+function ensureSeriesForExistingBooks(){
+  data.series=Array.isArray(data.series)?data.series:[];
+  let changed=false;
+  data.books.forEach(function(b){
+    if(!b.seriesName)return;
+    let s=data.series.find(function(x){return x.name===b.seriesName;});
+    if(!s){
+      s={
+        id:uid(),
+        name:b.seriesName,
+        author:b.author||"",
+        status:"unknown",
+        plannedVolumes:"",
+        publishedVolumes:"",
+        notes:"",
+        createdAt:new Date().toISOString(),
+        updatedAt:new Date().toISOString()
+      };
+      data.series.push(s);
+      changed=true;
+    }
+    if(!b.seriesId){
+      b.seriesId=s.id;
+      changed=true;
+    }
+  });
+  if(changed)save();
+}
+
+function getSeriesById(id){
+  return (data.series||[]).find(function(s){return s.id===id;})||null;
+}
+function getSeriesByName(name){
+  return (data.series||[]).find(function(s){return s.name===name;})||null;
+}
+function seriesBooks(seriesId){
+  return data.books.filter(function(b){
+    return b.seriesId===seriesId || (!b.seriesId && getSeriesById(seriesId) && b.seriesName===getSeriesById(seriesId).name);
+  });
+}
+function seriesStatusLabel(v){
+  return {
+    completed:"Abgeschlossen",
+    ongoing:"Laufend",
+    unknown:"Unbekannt"
+  }[v]||"Unbekannt";
+}
+function seriesMetrics(s){
+  const books=seriesBooks(s.id);
+  const published = Number(s.publishedVolumes)||books.length;
+  const planned = Number(s.plannedVolumes)||published||books.length;
+  const read=books.filter(function(b){return b.status==="read";}).length;
+  const owned=books.filter(bookOwnedByAnyEdition).length;
+  const progress=published>0?Math.round((read/published)*100):0;
+  return {books:books,published:published,planned:planned,read:read,owned:owned,progress:progress};
+}
+function seriesVolumeSortValue(v){
+  if(v===null || v===undefined || v==="")return 999999;
+  const n=parseFloat(String(v).replace(",","."));
+  return Number.isFinite(n)?n:999998;
+}
+function seriesSelectorField(b){
+  ensureSeriesForExistingBooks();
+  const currentId=b.seriesId||"";
+  const opts=(data.series||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name,"de");})
+    .map(function(s){
+      return '<option value="'+esc(s.id)+'" '+(currentId===s.id?'selected':'')+'>'+esc(s.name)+'</option>';
+    }).join("");
+  return '<div class="field"><label>Reihe</label>'+
+    '<div class="row" style="display:flex;gap:8px;align-items:center">'+
+      '<select id="seriesId" class="select" style="flex:1">'+
+        '<option value="">Keine Reihe</option>'+opts+
+      '</select>'+
+      '<button type="button" class="btn" data-action="newSeries">+ Neue Reihe</button>'+
+    '</div>'+
+  '</div>';
+}
+function openSeriesModal(existingId){
+  document.getElementById("seriesModal")?.remove();
+  const existing=existingId?getSeriesById(existingId):null;
+  const modal=document.createElement("div");
+  modal.id="seriesModal";
+  modal.className="trope-modal-backdrop";
+  modal.innerHTML=
+    '<div class="trope-modal" role="dialog" aria-modal="true">'+
+      '<h3>'+(existing?'Reihe bearbeiten':'Neue Reihe anlegen')+'</h3>'+
+      '<div class="field"><label>Reihenname *</label><input id="seriesNameModal" class="input" value="'+esc(existing?.name||"")+'"></div>'+
+      '<div class="field"><label>Autor/in</label><input id="seriesAuthorModal" class="input" value="'+esc(existing?.author||"")+'"></div>'+
+      '<div class="field"><label>Status</label><select id="seriesStatusModal" class="select">'+
+        '<option value="unknown" '+((existing?.status||"unknown")==="unknown"?'selected':'')+'>Unbekannt</option>'+
+        '<option value="ongoing" '+(existing?.status==="ongoing"?'selected':'')+'>Laufend</option>'+
+        '<option value="completed" '+(existing?.status==="completed"?'selected':'')+'>Abgeschlossen</option>'+
+      '</select></div>'+
+      '<div class="two">'+
+        '<div class="field"><label>Geplante Bände</label><input id="seriesPlannedModal" class="input" type="number" min="0" step="1" value="'+esc(existing?.plannedVolumes||"")+'"></div>'+
+        '<div class="field"><label>Erschienene Bände</label><input id="seriesPublishedModal" class="input" type="number" min="0" step="1" value="'+esc(existing?.publishedVolumes||"")+'"></div>'+
+      '</div>'+
+      '<div class="field"><label>Notizen</label><textarea id="seriesNotesModal" class="textarea">'+esc(existing?.notes||"")+'</textarea></div>'+
+      '<input id="seriesEditId" type="hidden" value="'+esc(existing?.id||"")+'">'+
+      '<div class="trope-modal-actions">'+
+        '<button type="button" class="btn" data-action="cancelSeriesModal">Abbrechen</button>'+
+        '<button type="button" class="btn primary" data-action="saveSeriesModal">Speichern</button>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(modal);
+  setTimeout(function(){document.getElementById("seriesNameModal")?.focus();},0);
+}
+function closeSeriesModal(){
+  document.getElementById("seriesModal")?.remove();
+}
+function saveSeriesFromModal(){
+  const name=(document.getElementById("seriesNameModal")?.value||"").trim();
+  if(!name){toast("Bitte einen Reihennamen eingeben");return;}
+  const id=document.getElementById("seriesEditId")?.value||"";
+  let s=id?getSeriesById(id):null;
+  if(!s){
+    s={id:uid(),createdAt:new Date().toISOString()};
+    data.series.push(s);
+  }
+  s.name=name;
+  s.author=(document.getElementById("seriesAuthorModal")?.value||"").trim();
+  s.status=document.getElementById("seriesStatusModal")?.value||"unknown";
+  s.plannedVolumes=document.getElementById("seriesPlannedModal")?.value||"";
+  s.publishedVolumes=document.getElementById("seriesPublishedModal")?.value||"";
+  s.notes=document.getElementById("seriesNotesModal")?.value||"";
+  s.updatedAt=new Date().toISOString();
+  save();
+  closeSeriesModal();
+
+  if(state.screen==="form"){
+    render();
+    setTimeout(function(){
+      const sel=document.getElementById("seriesId");
+      if(sel)sel.value=s.id;
+    },0);
+  }else{
+    state.seriesName=s.name;
+    render();
+  }
+  toast("Reihe gespeichert");
+}
+
+
+function seriesOverviewCovers(s){
+  const books=seriesBooks(s.id).slice().sort(function(a,b){
+    return seriesVolumeSortValue(a.volume)-seriesVolumeSortValue(b.volume);
+  });
+  if(!books.length){
+    return '<div class="series-overview-strip"><div class="series-overview-placeholder">Keine Cover</div></div>';
+  }
+  return '<div class="series-overview-strip">'+books.map(function(b){
+    const vol=b.volume?'<span class="series-overview-volume">'+esc(b.volume)+'</span>':'';
+    if(b.cover){
+      return '<button type="button" class="series-overview-book" data-open="'+esc(b.id)+'">'+
+        '<img src="'+esc(b.cover)+'" alt="'+esc(b.title||"Buch")+'">'+vol+
+      '</button>';
+    }
+    return '<button type="button" class="series-overview-book" data-open="'+esc(b.id)+'">'+
+      '<div class="series-overview-placeholder">'+esc(b.title||"Buch")+'</div>'+vol+
+    '</button>';
+  }).join("")+'</div>';
+}
+
+function series(){
+  ensureSeriesForExistingBooks();
+  const list=(data.series||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name,"de");});
+  return '<main class="app">'+top("Reihen","Deine Reihen")+
+    (list.length
+      ? '<div class="list">'+list.map(function(s){
+          const m=seriesMetrics(s);
+          const statusTxt=seriesStatusLabel(s.status);
+          const counts=(m.planned&&m.planned!==m.published)
+            ? m.published+' erschienen · '+m.planned+' geplant'
+            : m.published+' Bände';
+          return '<div class="item series-overview-card">'+
+            '<button type="button" class="series-overview-card" data-series="'+esc(s.name)+'" style="border:0;background:transparent;padding:0">'+
+              '<div class="series-overview-title">'+esc(s.name)+'</div>'+
+              '<div class="series-overview-meta">'+
+                esc(s.author||"")+
+                (s.author?' · ':'')+
+                statusTxt+' · '+counts+' · '+m.read+'/'+m.published+' gelesen · '+m.owned+'/'+m.published+' im Besitz'+
+              '</div>'+
+            '</button>'+
+            seriesOverviewCovers(s)+
+          '</div>';
+        }).join("")+'</div>'
+      : '<div class="empty">Noch keine Reihen.<br>Lege beim Hinzufügen eines Buches eine Reihe an.</div>')+
+    '</main>';
+}
+
+
+function seriesCoverStrip(books){
+  if(!books || !books.length)return "";
+  const sorted=books.slice().sort(function(a,b){
+    return seriesVolumeSortValue(a.volume)-seriesVolumeSortValue(b.volume);
+  });
+  return '<div class="series-cover-strip">'+
+    sorted.map(function(b){
+      const vol=b.volume?'<span class="series-cover-volume">'+esc(b.volume)+'</span>':'';
+      if(b.cover){
+        return '<button type="button" class="series-cover-item" data-open="'+esc(b.id)+'">'+
+          '<img src="'+esc(b.cover)+'" alt="'+esc(b.title||"Buch")+'">'+vol+
+        '</button>';
+      }
+      return '<button type="button" class="series-cover-item" data-open="'+esc(b.id)+'">'+
+        '<div class="series-cover-placeholder">'+esc(b.title||"Buch")+'</div>'+vol+
+      '</button>';
+    }).join("")+
+  '</div>';
+}
+
+function seriesDetail(){
+  ensureSeriesForExistingBooks();
+  const s=getSeriesByName(state.seriesName);
+  if(!s){state.screen="series";return series();}
+  const m=seriesMetrics(s);
+  const books=m.books.slice().sort(function(a,b){return seriesVolumeSortValue(a.volume)-seriesVolumeSortValue(b.volume);});
+
+  let future='';
+  if(m.planned>m.published){
+    future='<section class="section"><h2>Noch nicht erschienen</h2><div class="card">'+
+      (m.planned-m.published)+' weitere '+((m.planned-m.published)===1?'Band':'Bände')+' geplant'+
+    '</div></section>';
+  }
+
+  return '<main class="app">'+top(s.name,"Reihe")+
+    '<div class="card">'+
+      '<div class="sectionhead"><div>'+
+        '<h2 style="margin:0;color:#285f4d">'+esc(s.name)+'</h2>'+
+        '<p class="muted">'+esc(s.author||"")+'</p>'+
+      '</div><button class="btn" data-action="editSeries">Reihe bearbeiten</button></div>'+
+      seriesCoverStrip(books)+'<div class="pillrow">'+
+        '<span class="pill">'+seriesStatusLabel(s.status)+'</span>'+
+        '<span class="pill">'+m.published+' erschienen</span>'+
+        (m.planned?'<span class="pill">'+m.planned+' geplant</span>':'')+
+      '</div>'+
+      '<div class="progress"><i style="width:'+m.progress+'%"></i></div>'+
+      '<p class="muted">'+m.read+'/'+m.published+' gelesen · '+m.owned+'/'+m.published+' im Besitz · '+m.progress+'%</p>'+
+      (s.notes?'<p class="series-notes">'+esc(s.notes).replace(/\n/g,"<br>")+'</p>':'')+
+    '</div>'+
+    '<section class="section"><h2>Bände</h2>'+
+      (books.length
+        ? '<div class="list">'+books.map(function(b){
+            return '<button class="item" data-open="'+esc(b.id)+'">'+cover(b,"sm")+
+              '<div class="details"><h3>'+(b.volume?'Band '+esc(b.volume)+' · ':'')+esc(b.title)+'</h3>'+
+              '<p>'+esc(b.author||"")+'</p>'+
+              '<p>'+own(b.ownership)+' · '+status(b.status)+'</p></div></button>';
+          }).join("")+'</div>'
+        : '<div class="empty">Noch keine Bücher dieser Reihe zugeordnet.</div>')+
+    '</section>'+future+
+  '</main>';
+}
+
+function wishlistEntries(){
+  const entries=[];
+  data.books.forEach(function(b){
+    migrateBookEditions(b);
+    const hasOwned=(b.editions||[]).some(function(e){return e.ownership==="owned"||e.purchaseStatus==="purchased";});
+    (b.editions||[]).forEach(function(e){
+      if(e.purchaseStatus!=="wanted")return;
+      if(e.ownership==="owned")return;
+      let scope=e.wishlistScope||(!hasOwned&&e.isPrimary?"book":"edition");
+      entries.push({book:b,edition:e,scope:scope});
+    });
+  });
+  return entries;
+}
+function wishlistPriorityLabel(v){return {low:"Niedrig",medium:"Mittel",high:"Hoch"}[v]||"Mittel";}
+function wishlistCard(entry){
+  const b=entry.book,e=entry.edition;
+  const title=entry.scope==="book"?b.title:(b.title+" · "+editionLabel(e));
+  const meta=entry.scope==="book"?"Buch allgemein":"Gewünschte Ausgabe: "+(e.format||"Ausgabe")+(e.specialEdition?" · "+e.specialEdition:"");
+  return '<div class="card wishlist-card">'+cover(b,"sm")+
+    '<div class="wishlist-info">'+
+      '<div class="wishlist-title">'+esc(title)+'</div>'+
+      '<div class="wishlist-meta">'+esc(b.author||"")+'</div>'+
+      '<div class="wishlist-meta">'+esc(meta)+'</div>'+
+      '<span class="wishlist-priority">Priorität: '+esc(wishlistPriorityLabel(e.wishlistPriority))+'</span>'+
+      
+      (e.wishlistNote?'<div class="wishlist-meta">'+esc(e.wishlistNote)+'</div>':'')+
+      '<div class="wishlist-actions">'+
+        '<button type="button" class="btn primary" data-wishlist-buy="'+esc(b.id)+'|'+esc(e.id)+'">Als gekauft markieren</button>'+
+        '<button type="button" class="btn" data-wishlist-edit="'+esc(b.id)+'|'+esc(e.id)+'">Bearbeiten</button>'+
+        '<button type="button" class="btn" data-wishlist-remove="'+esc(b.id)+'|'+esc(e.id)+'">Entfernen</button>'+
+      '</div>'+
+    '</div></div>';
+}
+function wishlist(){
+  const all=wishlistEntries();
+  const shown=all.filter(function(x){return state.wishlistTab==="all"||x.scope===state.wishlistTab;});
+  const books=all.filter(function(x){return x.scope==="book";}).length;
+  const editions=all.filter(function(x){return x.scope==="edition";}).length;
+  return '<main class="app">'+top("Wunschliste",all.length+" Wünsche")+
+    '<div class="wishlist-tabs">'+
+      '<button class="wishlist-tab '+(state.wishlistTab==="all"?"active":"")+'" data-wishlist-tab="all">Alle ('+all.length+')</button>'+
+      '<button class="wishlist-tab '+(state.wishlistTab==="book"?"active":"")+'" data-wishlist-tab="book">Bücher ('+books+')</button>'+
+      '<button class="wishlist-tab '+(state.wishlistTab==="edition"?"active":"")+'" data-wishlist-tab="edition">Ausgaben ('+editions+')</button>'+
+    '</div>'+
+    (shown.length?'<div class="list">'+shown.map(wishlistCard).join("")+'</div>':'<div class="empty">Keine Wünsche in dieser Kategorie.</div>')+
+  '</main>';
+}
+function wishlistPair(raw){
+  const p=String(raw||"").split("|");
+  const b=data.books.find(function(x){return x.id===p[0];});
+  if(!b)return {};
+  migrateBookEditions(b);
+  return {book:b,edition:b.editions.find(function(x){return x.id===p[1];})};
+}
+function markWishlistBought(raw){
+  const x=wishlistPair(raw);if(!x.book||!x.edition)return;
+  x.edition.purchaseStatus="purchased";x.edition.ownership="owned";
+  if(x.edition.isPrimary)syncLegacyFromPrimaryEdition(x.book);
+  save();render();toast("Als gekauft markiert");
+}
+function removeWishlistEntry(raw){
+  const x=wishlistPair(raw);if(!x.book||!x.edition)return;
+  x.edition.purchaseStatus="none";
+  if(x.edition.isPrimary)syncLegacyFromPrimaryEdition(x.book);
+  save();render();toast("Von Wunschliste entfernt");
+}
+
+function more(){
+  const wanted=wishlistEntries().length;
+  return '<main class="app">'+top("Mehr","Verwaltung")+
+    '<div class="list">'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="wishlist">♡ &nbsp;<b>Wunschliste</b> <span class="muted">('+wanted+')</span>　›</button>'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="stats">📊 &nbsp;<b>Statistiken</b>　›</button>'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="favorites">❤️ &nbsp;<b>Favoriten</b>　›</button>'+
+      '<button class="card" style="text-align:left;color:var(--text);border:1px solid var(--line)" data-nav="settings">⚙️ &nbsp;<b>Einstellungen</b>　›</button>'+
+    '</div></main>';
+}
+function favorites(){const bs=data.books.filter(b=>b.favorite===true);return '<main class="app">'+top("Favoriten","Lieblingsbücher")+(bs.length?'<div class="list">'+bs.map(item).join("")+'</div>':'<div class="empty">Noch keine Favoriten.</div>')+'</main>';}
+function statDate(b){
+  if(!b.finishedAt)return null;
+  const d=new Date(b.finishedAt+"T12:00:00");
+  return isNaN(d.getTime())?null:d;
+}
+function avgRating(list){
+  const rated=list.filter(function(b){return Number(b.rating)>0;});
+  return rated.length?(rated.reduce(function(n,b){return n+Number(b.rating);},0)/rated.length).toFixed(1):"—";
+}
+function totalPages(list){return list.reduce(function(n,b){return n+(Number(b.pageCount)||0);},0);}
+function countValues(list,getter){
+  const map={};
+  list.forEach(function(x){(getter(x)||[]).filter(Boolean).forEach(function(v){map[v]=(map[v]||0)+1;});});
+  return Object.keys(map).map(function(k){return [k,map[k]];}).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0]);});
+}
+function barChart(rows,limit){
+  rows=(rows||[]).slice(0,limit||12);
+  if(!rows.length)return '<div class="empty">Noch keine Daten.</div>';
+  const max=Math.max.apply(null,rows.map(function(x){return Number(x[1])||0;}))||1;
+  return '<div>'+rows.map(function(x){
+    const pct=Math.max(2,Math.round((Number(x[1])||0)/max*100));
+    return '<div class="chart-row"><div class="chart-label" title="'+esc(x[0])+'">'+esc(x[0])+'</div><div class="chart-track"><div class="chart-fill" style="width:'+pct+'%"></div></div><div class="chart-value">'+esc(x[1])+'</div></div>';
+  }).join("")+'</div>';
+}
+function monthName(i){return ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"][i]||"";}
+function monthBooks(year,month){
+  return data.books.filter(function(b){const d=statDate(b);return b.status==="read"&&d&&d.getFullYear()===year&&d.getMonth()===month;});
+}
+function yearBooks(year){
+  return data.books.filter(function(b){const d=statDate(b);return b.status==="read"&&d&&d.getFullYear()===year;});
+}
+function stats(){
+  const now=new Date(),year=Number(state.statsYear)||now.getFullYear(),month=Number.isFinite(Number(state.statsMonth))?Number(state.statsMonth):now.getMonth();
+  const read=data.books.filter(function(b){return b.status==="read";});
+  const unread=data.books.filter(function(b){return b.status==="unread";});
+  const reading=data.books.filter(function(b){return b.status==="reading";});
+  const dnf=data.books.filter(function(b){return b.status==="dnf";});
+  const owned=ownedCount();
+  const thisYear=yearBooks(year),prevYear=yearBooks(year-1),thisMonth=monthBooks(year,month);
+  const monthly=Array.from({length:12},function(_,i){return [monthName(i).slice(0,3),monthBooks(year,i).length];});
+  const monthlyPages=Array.from({length:12},function(_,i){return [monthName(i).slice(0,3),totalPages(monthBooks(year,i))];});
+  let strongest=0;for(let i=1;i<12;i++)if(monthly[i][1]>monthly[strongest][1])strongest=i;
+  const seriesRead=read.filter(function(b){return !!b.seriesName;}).length;
+  const genres=countValues(read,function(b){return b.genres||[];});
+  const subgenres=countValues(read,function(b){return b.subgenres||[];});
+  const tropes=countValues(read,function(b){return b.tropes||[];});
+  const authors=countValues(read,function(b){return b.author?[b.author]:[];});
+  const ratings=[1,2,3,4,5].map(function(n){return [n+" ★",read.filter(function(b){return Math.round(Number(b.rating)||0)===n;}).length];});
+  const formats=countValues(data.books,function(b){migrateBookEditions(b);return (b.editions||[]).filter(function(e){return e.ownership==="owned"||e.purchaseStatus==="purchased";}).map(function(e){return e.format||"Unbekannt";});});
+  const languages=countValues(data.books,function(b){migrateBookEditions(b);return (b.editions||[]).filter(function(e){return e.ownership==="owned"||e.purchaseStatus==="purchased";}).map(function(e){return e.language||"Unbekannt";});});
+  const ownership=countValues(data.books,function(b){migrateBookEditions(b);return (b.editions||[]).map(function(e){return own(e.ownership).replace(/^[^\s]+\s?/,"");});});
+  const seriesSplit=[["Reihenbände",data.books.filter(function(b){return !!b.seriesName;}).length],["Einzelbände",data.books.filter(function(b){return !b.seriesName;}).length]];
+  const readingCards=reading.map(function(b){
+    const pages=Number(b.pageCount)||0,current=Number(b.currentPage)||0;
+    const pct=Math.max(0,Math.min(100,Number(b.progress)||(pages?Math.round(current/pages*100):0)));
+    const remaining=pages?Math.max(0,pages-current):null;
+    return '<div class="card reading-progress-card">'+cover(b,"sm")+'<div class="reading-progress-info"><div class="reading-progress-title">'+esc(b.title)+'</div><div class="muted">'+esc(b.author||"")+'</div><div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div><div class="muted">'+pct+' % · '+current+(pages?' / '+pages+' Seiten':' Seiten')+(remaining!==null?' · '+remaining+' verbleibend':'')+'</div></div></div>';
+  }).join("");
+  return '<main class="app">'+top("Statistiken","Zahlen, Daten & Fakten")+
+    '<section class="section"><h2 class="stats-section-title">Übersicht</h2><div class="stats-summary">'+
+      '<div class="card"><div class="stats-big">'+data.books.length+'</div><div class="stats-label">Katalogisiert</div></div>'+
+      '<div class="card"><div class="stats-big">'+read.length+'</div><div class="stats-label">Gelesen</div></div>'+
+      '<div class="card"><div class="stats-big">'+unread.length+'</div><div class="stats-label">Ungelesen</div></div>'+
+      '<div class="card"><div class="stats-big">'+reading.length+'</div><div class="stats-label">Aktuell gelesen</div></div>'+
+      '<div class="card"><div class="stats-big">'+dnf.length+'</div><div class="stats-label">DNF</div></div>'+
+      '<div class="card"><div class="stats-big">'+owned+'</div><div class="stats-label">Im Besitz</div></div>'+
+      '<div class="card"><div class="stats-big">'+avgRating(read)+'</div><div class="stats-label">Ø Bewertung</div></div>'+
+      '<div class="card"><div class="stats-big">'+totalPages(read)+'</div><div class="stats-label">Gelesene Seiten</div></div>'+
+      '<div class="card"><div class="stats-big">'+(read.length?Math.round(totalPages(read)/read.length):0)+'</div><div class="stats-label">Ø Seiten/Buch</div></div>'+
+      '<div class="card"><div class="stats-big">'+seriesRead+'</div><div class="stats-label">Gelesene Reihenbände</div></div>'+
+    '</div></section>'+
+    '<section class="section"><h2 class="stats-section-title">Jahresstatistik</h2><div class="stats-nav"><button class="btn" data-stats-year="-1">‹</button><b>'+year+'</b><button class="btn" data-stats-year="1">›</button></div>'+
+      '<div class="stats-summary"><div class="card"><div class="stats-big">'+thisYear.length+'</div><div class="stats-label">Bücher</div></div><div class="card"><div class="stats-big">'+totalPages(thisYear)+'</div><div class="stats-label">Seiten</div></div><div class="card"><div class="stats-big">'+avgRating(thisYear)+'</div><div class="stats-label">Ø Bewertung</div></div><div class="card"><div class="stats-big">'+data.books.filter(function(b){const d=statDate(b);return b.status==="dnf"&&d&&d.getFullYear()===year;}).length+'</div><div class="stats-label">DNF</div></div></div>'+
+      '<div class="card"><b>Stärkster Lesemonat</b><p class="muted">'+(thisYear.length?monthName(strongest)+' · '+monthly[strongest][1]+' Bücher':'Noch keine abgeschlossenen Bücher')+'</p><b>Vergleich zum Vorjahr</b><p class="muted">'+(thisYear.length-prevYear.length>=0?"+":"")+(thisYear.length-prevYear.length)+' Bücher gegenüber '+(year-1)+'</p></div>'+
+      '<div class="card"><b>Bücher pro Monat</b>'+barChart(monthly,12)+'</div><div class="card"><b>Seiten pro Monat</b>'+barChart(monthlyPages,12)+'</div>'+
+      '<div class="stats-note">Jahres- und Monatswerte werden anhand des Beendet-Datums berechnet.</div></section>'+
+    '<section class="section"><h2 class="stats-section-title">Monatsstatistik</h2><div class="stats-nav"><button class="btn" data-stats-month="-1">‹</button><b>'+monthName(month)+' '+year+'</b><button class="btn" data-stats-month="1">›</button></div>'+
+      '<div class="stats-summary"><div class="card"><div class="stats-big">'+thisMonth.length+'</div><div class="stats-label">Bücher</div></div><div class="card"><div class="stats-big">'+totalPages(thisMonth)+'</div><div class="stats-label">Seiten</div></div><div class="card"><div class="stats-big">'+avgRating(thisMonth)+'</div><div class="stats-label">Ø Bewertung</div></div></div></section>'+
+    '<section class="section"><h2 class="stats-section-title">Lesefortschritt</h2>'+(readingCards||'<div class="empty">Aktuell ist kein Buch als „Reading“ markiert.</div>')+'</section>'+
+    '<section class="section"><h2 class="stats-section-title">Bibliotheksauswertung</h2>'+
+      '<div class="card"><b>Häufigste Genres</b>'+barChart(genres,10)+'</div>'+
+      '<div class="card"><b>Häufigste Subgenres</b>'+barChart(subgenres,10)+'</div>'+
+      '<div class="card"><b>Häufigste Tropes</b>'+barChart(tropes,10)+'</div>'+
+      '<div class="card"><b>Meistgelesene Autor:innen</b>'+barChart(authors,10)+'</div>'+
+      '<div class="card"><b>Bewertungsverteilung</b>'+barChart(ratings,5)+'</div>'+
+      '<div class="card"><b>Formate im Besitz</b>'+barChart(formats,10)+'</div>'+
+      '<div class="card"><b>Sprachen im Besitz</b>'+barChart(languages,10)+'</div>'+
+      '<div class="card"><b>Einzelbände / Reihen</b>'+barChart(seriesSplit,2)+'</div>'+
+      '<div class="card"><b>Besitzstatus der Ausgaben</b>'+barChart(ownership,10)+'</div>'+
+    '</section></main>';
+}
+function settings(){return '<main class="app settings-screen">'+top("Einstellungen","BookVault")+'<div class="list"><div class="card"><h3>Darstellung</h3><button class="btn" style="width:100%" data-action="toggleView">Ansicht: '+(data.settings.view==="grid"?"Cover":"Liste")+'</button></div><div class="card"><h3>Daten</h3><p class="muted">Schema '+SCHEMA_VERSION+' · App '+APP_VERSION+' · '+data.books.length+' Bücher · '+(data.series||[]).length+' Reihen</p><button class="btn" style="width:100%;margin:4px 0" data-action="export">Backup-Datei erstellen</button><div id="backupFallback"></div><label class="btn" style="display:block;text-align:center;margin:4px 0">Daten importieren<input id="importFile" type="file" accept=".json" hidden></label><button class="delete-all-data-btn btn danger" style="width:100%;margin-top:4px;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;" data-action="reset">Alle Daten löschen</button></div><div class="card note"><b>BookVault '+APP_VERSION+'</b><br>Favoriten-Speicherung korrigiert. Eine einzige index.html.</div></div></main>';}
+function collectBook(){const old=state.editingId?data.books.find(x=>x.id===state.editingId):null,b=Object.assign({},old||{});b.id=old?old.id:uid();b.createdAt=old&&old.createdAt?old.createdAt:new Date().toISOString();b.updatedAt=new Date().toISOString();["title","author","subtitle","publisher","publicationYear","pageCount","language","format","ownership","borrowedFrom","returnDue","volume","status","rating","purchaseStatus","startedAt","finishedAt","currentPage","progress","review","notes","cover"].forEach(id=>{const el=document.getElementById(id);if(el)b[id]=el.value;});
+const seriesSel=document.getElementById("seriesId");
+b.seriesId=seriesSel?seriesSel.value:"";
+const selectedSeries=b.seriesId?getSeriesById(b.seriesId):null;
+b.seriesName=selectedSeries?selectedSeries.name:"";
+b.pageCount=Number(b.pageCount)||0;b.publicationYear=Number(b.publicationYear)||"";b.volume=(b.volume===null||b.volume===undefined)?"":String(b.volume).trim();b.currentPage=Number(b.currentPage)||0;b.progress=Math.max(0,Math.min(100,Number(b.progress)||0));b.rating=Math.max(0,Math.min(5,Number(b.rating)||0));b.favorite=document.getElementById("favorite").classList.contains("primary");b.genres=[].slice.call(document.querySelectorAll('[data-chip-group="genres"].selected')).map(el=>el.getAttribute("data-chip-value"));b.subgenres=[].slice.call(document.querySelectorAll('[data-chip-group="subgenres"].selected')).map(el=>el.getAttribute("data-chip-value"));b.tropes=[].slice.call(document.querySelectorAll('[data-chip-group="tropes"].selected')).map(el=>el.getAttribute("data-chip-value"));const custom=document.getElementById("customTrope");if(custom&&custom.value.trim()&&b.tropes.indexOf(custom.value.trim())<0)b.tropes.push(custom.value.trim());
+migrateBookEditions(b);
+let pe=primaryEdition(b);
+if(!pe){pe=makeEditionFromLegacyBook(b);b.editions=[pe];}
+pe.name=val("editionName").trim();pe.isbn10=val("isbn10").trim();pe.isbn13=val("isbn13").trim();
+pe.publisher=b.publisher||"";pe.publicationYear=b.publicationYear||"";pe.pageCount=Number(b.pageCount)||0;
+pe.language=b.language||"Deutsch";pe.format=b.format||"E-Book";pe.cover=b.cover||"";pe.ownership=b.ownership||"owned";
+pe.purchaseStatus=b.purchaseStatus||"none";if(pe.purchaseStatus==="wanted")pe.ownership="notOwned";if(pe.purchaseStatus==="purchased")pe.ownership="owned";pe.borrowedFrom=b.borrowedFrom||"";pe.returnDue=b.returnDue||"";
+pe.purchaseDate=val("purchaseDate");pe.purchasePrice=val("purchasePrice");pe.specialEdition=val("specialEdition").trim();pe.notes=val("editionNotes").trim();pe.wishlistScope="book";pe.wishlistPriority=val("wishlistPriority")||"medium";pe.wishlistNote=val("wishlistNote").trim();pe.updatedAt=new Date().toISOString();
+if(pe.purchaseStatus==="purchased")pe.ownership="owned";
+syncLegacyFromPrimaryEdition(b);return b;}
+function saveBook(){const formEl=document.getElementById("bookForm");if(!formEl.checkValidity()){formEl.reportValidity();return;}const b=collectBook(),i=data.books.findIndex(x=>x.id===b.id);if(i<0)data.books.unshift(b);else data.books[i]=b;save();state.bookId=b.id;state.editingId=null;state.screen="detail";toast("Buch gespeichert");render();}
+function deleteBook(){const b=data.books.find(x=>x.id===state.bookId);if(!b)return;if(confirm('„'+b.title+'“ wirklich löschen?')){data.books=data.books.filter(x=>x.id!==b.id);save();state.bookId=null;state.screen="library";render();}}
+function togglePurchase(){const b=data.books.find(x=>x.id===state.bookId);if(!b)return;migrateBookEditions(b);const e=primaryEdition(b);if(!e)return;if(e.purchaseStatus==="wanted"){e.purchaseStatus="purchased";e.ownership="owned";toast("Als gekauft markiert");}else if(e.purchaseStatus==="purchased"){e.purchaseStatus="wanted";toast("Wieder auf Kaufliste");}else{e.purchaseStatus="wanted";toast("Zur Kaufliste hinzugefügt");}syncLegacyFromPrimaryEdition(b);save();render();}
+function backupSummary(d){return {books:(d.books||[]).length,series:(d.series||[]).length,editions:(d.books||[]).reduce(function(n,b){return n+(Array.isArray(b.editions)?b.editions.length:0);},0)};}
+function createBackupPayload(d,kind){return {schemaVersion:SCHEMA_VERSION,appVersion:APP_VERSION,exportedAt:new Date().toISOString(),backupType:kind||"manual",summary:backupSummary(d),data:clone(d)};}
+function safeFileTimestamp(){return new Date().toISOString().replace(/[:.]/g,"-");}
+function prepareBackupDownload(payload,filename){
+  window.__bookvaultBackupText=JSON.stringify(payload,null,2);
+  window.__bookvaultBackupFilename=filename||"bookvault-backup.json";
+}
+function showBackupDownloadLink(){showBackupManualFallback();}
+async function downloadPreparedBackup(){
+  if(!window.__bookvaultBackupText){toast("Noch kein Backup erstellt");return;}
+
+  const filename=window.__bookvaultBackupFilename||"bookvault-backup.json";
+  const text=window.__bookvaultBackupText;
+
+  // Chromium / Edge: native "Speichern unter"
+  if(window.showSaveFilePicker){
+    try{
+      const handle=await window.showSaveFilePicker({
+        suggestedName:filename,
+        types:[{description:"BookVault JSON-Backup",accept:{"application/json":[".json"]}}]
+      });
+      const writable=await handle.createWritable();
+      await writable.write(text);
+      await writable.close();
+      toast("Backup gespeichert");
+      return;
+    }catch(err){
+      if(err && err.name==="AbortError"){toast("Speichern abgebrochen");return;}
+    }
+  }
+
+  // Firefox fallback: direct data URL created inside the real user click.
+  try{
+    const dataUrl="data:application/json;charset=utf-8,"+encodeURIComponent(text);
+    const a=document.createElement("a");
+    a.href=dataUrl;
+    a.download=filename;
+    a.target="_self";
+    a.style.display="none";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast("Download angefordert");
+  }catch(err){
+    showBackupManualFallback();
+  }
+}
+function showBackupManualFallback(){
+  const host=document.getElementById("backupFallback");
+  if(!host||!window.__bookvaultBackupText)return;
+  host.innerHTML=
+    '<button type="button" class="btn primary" style="display:block;width:100%;margin:8px 0" data-action="showBackupJson">Backup-JSON anzeigen</button>'+
+    '<button type="button" class="btn" style="display:block;width:100%;margin:8px 0" data-action="copyBackupText">Backup-JSON direkt kopieren</button>'+
+    '<button type="button" class="btn" style="display:block;width:100%;margin:8px 0" data-action="downloadPreparedBackup">Dateidownload versuchen</button>'+
+    '<p class="muted" style="margin:4px 0 8px">„Backup-JSON anzeigen“ funktioniert ohne Download und ohne neuen Tab.</p>';
+}
+function openBackupText(){
+  if(!window.__bookvaultBackupText)return;
+  const dataUrl="data:application/json;charset=utf-8,"+encodeURIComponent(window.__bookvaultBackupText);
+  const w=window.open(dataUrl,"_blank");
+  if(!w)toast("Neuer Tab wurde vom Browser blockiert");
+}
+function copyBackupText(){
+  if(!window.__bookvaultBackupText)return;
+  const text=window.__bookvaultBackupText;
+  const fallback=function(){
+    const ta=document.createElement("textarea");
+    ta.value=text;ta.style.position="fixed";ta.style.left="-9999px";
+    document.body.appendChild(ta);ta.focus();ta.select();
+    try{document.execCommand("copy");toast("Backup-JSON kopiert");}
+    catch(_){toast("Kopieren nicht möglich");}
+    ta.remove();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){toast("Backup-JSON kopiert");}).catch(fallback);
+  }else fallback();
+}
+function showBackupJsonModal(){
+  if(!window.__bookvaultBackupText){toast("Noch kein Backup erstellt");return;}
+  let old=document.getElementById("backupJsonModal");
+  if(old)old.remove();
+  const wrap=document.createElement("div");
+  wrap.id="backupJsonModal";
+  wrap.className="backup-overlay";
+  wrap.innerHTML=
+    '<div class="backup-dialog">'+
+      '<div class="backup-dialog-head"><div><h2 style="margin:0;color:#285f4d">Backup-JSON</h2><div class="muted">'+esc(window.__bookvaultBackupFilename||"bookvault-backup.json")+'</div></div>'+
+      '<button type="button" class="icon-btn" data-action="closeBackupJson">✕</button></div>'+
+      '<p class="muted">Das vollständige Backup wird direkt in BookVault angezeigt. Du kannst es kopieren und als .json-Datei speichern.</p>'+
+      '<textarea id="backupJsonText" readonly></textarea>'+
+      '<div class="backup-dialog-actions">'+
+        '<button type="button" class="btn primary" data-action="selectBackupJson">Gesamtes JSON markieren</button>'+
+        '<button type="button" class="btn" data-action="copyBackupText">Backup-JSON kopieren</button>'+
+        '<button type="button" class="btn" data-action="closeBackupJson">Schließen</button>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(wrap);
+  const ta=document.getElementById("backupJsonText");
+  if(ta)ta.value=window.__bookvaultBackupText;
+}
+function selectBackupJson(){
+  const ta=document.getElementById("backupJsonText");
+  if(!ta)return;
+  ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);
+  toast("Gesamtes Backup markiert");
+}
+function closeBackupJson(){
+  const m=document.getElementById("backupJsonModal");
+  if(m)m.remove();
+}
+
+function exportData(){
+  const prepared=prepareData(data);
+  data=prepared.data;
+  save();
+  prepareBackupDownload(
+    createBackupPayload(data,"manual"),
+    "bookvault-backup_"+safeFileTimestamp()+".json"
+  );
+  render();
+  showBackupDownloadLink();
+  toast("Backup erstellt – Downloadoption auswählen");
+}
+function importData(file){if(!file)return;const reader=new FileReader();reader.onload=function(){try{const parsed=JSON.parse(reader.result),candidate=(parsed&&parsed.data&&typeof parsed.data==="object")?parsed.data:parsed;if(!candidate||typeof candidate!=="object"||!Array.isArray(candidate.books))throw new Error("invalid");const prepared=prepareData(candidate);prepareBackupDownload(createBackupPayload(data,"pre-import-safety"),"bookvault-vor-import_"+safeFileTimestamp()+".json");data=prepared.data;save();state.screen="settings";state.bookId=null;state.editingId=null;render();showBackupDownloadLink();const r=prepared.report.repairs;toast(r>0?"Backup importiert – "+r+" Datenfehler automatisch korrigiert. Sicherheitsbackup steht zum Download bereit.":"Backup importiert – Daten geprüft. Sicherheitsbackup steht zum Download bereit.");}catch(e){alert("Ungültiges oder nicht lesbares BookVault-Backup. Die vorhandenen Daten wurden nicht verändert.");}};reader.readAsText(file);}
+function sortMenu(){const x=prompt("Sortierung eingeben: added, title, author oder rating",data.settings.sort);if(["added","title","author","rating"].indexOf(x)>=0){data.settings.sort=x;save();render();}}
+function toggleFavoriteButton(){const button=document.getElementById("favorite");if(!button)return;const active=button.classList.toggle("primary");button.textContent=active?"❤️ Favorit":"♡ Als Favorit markieren";button.setAttribute("aria-pressed",active?"true":"false");toast(active?"Als Favorit markiert":"Favorit entfernt");}
+document.addEventListener("click",function(e){
+if(!e.target.closest("[data-card-menu]")&&!e.target.closest(".book-card-menu"))closeAllBookCardMenus();
+const navEl=e.target.closest("[data-nav]");if(navEl){const n=navEl.getAttribute("data-nav");if(n==="add"){state.editingId=null;state.screen="form";}else if(n==="favorites")state.screen="favorites";else state.screen=n;render();return;}
+const open=e.target.closest("[data-open]");if(open){openBook(open.getAttribute("data-open"));return;}
+const filter=e.target.closest("[data-filter]");if(filter){state.filter=filter.getAttribute("data-filter");state.screen="library";render();return;}
+const seriesEl=e.target.closest("[data-series]");if(seriesEl){state.seriesName=seriesEl.getAttribute("data-series");state.screen="seriesDetail";render();return;}
+const segEl=e.target.closest("[data-seg-id]");if(segEl){const id=segEl.getAttribute("data-seg-id"),val=segEl.getAttribute("data-seg-value"),input=document.getElementById(id);if(input)input.value=val;segEl.parentElement.querySelectorAll("button").forEach(x=>x.classList.remove("sel"));segEl.classList.add("sel");return;}
+const chipEl=e.target.closest("[data-chip-group]");if(chipEl){chipEl.classList.toggle("selected");if(chipEl.getAttribute("data-chip-group")==="genres")refreshSubgenreChoices();if(chipEl.getAttribute("data-chip-group")==="tropes")refreshSelectedTropeBar();return;}
+const rate=e.target.closest("[data-rating]");if(rate){const n=Number(rate.getAttribute("data-rating")),input=document.getElementById("rating");if(input)input.value=n;document.querySelectorAll("#ratingStars [data-rating]").forEach(function(x,i){const on=i<n;x.classList.toggle("on",on);x.textContent=on?"★":"☆";});return;}
+const removeTrope=e.target.closest("[data-remove-selected-trope]");if(removeTrope){removeSelectedTropeByName(removeTrope.getAttribute("data-remove-selected-trope"));return;}
+
+
+
+const sy=e.target.closest("[data-stats-year]");if(sy){state.statsYear=(Number(state.statsYear)||new Date().getFullYear())+Number(sy.getAttribute("data-stats-year"));render();return;}
+const sm=e.target.closest("[data-stats-month]");if(sm){let y=Number(state.statsYear)||new Date().getFullYear(),m=Number(state.statsMonth);m+=Number(sm.getAttribute("data-stats-month"));if(m<0){m=11;y--;}if(m>11){m=0;y++;}state.statsMonth=m;state.statsYear=y;render();return;}
+const wtab=e.target.closest("[data-wishlist-tab]");if(wtab){state.wishlistTab=wtab.getAttribute("data-wishlist-tab");render();return;}
+const wbuy=e.target.closest("[data-wishlist-buy]");if(wbuy){markWishlistBought(wbuy.getAttribute("data-wishlist-buy"));return;}
+const wremove=e.target.closest("[data-wishlist-remove]");if(wremove){removeWishlistEntry(wremove.getAttribute("data-wishlist-remove"));return;}
+const wedit=e.target.closest("[data-wishlist-edit]");if(wedit){const x=wishlistPair(wedit.getAttribute("data-wishlist-edit"));if(x.book&&x.edition)openEditionModal(x.book.id,x.edition.id);return;}
+const cardFav=e.target.closest("[data-card-favorite]");if(cardFav){e.stopPropagation();toggleBookFavoriteById(cardFav.getAttribute("data-card-favorite"));return;}
+const cardMenu=e.target.closest("[data-card-menu]");if(cardMenu){e.stopPropagation();toggleBookCardMenu(cardMenu.getAttribute("data-card-menu"));return;}
+const cardEdit=e.target.closest("[data-card-edit]");if(cardEdit){state.editingId=cardEdit.getAttribute("data-card-edit");state.bookId=state.editingId;state.screen="form";render();return;}
+const cardStatus=e.target.closest("[data-card-cycle-status]");if(cardStatus){cycleBookStatusById(cardStatus.getAttribute("data-card-cycle-status"));return;}
+const cardPurchase=e.target.closest("[data-card-purchase]");if(cardPurchase){cycleBookPurchaseById(cardPurchase.getAttribute("data-card-purchase"));return;}
+const cardSeries=e.target.closest("[data-card-series]");if(cardSeries){state.seriesName=cardSeries.getAttribute("data-card-series");state.screen="seriesDetail";render();return;}
+const cardEditions=e.target.closest("[data-card-editions]");if(cardEditions){state.bookId=cardEditions.getAttribute("data-card-editions");state.screen="detail";render();setTimeout(function(){document.getElementById("editionsSection")?.scrollIntoView({behavior:"smooth",block:"start"});},0);return;}
+const cardDelete=e.target.closest("[data-card-delete]");if(cardDelete){const id=cardDelete.getAttribute("data-card-delete");const b=data.books.find(function(x){return x.id===id;});if(b&&confirm('„'+b.title+'“ wirklich löschen?')){data.books=data.books.filter(function(x){return x.id!==id;});save();render();}return;}
+const editEdition=e.target.closest("[data-edit-edition]");if(editEdition){openEditionModal(state.bookId,editEdition.getAttribute("data-edit-edition"));return;}
+const primaryEd=e.target.closest("[data-primary-edition]");if(primaryEd){setPrimaryEdition(state.bookId,primaryEd.getAttribute("data-primary-edition"));return;}
+
+const adv=e.target.closest("[data-adv-group]");if(adv){toggleAdvancedFilter(adv.getAttribute("data-adv-group"),adv.getAttribute("data-adv-value"));return;}const rmin=e.target.closest("[data-rating-min]");if(rmin){state.advancedFilters.ratingMin=rmin.getAttribute("data-rating-min");render();return;}const rclear=e.target.closest("[data-rating-clear]");if(rclear){state.advancedFilters.ratingMin="";render();return;}const action=e.target.closest("[data-action]");if(action){const a=action.getAttribute("data-action");if(a==="lookupIsbn"){lookupIsbn();}else if(a==="downloadPreparedBackup"){downloadPreparedBackup();}else if(a==="showBackupJson"){showBackupJsonModal();}else if(a==="selectBackupJson"){selectBackupJson();}else if(a==="closeBackupJson"){closeBackupJson();}else if(a==="openBackupText"){openBackupText();}else if(a==="copyBackupText"){copyBackupText();}else if(a==="toggleAdvancedFilters"){state.showAdvancedFilters=!state.showAdvancedFilters;render();}else if(a==="toggleSortDir"){state.sortDir=state.sortDir==="asc"?"desc":"asc";render();}else if(a==="clearLibraryFilters")clearAdvancedFilters();else if(a==="clearSearch"){state.query="";render();setTimeout(function(){document.getElementById("searchInput")?.focus();},0);}else if(a==="addCustomTrope")addCustomTrope();else if(a==="saveCustomTrope")saveCustomTropeFromModal();else if(a==="cancelCustomTrope")closeCustomTropeModal();else if(a==="newSeries")openSeriesModal();else if(a==="editSeries"){const s=getSeriesByName(state.seriesName);if(s)openSeriesModal(s.id);}else if(a==="saveSeriesModal")saveSeriesFromModal();else if(a==="cancelSeriesModal")closeSeriesModal();else if(a==="addEdition")openEditionModal(state.bookId);else if(a==="addWishlistEdition")openWishlistEditionModal(state.bookId);else if(a==="saveEditionModal")saveEditionFromModal();else if(a==="cancelEditionModal")closeEditionModal();else if(a==="deleteEdition"){
+  const bookId=action.getAttribute("data-book-id")||state.bookId;
+  const editionId=action.getAttribute("data-edition-id");
+  deleteEdition(bookId,editionId);
+}else if(a==="openCurrentSeries"){if(state.bookId){const b=data.books.find(function(x){return x.id===state.bookId;});if(b&&b.seriesName){state.seriesName=b.seriesName;state.screen="seriesDetail";render();}}}else if(a==="jumpEditions"){document.getElementById("editionsSection")?.scrollIntoView({behavior:"smooth",block:"start"});}else if(a==="home")go("home");else if(a==="favorite")toggleFavoriteButton();else if(a==="edit"){state.editingId=state.bookId;state.screen="form";render();}else if(a==="delete")deleteBook();else if(a==="buy")togglePurchase();else if(a==="toggleView"){data.settings.view=data.settings.view==="grid"?"list":"grid";save();render();}else if(a==="sort")sortMenu();else if(a==="cancelForm"){state.editingId=null;state.screen=state.bookId?"detail":"library";render();}else if(a==="export")exportData();else if(a==="reset"){if(confirm("Alle Bücher und Einstellungen löschen?")){localStorage.removeItem(STORAGE_KEY);data=clone(DEFAULT);state={screen:"home",filter:"all",query:"",bookId:null,editingId:null,seriesName:null,sort:"new",sortDir:"desc",showAdvancedFilters:false,advancedFilters:{genres:[],subgenres:[],tropes:[],statuses:[],ownership:[],formats:[],languages:[],authors:[],seriesType:[],ratingMin:""},filterSearch:{genres:"",tropes:""},wishlistTab:"all",statsYear:new Date().getFullYear(),statsMonth:new Date().getMonth()};render();}}}
+});
+
+document.addEventListener("change",function(e){if(e.target.id==="coverFile"){const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){const cover=document.getElementById("cover"),preview=document.getElementById("preview");if(cover)cover.value=reader.result;if(preview)preview.innerHTML='<img src="'+reader.result+'" style="width:75px;height:110px;object-fit:cover;border-radius:9px">';};reader.readAsDataURL(file);}if(e.target.id==="importFile")importData(e.target.files&&e.target.files[0]);});
+document.addEventListener("submit",function(e){if(e.target.id==="bookForm"){e.preventDefault();saveBook();}});
+document.addEventListener("keydown",function(e){if(e.target&&e.target.id==="isbnLookup"&&e.key==="Enter"){e.preventDefault();lookupIsbn();}});
+
+window.addEventListener("error",function(e){console.error("BookVault error:",e.error||e.message);});
+document.addEventListener("change",function(e){if(e.target&&e.target.id==="librarySort"){state.sort=e.target.value;render();}});
+
+document.addEventListener("input",function(e){
+  const id=e.target.id;
+  if(id!=="searchInput"&&id!=="genreFilterSearch"&&id!=="tropeFilterSearch")return;
+  const pos=e.target.selectionStart;
+  if(id==="searchInput")state.query=e.target.value;
+  if(id==="genreFilterSearch")state.filterSearch.genres=e.target.value;
+  if(id==="tropeFilterSearch")state.filterSearch.tropes=e.target.value;
+  render();
+  const input=document.getElementById(id);
+  if(input){input.focus();try{input.setSelectionRange(pos,pos);}catch(err){}}
+});
+
+
+render();
+})();
+</script>
+</body>
+</html>
